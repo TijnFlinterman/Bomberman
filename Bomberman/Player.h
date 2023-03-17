@@ -9,7 +9,7 @@ class Player
 public:
 	enum Direction
 	{
-		Up, Down, Left, Right, Still
+		Up, Down, Left, Right, None
 	};
 
 public:
@@ -29,6 +29,8 @@ public:
 	void PlayerMovement(sf::Sprite& player);
 	void PlayerInputBomb(sf::Keyboard::Key bombInput);
 	void UpdateDirection();
+
+	void PlayerCollision();
 public:
 	// Constructors/ Destructors
 	Player();
@@ -44,14 +46,8 @@ private:
 
 	PlayerInput playerInput;
 
-	bool playerLeft = false;
-	bool playerRight = false;
-	bool playerUp = false;
-	bool playerDown = false;
-
-	int keyPlayer = 3;
-
 	Direction direction = Down;
+	Direction lastDirection;
 
 	sf::Sprite playerSprite;
 
@@ -61,6 +57,9 @@ private:
 	sf::Texture	rightTexture;
 
 	sf::Vector2f position;
+
+	float xMovementSpeed;
+	float yMovementSpeed;
 
 	sf::RectangleShape	rectangleLeftRight;
 	sf::RectangleShape	rectangleUpDown;

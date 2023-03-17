@@ -68,8 +68,8 @@ Game::Game()
 
 	terrain.Start();
 
-	players[0].SpawnPlayer(sf::Vector2f(48.0f, 48.0f));
-	players[1].SpawnPlayer(sf::Vector2f(648.0f, 648.0f));
+	players[0].SpawnPlayer(sf::Vector2f(50.0f, 50.0f));
+	players[1].SpawnPlayer(sf::Vector2f(650.0f, 650.0f));
 }
 
 //Accessors

@@ -1,6 +1,10 @@
 #include "Player.h"
 
-Player::Player() {}
+Player::Player()
+{
+	direction = None;
+	lastDirection = Down;
+}
 
 Player::~Player() {}
 
@@ -27,77 +31,22 @@ void Player::UpdateDirection()
 	if (sf::Keyboard::isKeyPressed(playerInput.up))
 	{
 		direction = Up;
-
-		if (!playerUp)
-		{
-			keyPlayer = 1;
-			playerUp = true;
-		}
 	}
-	else if (!sf::Keyboard::isKeyPressed(playerInput.up) && playerUp)
-	{
-		playerUp = false;
-		playerLeft = false;
-		playerRight = false;
-		playerDown = false;
-	}
-
-	if (sf::Keyboard::isKeyPressed(playerInput.left))
-	{
-		direction = Left;
-
-		if (!playerLeft)
-		{
-			keyPlayer = 2;
-			playerLeft = true;
-		}
-	}
-	else if (!sf::Keyboard::isKeyPressed(playerInput.left) && playerLeft)
-	{
-		playerLeft = false;
-		playerUp = false;
-		playerRight = false;
-		playerDown = false;
-	}
-
 	if (sf::Keyboard::isKeyPressed(playerInput.down))
 	{
 		direction = Down;
-
-		if (!playerDown)
-		{
-			keyPlayer = 3;
-			playerDown = true;
-		}
 	}
-	else if (!sf::Keyboard::isKeyPressed(playerInput.down) && playerDown)
+	if (sf::Keyboard::isKeyPressed(playerInput.left))
 	{
-		playerDown = false;
-		playerLeft = false;
-		playerRight = false;
-		playerUp = false;
+		direction = Left;
 	}
-
 	if (sf::Keyboard::isKeyPressed(playerInput.right))
 	{
 		direction = Right;
-
-		if (!playerRight)
-		{
-			keyPlayer = 4;
-			playerRight = true;
-		}
 	}
-	else if (!sf::Keyboard::isKeyPressed(playerInput.right) && playerRight)
+	if (!sf::Keyboard::isKeyPressed(playerInput.up) && !sf::Keyboard::isKeyPressed(playerInput.down) && !sf::Keyboard::isKeyPressed(playerInput.left) && !sf::Keyboard::isKeyPressed(playerInput.right))
 	{
-		playerRight = false;
-		playerLeft = false;
-		playerUp = false;
-		playerDown = false;
-	}
-	if (!sf::Keyboard::isKeyPressed(playerInput.up) && !sf::Keyboard::isKeyPressed(playerInput.left) && !sf::Keyboard::isKeyPressed(playerInput.down) && !sf::Keyboard::isKeyPressed(playerInput.right))
-	{
-		keyPlayer = 5;
+		direction = None;
 	}
 }
 
@@ -109,24 +58,42 @@ void Player::PlayerMovement(sf::Sprite& player)
 	*/
 
 	// Move player
-	switch (keyPlayer)
+	switch (direction)
 	{
-	case 1:
-		player.move(0.0f, -3.0f);
-		break;
-	case 2:
-		player.move(-3.0f, 0.0f);
-		break;
-	case 3:
-		player.move(0.0f, 3.0f);
-		break;
-	case 4:
-		player.move(3.0f, 0.0f);
-		break;
-	case 5:
-		player.move(0.0f, 0.0f);
-		break;
+	case Up:
+		xMovementSpeed = 0.0f;
+		yMovementSpeed = -3.0f;
+		lastDirection = Up;
 
+		player.move(xMovementSpeed, yMovementSpeed);
+		break;
+	case Down:
+		xMovementSpeed = 0.0f;
+		yMovementSpeed = 3.0f;
+		lastDirection = Down;
+
+		player.move(xMovementSpeed, yMovementSpeed);
+		break;
+	case Left:
+		xMovementSpeed = -3.0f;
+		yMovementSpeed = 0.0f;
+		lastDirection = Left;
+
+		player.move(xMovementSpeed, yMovementSpeed);
+		break;
+	case Right:
+		xMovementSpeed = 3.0f;
+		yMovementSpeed = 0.0f;
+		lastDirection = Right;
+
+		player.move(xMovementSpeed, yMovementSpeed);
+		break;
+	case None:
+		xMovementSpeed = 0.0f;
+		yMovementSpeed = 0.0f;
+
+		player.move(xMovementSpeed, yMovementSpeed);
+		break;
 	}
 }
 
@@ -184,7 +151,7 @@ void Player::BombThrowing()
 
 void Player::SetDirectionVisual(Direction direction)
 {
-	switch (direction)
+	switch (lastDirection)
 	{
 	case Up:
 		playerSprite.setTexture(upTexture);
@@ -201,6 +168,22 @@ void Player::SetDirectionVisual(Direction direction)
 	}
 }
 
+void Player::PlayerCollision()
+{
+
+	rectangleLeftRight.setPosition(playerSprite.getPosition().x + 5 + xMovementSpeed, playerSprite.getPosition().y + 10);
+	rectangleLeftRight.setSize(sf::Vector2f(40, 40));
+	rectangleLeftRight.setOutlineColor(sf::Color::Green);
+	rectangleLeftRight.setOutlineThickness(1);
+	rectangleLeftRight.setFillColor(sf::Color::Transparent);
+
+	rectangleUpDown.setPosition(playerSprite.getPosition().x + 5, playerSprite.getPosition().y + 10 + yMovementSpeed);
+	rectangleUpDown.setSize(sf::Vector2f(40, 40));
+	rectangleUpDown.setOutlineColor(sf::Color::Red);
+	rectangleUpDown.setOutlineThickness(1);
+	rectangleUpDown.setFillColor(sf::Color::Transparent);
+}
+
 void Player::Update()
 {
 	BombThrowing();
@@ -210,6 +193,10 @@ void Player::Update()
 
 void Player::Render(sf::RenderTarget& target)
 {
+	PlayerCollision();
 	SetDirectionVisual(direction);
+
 	target.draw(playerSprite);
+	target.draw(rectangleLeftRight);
+	target.draw(rectangleUpDown);
 }
