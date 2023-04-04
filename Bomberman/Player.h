@@ -33,14 +33,8 @@ public:
 	void UpdateDirection();
 	void PlayerMovement(sf::Sprite& player);
 	void PlayerInputBomb(sf::Keyboard::Key bombInput);
-	void UpdateDirection();
 
 	void PlayerCollision(int** grid);
-
-public:
-	// Constructors/ Destructors
-	Player();
-	virtual ~Player();
 
 	// Public variables
 	int playerPoints;
@@ -66,9 +60,6 @@ private:
 
 	sf::Vector2f position;
 	sf::Vector2f movementValue;
-
-	bool canMoveX;
-	bool canMoveY;
 
 	sf::RectangleShape	rectangleLeftRight;
 	sf::RectangleShape	rectangleUpDown;
