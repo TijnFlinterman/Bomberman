@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "PlayerInput.h"
+#include "Terrain.h"
 #include <array>
 
 class Player
@@ -13,10 +14,13 @@ public:
 	};
 
 public:
+	// Constructors/ Destructors
+	Player();
+	virtual ~Player();
+
 	// Public functions
 	void Update();
 	void Render(sf::RenderTarget& target);
-
 
 	void SetPlayerInput(PlayerInput input) { playerInput = input; }
 	void SetSpriteTextures(std::array<std::string, 4> sprites);
@@ -26,11 +30,13 @@ public:
 	void BombThrowing();
 
 	void SetDirectionVisual(Direction direction);
+	void UpdateDirection();
 	void PlayerMovement(sf::Sprite& player);
 	void PlayerInputBomb(sf::Keyboard::Key bombInput);
 	void UpdateDirection();
 
-	void PlayerCollision();
+	void PlayerCollision(int** grid);
+
 public:
 	// Constructors/ Destructors
 	Player();
@@ -49,6 +55,8 @@ private:
 	Direction direction = Down;
 	Direction lastDirection;
 
+	Terrain* terrain;
+
 	sf::Sprite playerSprite;
 
 	sf::Texture	upTexture;
@@ -57,10 +65,13 @@ private:
 	sf::Texture	rightTexture;
 
 	sf::Vector2f position;
+	sf::Vector2f movementValue;
 
-	float xMovementSpeed;
-	float yMovementSpeed;
+	bool canMoveX;
+	bool canMoveY;
 
 	sf::RectangleShape	rectangleLeftRight;
 	sf::RectangleShape	rectangleUpDown;
+
+	sf::RectangleShape collisionBox;
 };
