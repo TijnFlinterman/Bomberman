@@ -2,6 +2,7 @@
 
 Player::Player()
 {
+	terrain = new Terrain();
 	direction = None;
 	lastDirection = Down;
 }
@@ -50,6 +51,49 @@ void Player::UpdateDirection()
 	}
 }
 
+void Player::PlayerCollision(int** grid)
+{
+	rectangleLeftRight.setPosition(playerSprite.getPosition().x + 5 + movementValue.x, playerSprite.getPosition().y + 10);
+	rectangleLeftRight.setSize(sf::Vector2f(40, 40));
+	rectangleLeftRight.setOutlineColor(sf::Color::Green);
+	rectangleLeftRight.setOutlineThickness(1);
+	rectangleLeftRight.setFillColor(sf::Color::Transparent);
+
+	rectangleUpDown.setPosition(playerSprite.getPosition().x + 5, playerSprite.getPosition().y + 10 + movementValue.y);
+	rectangleUpDown.setSize(sf::Vector2f(40, 40));
+	rectangleUpDown.setOutlineColor(sf::Color::Red);
+	rectangleUpDown.setOutlineThickness(1);
+	rectangleUpDown.setFillColor(sf::Color::Transparent);
+
+	float x, y = 0;
+	for (int a = 0; a < 15; a++)
+	{
+		x = 0;
+		for (int b = 0; b < 15; b++)
+		{
+			collisionBox.setPosition(x, y);
+			collisionBox.setSize(sf::Vector2f(50, 50));
+			if (grid[a][b] == 1 || grid[a][b] == 2)
+			{
+				if (rectangleLeftRight.getGlobalBounds().intersects(collisionBox.getGlobalBounds()))
+				{
+					movementValue.x = 0;
+				}
+
+				if (rectangleUpDown.getGlobalBounds().intersects(collisionBox.getGlobalBounds()))
+				{
+					movementValue.y = 0;
+				}
+			}
+			x += 50;
+		}
+		y += 50;
+	}
+	position.x += movementValue.x;
+	position.y += movementValue.y;
+	playerSprite.move(movementValue.x, movementValue.y);
+}
+
 void Player::PlayerMovement(sf::Sprite& player)
 {
 	/*
@@ -61,38 +105,31 @@ void Player::PlayerMovement(sf::Sprite& player)
 	switch (direction)
 	{
 	case Up:
-		xMovementSpeed = 0.0f;
-		yMovementSpeed = -3.0f;
+		movementValue.x = 0;
+		movementValue.y = -3;
 		lastDirection = Up;
-
-		player.move(xMovementSpeed, yMovementSpeed);
 		break;
-	case Down:
-		xMovementSpeed = 0.0f;
-		yMovementSpeed = 3.0f;
-		lastDirection = Down;
 
-		player.move(xMovementSpeed, yMovementSpeed);
+	case Down:
+		movementValue.x = 0;
+		movementValue.y = 3;
+		lastDirection = Down;
 		break;
 	case Left:
-		xMovementSpeed = -3.0f;
-		yMovementSpeed = 0.0f;
+		movementValue.x = -3;
+		movementValue.y = 0;
 		lastDirection = Left;
-
-		player.move(xMovementSpeed, yMovementSpeed);
 		break;
+
 	case Right:
-		xMovementSpeed = 3.0f;
-		yMovementSpeed = 0.0f;
+		movementValue.x = 3;
+		movementValue.y = 0;
 		lastDirection = Right;
-
-		player.move(xMovementSpeed, yMovementSpeed);
 		break;
-	case None:
-		xMovementSpeed = 0.0f;
-		yMovementSpeed = 0.0f;
 
-		player.move(xMovementSpeed, yMovementSpeed);
+	case None:
+		movementValue.x = 0;
+		movementValue.y = 0;
 		break;
 	}
 }
@@ -168,32 +205,17 @@ void Player::SetDirectionVisual(Direction direction)
 	}
 }
 
-void Player::PlayerCollision()
-{
-
-	rectangleLeftRight.setPosition(playerSprite.getPosition().x + 5 + xMovementSpeed, playerSprite.getPosition().y + 10);
-	rectangleLeftRight.setSize(sf::Vector2f(40, 40));
-	rectangleLeftRight.setOutlineColor(sf::Color::Green);
-	rectangleLeftRight.setOutlineThickness(1);
-	rectangleLeftRight.setFillColor(sf::Color::Transparent);
-
-	rectangleUpDown.setPosition(playerSprite.getPosition().x + 5, playerSprite.getPosition().y + 10 + yMovementSpeed);
-	rectangleUpDown.setSize(sf::Vector2f(40, 40));
-	rectangleUpDown.setOutlineColor(sf::Color::Red);
-	rectangleUpDown.setOutlineThickness(1);
-	rectangleUpDown.setFillColor(sf::Color::Transparent);
-}
 
 void Player::Update()
 {
 	BombThrowing();
 	UpdateDirection();
 	PlayerMovement(playerSprite);
+
 }
 
 void Player::Render(sf::RenderTarget& target)
 {
-	PlayerCollision();
 	SetDirectionVisual(direction);
 
 	target.draw(playerSprite);

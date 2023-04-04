@@ -126,5 +126,8 @@ void Game::Render()
 	players[0].Render(window);
 	players[1].Render(window);
 
+	players[0].PlayerCollision(terrain.GetGrid());
+	players[1].PlayerCollision(terrain.GetGrid());
+
 	window.display();
 }

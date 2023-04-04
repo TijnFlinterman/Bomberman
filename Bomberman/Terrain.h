@@ -1,3 +1,4 @@
+#pragma once
 #include <SFML/Graphics.hpp>
 #include <ctime>
 #include <stdlib.h>
@@ -14,13 +15,14 @@ public:
 	virtual ~Terrain();
 
 	// Public functions
+	int** GetGrid();
+
 	void GenerateGrid();
 	void Start();
 	void Render(sf::RenderTarget& target);
 
 private:
 	// Private functions
-	int** GetGrid();
 	void InitVariables();
 
 private:
