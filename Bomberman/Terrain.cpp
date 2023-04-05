@@ -12,9 +12,9 @@ void Terrain::InitVariables()
 {
 	grid = new int* [rows];
 
-	solidTexture.loadFromFile("Assets\\Textures\\brick.png");
-	breakableTexture.loadFromFile("Assets\\Textures\\crate.png");
-	grassTexture.loadFromFile("Assets\\Textures\\grass.png");
+	solidTexture.loadFromFile("Assets\\Textures\\Terrain\\brick.png");
+	breakableTexture.loadFromFile("Assets\\Textures\\Terrain\\crate.png");
+	grassTexture.loadFromFile("Assets\\Textures\\Terrain\\grass.png");
 }
 
 void Terrain::Start()
