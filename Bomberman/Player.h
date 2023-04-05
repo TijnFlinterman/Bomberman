@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "PlayerInput.h"
-#include "Terrain.h"
+#include "terrain.h"
 #include <array>
 
 class Player
@@ -46,10 +46,10 @@ private:
 
 	PlayerInput playerInput;
 
+	Terrain terrain;
+
 	Direction direction = Down;
 	Direction lastDirection;
-
-	Terrain* terrain;
 
 	sf::Sprite playerSprite;
 

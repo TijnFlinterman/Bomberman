@@ -23,13 +23,20 @@ private:
 	void InitPlayers();
 	void PlayerTextures();
 
-	//Player1* player1;
 	std::array<Player, 2> players;
 	Terrain terrain;
+	Game* game;
+
+	sf::Clock sfmlTimer;
+	float deltaTime;
+	float elapsedTime;
+	float timeScale;
+	float realDeltaTime;
 
 public:
 	// Constructors/ Destructors
 	Game();
+	virtual ~Game();
 
 	//Accessors
 	bool Running() const;

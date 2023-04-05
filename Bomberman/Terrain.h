@@ -16,14 +16,11 @@ public:
 
 	// Public functions
 	int** GetGrid();
-
-	void GenerateGrid();
-	void Start();
 	void Render(sf::RenderTarget& target);
 
 private:
 	// Private functions
-	void InitVariables();
+	void GenerateGrid();
 
 private:
 	//private variables
@@ -32,9 +29,7 @@ private:
 	sf::Texture	breakableTexture;
 	sf::Texture	grassTexture;
 
-public:
-	//public variables
-	sf::Sprite solid;
-	sf::Sprite breakable;
-	sf::Sprite grass;
+	sf::Sprite solidSprite;
+	sf::Sprite breakableSprite;
+	sf::Sprite grassSprite;
 };

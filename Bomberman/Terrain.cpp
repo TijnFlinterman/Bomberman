@@ -3,27 +3,11 @@
 // Constructors/ Destructors
 Terrain::Terrain()
 {
-	InitVariables();
-}
-
-Terrain::~Terrain() {}
-
-void Terrain::InitVariables()
-{
 	grid = new int* [rows];
-
-	solidTexture.loadFromFile("Assets\\Textures\\Terrain\\brick.png");
-	breakableTexture.loadFromFile("Assets\\Textures\\Terrain\\crate.png");
-	grassTexture.loadFromFile("Assets\\Textures\\Terrain\\grass.png");
-}
-
-void Terrain::Start()
-{
-	GetGrid();
 	GenerateGrid();
 }
 
-
+Terrain::~Terrain() {}
 
 void Terrain::GenerateGrid()
 {
@@ -62,43 +46,52 @@ void Terrain::GenerateGrid()
 	}
 }
 
-int** Terrain::GetGrid()
-{
-	return grid;
-}
-
 void Terrain::Render(sf::RenderTarget& target)
 {
-	solid.setTexture(solidTexture);
-	breakable.setTexture(breakableTexture);
-	grass.setTexture(grassTexture);
+	sf::Texture solidTexture;
+	solidTexture.loadFromFile("Assets\\Textures\\Terrain\\brick.png");
+	solidSprite.setTexture(solidTexture);
 
-	float X, Y = 0.0f;
+	sf::Texture breakableTexture;
+	breakableTexture.loadFromFile("Assets\\Textures\\Terrain\\crate.png");
+	breakableSprite.setTexture(breakableTexture);
+
+	sf::Texture grassTexture;
+	grassTexture.loadFromFile("Assets\\Textures\\Terrain\\grass.png");
+	grassSprite.setTexture(grassTexture);
+
+	int x, y = 0;
 
 	for (int a = 0; a < rows; a++)
 	{
-		X = 0.0f;
+		x = 0;
 		for (int b = 0; b < columns; b++)
 		{
-
-			grass.setScale(3.2f, 3.2f);
-			grass.setPosition(X, Y);
-			target.draw(grass);
-
+			if (grid[a][b] == 0 || grid[a][b] == 2)
+			{
+				grassSprite.setScale(3.2f, 3.2f);
+				grassSprite.setPosition(x, y);
+				target.draw(grassSprite);
+			}
 			if (grid[a][b] == 1)
 			{
-				solid.setScale(3.2f, 3.2f);
-				solid.setPosition(X, Y);
-				target.draw(solid);
+				solidSprite.setScale(3.2f, 3.2f);
+				solidSprite.setPosition(x, y);
+				target.draw(solidSprite);
 			}
 			if (grid[a][b] == 2)
 			{
-				breakable.setScale(3.2f, 3.2f);
-				breakable.setPosition(X, Y);
-				target.draw(breakable);
+				breakableSprite.setScale(3.2f, 3.2f);
+				breakableSprite.setPosition(x, y);
+				target.draw(breakableSprite);
 			}
-			X += 50.0f;
+			x += 50;
 		}
-		Y += 50.0f;
+		y += 50;
 	}
+}
+
+int** Terrain::GetGrid()
+{
+	return grid;
 }

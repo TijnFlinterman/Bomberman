@@ -2,7 +2,6 @@
 
 Player::Player()
 {
-	terrain = new Terrain();
 	direction = None;
 	lastDirection = Down;
 }
@@ -211,7 +210,7 @@ void Player::Update()
 	BombThrowing();
 	UpdateDirection();
 	PlayerMovement(playerSprite);
-
+	PlayerCollision(terrain.GetGrid());
 }
 
 void Player::Render(sf::RenderTarget& target)

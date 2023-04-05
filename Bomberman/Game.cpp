@@ -62,14 +62,22 @@ void Game::PlayerTextures()
 // Constructors/ Destructors
 Game::Game()
 {
+	game = this;
+	sfmlTimer = sf::Clock();
+	elapsedTime = 0;
+	deltaTime = 0;
+	timeScale = 1;
+
 	InitWindow();
 	InitPlayers();
 	PlayerTextures();
 
-	terrain.Start();
+	players[0].SpawnPlayer(sf::Vector2f(50.0f, 49.0f));
+	players[1].SpawnPlayer(sf::Vector2f(650.0f, 649.0f));
+}
 
-	players[0].SpawnPlayer(sf::Vector2f(50.0f, 50.0f));
-	players[1].SpawnPlayer(sf::Vector2f(650.0f, 650.0f));
+Game::~Game()
+{
 }
 
 //Accessors
@@ -110,24 +118,23 @@ void Game::Update()
 void Game::Render()
 {
 	/*
-		@return void
-		- clear old frame
-		- render objects
-		- display frame in window
+	@return void
+	- clear old frame
+	- render terrain
+	- render players
+	- display frame in window
 
-		Renders the game objects
+	Renders the game objects
 	*/
 
 	window.clear();
 
 	// Draw level
 	terrain.Render(window);
+
 	// Draw players
 	players[0].Render(window);
 	players[1].Render(window);
-
-	players[0].PlayerCollision(terrain.GetGrid());
-	players[1].PlayerCollision(terrain.GetGrid());
 
 	window.display();
 }
