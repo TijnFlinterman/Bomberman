@@ -21,8 +21,9 @@ void Game::InitPlayers()
 		input.down = sf::Keyboard::Key::S;
 		input.right = sf::Keyboard::Key::D;
 
-		players[0].PlayerInputBomb(sf::Keyboard::Key::Space);
-		players[0].SetPlayerInput(input);
+		players[0] = new Player();
+		players[0]->PlayerInputBomb(sf::Keyboard::Key::Space);
+		players[0]->SetPlayerInput(input);
 	}
 
 	{
@@ -33,8 +34,9 @@ void Game::InitPlayers()
 		input.down = sf::Keyboard::Key::Down;
 		input.right = sf::Keyboard::Key::Right;
 
-		players[1].PlayerInputBomb(sf::Keyboard::Key::Enter);
-		players[1].SetPlayerInput(input);
+		players[1] = new Player();
+		players[1]->PlayerInputBomb(sf::Keyboard::Key::Enter);
+		players[1]->SetPlayerInput(input);
 	}
 }
 
@@ -47,7 +49,7 @@ void Game::PlayerTextures()
 		textures[2] = "Assets/Textures/Player1/P1_left.png";
 		textures[3] = "Assets/Textures/Player1/P1_right.png";
 
-		players[0].SetSpriteTextures(textures);
+		players[0]->SetSpriteTextures(textures);
 	}
 
 	{
@@ -57,7 +59,7 @@ void Game::PlayerTextures()
 		textures[2] = "Assets/Textures/Player2/P2_left.png";
 		textures[3] = "Assets/Textures/Player2/P2_right.png";
 
-		players[1].SetSpriteTextures(textures);
+		players[1]->SetSpriteTextures(textures);
 	}
 }
 
@@ -75,8 +77,8 @@ Game::Game()
 	InitPlayers();
 	PlayerTextures();
 
-	players[0].SpawnPlayer(sf::Vector2f(50.0f, 49.0f));
-	players[1].SpawnPlayer(sf::Vector2f(650.0f, 649.0f));
+	players[0]->SpawnPlayer(sf::Vector2f(50.0f, 49.0f));
+	players[1]->SpawnPlayer(sf::Vector2f(650.0f, 649.0f));
 }
 
 Game::~Game()
@@ -114,8 +116,8 @@ void Game::Update()
 {
 	PollEvents();
 
-	players[0].Update();
-	players[1].Update();
+	players[0]->Update();
+	players[1]->Update();
 }
 
 void Game::Render()
@@ -136,8 +138,8 @@ void Game::Render()
 	terrain->Render(window);
 
 	// Draw players
-	players[0].Render(window);
-	players[1].Render(window);
+	players[0]->Render(window);
+	players[1]->Render(window);
 
 	window.display();
 }

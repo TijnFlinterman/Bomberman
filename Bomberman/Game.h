@@ -15,6 +15,8 @@
 	Wrapper class.
 */
 
+class Player;
+
 class Game
 {
 private:
@@ -25,7 +27,7 @@ private:
 
 	Terrain* terrain;
 
-	std::array<Player, 2> players;
+	std::array<Player*, 2> players;
 
 	sf::Clock sfmlTimer;
 	float deltaTime;
