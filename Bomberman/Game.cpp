@@ -62,6 +62,7 @@ void Game::PlayerTextures()
 // Constructors/ Destructors
 Game::Game()
 {
+	terrain = new Terrain();
 	game = this;
 	sfmlTimer = sf::Clock();
 	elapsedTime = 0;
@@ -130,7 +131,7 @@ void Game::Render()
 	window.clear();
 
 	// Draw level
-	terrain.Render(window);
+	terrain->Render(window);
 
 	// Draw players
 	players[0].Render(window);
