@@ -2,7 +2,8 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "PlayerInput.h"
-#include "terrain.h"
+#include "game.h"
+#include "BombArray.h"
 #include <array>
 
 class Player
@@ -35,6 +36,7 @@ public:
 	void PlayerInputBomb(sf::Keyboard::Key bombInput);
 
 	void PlayerCollision(int** grid);
+	void AddBomb();
 
 	// Public variables
 	int playerPoints;
@@ -46,7 +48,7 @@ private:
 
 	PlayerInput playerInput;
 
-	Terrain terrain;
+	BombArray* bombArray;
 
 	Direction direction = Down;
 	Direction lastDirection;

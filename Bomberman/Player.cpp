@@ -2,6 +2,7 @@
 
 Player::Player()
 {
+	bombArray = new BombArray();
 	direction = None;
 	lastDirection = Down;
 }
@@ -163,6 +164,7 @@ void Player::BombThrowing()
 
 	if (playerIsTrowing)
 	{
+		AddBomb();
 		switch (direction)
 		{
 		case Up:
@@ -210,12 +212,19 @@ void Player::Update()
 	BombThrowing();
 	UpdateDirection();
 	PlayerMovement(playerSprite);
-	PlayerCollision(terrain.GetGrid());
+	PlayerCollision(Game::game->GetTerrain()->GetGrid());
+}
+
+void Player::AddBomb()
+{
+	bombArray->InitBomb(position.x + 2 * 3, position.y + 15 * 3 + movementValue.y);
 }
 
 void Player::Render(sf::RenderTarget& target)
 {
 	SetDirectionVisual(direction);
+
+	bombArray->DrawOneBomb(target, bombArray->GetBombTexture(), bombArray->GetExplosionTexture(), position.x, position.y, Game::game->GetTerrain()->GetGrid());
 
 	target.draw(playerSprite);
 	target.draw(rectangleLeftRight);

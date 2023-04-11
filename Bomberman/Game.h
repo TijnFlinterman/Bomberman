@@ -24,7 +24,7 @@ private:
 	void PlayerTextures();
 
 	Terrain* terrain;
-	Game* game;
+
 	std::array<Player, 2> players;
 
 	sf::Clock sfmlTimer;
@@ -51,4 +51,13 @@ private:
 	sf::RenderWindow window;
 	sf::VideoMode videoMode;
 	sf::Event event;
+
+public:
+	// Public Variables
+	static Game* game;
+
+	Terrain* GetTerrain()
+	{
+		return terrain;
+	}
 };
