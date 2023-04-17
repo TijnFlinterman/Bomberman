@@ -22,7 +22,6 @@ void Game::InitPlayers()
 		input.right = sf::Keyboard::Key::D;
 
 		players[0] = new Player();
-		players[0]->PlayerInputBomb(sf::Keyboard::Key::Space);
 		players[0]->SetPlayerInput(input);
 	}
 
@@ -35,7 +34,6 @@ void Game::InitPlayers()
 		input.right = sf::Keyboard::Key::Right;
 
 		players[1] = new Player();
-		players[1]->PlayerInputBomb(sf::Keyboard::Key::Enter);
 		players[1]->SetPlayerInput(input);
 	}
 }
@@ -115,6 +113,9 @@ void Game::PollEvents()
 void Game::Update()
 {
 	PollEvents();
+
+	players[0]->PlayerInputBomb(sf::Keyboard::Key::Space);
+	players[1]->PlayerInputBomb(sf::Keyboard::Key::Enter);
 
 	players[0]->Update();
 	players[1]->Update();

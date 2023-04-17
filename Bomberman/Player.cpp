@@ -11,6 +11,7 @@ Player::~Player() {}
 
 void Player::PlayerInputBomb(sf::Keyboard::Key bombInput)
 {
+
 	// Reads throw key(s) is pressed or not
 #pragma region BombThrowKey
 
@@ -102,35 +103,67 @@ void Player::PlayerMovement(sf::Sprite& player)
 	*/
 
 	// Move player
-	switch (direction)
+	if (!playerIsTrowing)
 	{
-	case Up:
-		movementValue.x = 0;
-		movementValue.y = -3;
-		lastDirection = Up;
-		break;
+		switch (direction)
+		{
+		case Up:
+			movementValue.x = 0;
+			movementValue.y = -3;
+			lastDirection = Up;
+			break;
 
-	case Down:
-		movementValue.x = 0;
-		movementValue.y = 3;
-		lastDirection = Down;
-		break;
-	case Left:
-		movementValue.x = -3;
-		movementValue.y = 0;
-		lastDirection = Left;
-		break;
+		case Down:
+			movementValue.x = 0;
+			movementValue.y = 3;
+			lastDirection = Down;
+			break;
+		case Left:
+			movementValue.x = -3;
+			movementValue.y = 0;
+			lastDirection = Left;
+			break;
 
-	case Right:
-		movementValue.x = 3;
-		movementValue.y = 0;
-		lastDirection = Right;
-		break;
+		case Right:
+			movementValue.x = 3;
+			movementValue.y = 0;
+			lastDirection = Right;
+			break;
 
-	case None:
-		movementValue.x = 0;
-		movementValue.y = 0;
-		break;
+		case None:
+			movementValue.x = 0;
+			movementValue.y = 0;
+			break;
+		}
+	}
+	else
+	{
+		switch (direction)
+		{
+		case Up:
+			movementValue.x = 0;
+			movementValue.y = 0;
+			break;
+
+		case Down:
+			movementValue.x = 0;
+			movementValue.y = 0;
+			break;
+		case Left:
+			movementValue.x = 0;
+			movementValue.y = 0;
+			break;
+
+		case Right:
+			movementValue.x = 0;
+			movementValue.y = 0;
+			break;
+
+		case None:
+			movementValue.x = 0;
+			movementValue.y = 0;
+			break;
+		}
 	}
 }
 
@@ -209,9 +242,9 @@ void Player::SetDirectionVisual(Direction direction)
 
 void Player::Update()
 {
-	BombThrowing();
 	UpdateDirection();
 	PlayerMovement(playerSprite);
+	BombThrowing();
 	PlayerCollision(Game::game->GetTerrain()->GetGrid());
 }
 
@@ -224,7 +257,7 @@ void Player::Render(sf::RenderTarget& target)
 {
 	SetDirectionVisual(direction);
 
-	bombArray->DrawOneBomb(target, bombArray->GetBombTexture(), bombArray->GetExplosionTexture(), position.x, position.y, Game::game->GetTerrain()->GetGrid());
+	bombArray->DrawOneBomb(target, bombArray->GetBombTexture1(), bombArray->GetBombTexture2(), bombArray->GetBombTexture3(), bombArray->GetExplosionTexture(), position.x, position.y, Game::game->GetTerrain()->GetGrid());
 
 	target.draw(playerSprite);
 	target.draw(rectangleLeftRight);

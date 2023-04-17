@@ -13,7 +13,6 @@ public:
 
 private:
 	bool ValidateLocation(int x, int y, int** grid);
-	void Render(sf::RenderTarget& target);
 
 public:
 	// Constructors/ Destructors
@@ -22,8 +21,7 @@ public:
 
 	State GetState();
 
-	void DrawBomb(sf::Texture bombTexture, sf::Texture explosionTexture, int xPlayer, int yPlayer, int** grid);
-	void AnimateBomb();
+	void DrawBomb(sf::RenderTarget& target, sf::Texture bombTexture1, sf::Texture bombTexture2, sf::Texture bombTexture3, int xPlayer, int yPlayer, int** grid);
 	void DrawExplosion(sf::RenderTarget& target, sf::Texture explosionTexture, int** grid);
 	void AnimateExplosion();
 

@@ -29,39 +29,44 @@ bool Bomb::ValidateLocation(int x, int y, int** grid)
 	}
 }
 
-void Bomb::DrawBomb(sf::Texture bombTexture, sf::Texture explosionTexture, int xPlayer, int yPlayer, int** grid)
+void Bomb::DrawBomb(sf::RenderTarget& target, sf::Texture bombTexture1, sf::Texture bombTexture2, sf::Texture bombTexture3, int xPlayer, int yPlayer, int** grid)
 {
 	if (ValidateLocation(x ,y, grid) == true)
 	{
-		sf::RectangleShape portionToUse;
-		portionToUse.setPosition((float)indexX * (float)width, 0.0f);
-		portionToUse.setSize(sf::Vector2f((float)width, (float)height));
+		timeToExplode = 0;
 
 		sf::RectangleShape increase;
 		increase.setPosition((float)x, (float)y);
 		increase.setSize(sf::Vector2f(40, 40));
+
+		sf::Sprite bombSprite; 
+		if (timeToExplode ==0)
+		{
+			bombSprite.setTexture(bombTexture1);
+			timeToExplode++;
+		}
+		if (timeToExplode == 1)
+		{
+			bombSprite.setTexture(bombTexture2);
+			timeToExplode++;
+		}
+		if (timeToExplode == 2)
+		{
+			bombSprite.setTexture(bombTexture3);
+			timeToExplode++;
+		}
+
+		bombSprite.setPosition(increase.getPosition());
+		bombSprite.setScale(3.2f, 3.2f);
+		target.draw(bombSprite);
 	}
 	state = normal;
-	timeToExplode = 0;
-	if (timeToExplode == 6)
+	if (timeToExplode == 3)
 	{
 		state = explode;
 	}
-
 }
 
-void Bomb::AnimateBomb()
-{
-	if (indexX >= 0 && indexX < 2)
-	{
-		indexX++;
-	}
-	else
-	{
-		timeToExplode++;
-		indexX = 0;
-	}
-}
 void Bomb::AnimateExplosion()
 {
 	if (indexEX >= 0 && indexEX < 2)
@@ -81,7 +86,7 @@ void Bomb::DrawExplosion(sf::RenderTarget& target, sf::Texture explosionTexture,
 
 	sf::RectangleShape portionUseLeft;
 	portionUseLeft.setPosition((float)indexEX * (float)explosionWidth, (float)indexEY * (float)explosionHeight);
-	portionUseLeft.setSize(sf::Vector2f((float)explosionWidth, (float)explosionHeight)); // indiceY=0
+	portionUseLeft.setSize(sf::Vector2f((float)explosionWidth, (float)explosionHeight)); // indexY=0
 	sf::RectangleShape center;
 	center.setPosition((float)x, (float)y);
 	center.setScale(50, 50);
@@ -94,7 +99,7 @@ void Bomb::DrawExplosion(sf::RenderTarget& target, sf::Texture explosionTexture,
 ////////////////////////
 	if (grid[y / 50][(x - 50) / 50] != 1) {
 		sf::RectangleShape portionUseLeft;
-		portionUseLeft.setPosition((float)indexEX * (float)explosionWidth, (float)indexEY + 2.0f * (float)explosionHeight); //indiceY = 2
+		portionUseLeft.setPosition((float)indexEX * (float)explosionWidth, (float)indexEY + 2.0f * (float)explosionHeight); //indexY = 2
 		portionUseLeft.setSize(sf::Vector2f((float)explosionWidth, (float)explosionHeight));
 		sf::RectangleShape left;
 		left.setPosition((float)x - 50.0f, (float)y);
@@ -115,7 +120,7 @@ void Bomb::DrawExplosion(sf::RenderTarget& target, sf::Texture explosionTexture,
 
 	if (grid[y / 50][(x + 50) / 50] != 1) {
 		sf::RectangleShape portionUseRight;
-		portionUseRight.setPosition((float)indexEX * (float)explosionWidth, (float)indexEY + 4.0f * (float)explosionHeight); //indiceY = 4
+		portionUseRight.setPosition((float)indexEX * (float)explosionWidth, (float)indexEY + 4.0f * (float)explosionHeight); //indexY = 4
 		portionUseRight.setSize(sf::Vector2f((float)explosionWidth, (float)explosionHeight));
 		sf::RectangleShape right;
 		right.setPosition((float)x + 50.0f, (float)y);
@@ -135,7 +140,7 @@ void Bomb::DrawExplosion(sf::RenderTarget& target, sf::Texture explosionTexture,
 	}
 	if (grid[y / 50][(x + 50) / 50] != 1) {
 		sf::RectangleShape portionUseRightTip;
-		portionUseRightTip.setPosition((float)indexEX * (float)explosionWidth, (float)indexEY + 3.0f * (float)explosionHeight); //indiceY = 3
+		portionUseRightTip.setPosition((float)indexEX * (float)explosionWidth, (float)indexEY + 3.0f * (float)explosionHeight); //indexY = 3
 		portionUseRightTip.setSize(sf::Vector2f((float)explosionWidth, (float)explosionHeight));
 		sf::RectangleShape tipRight;
 		tipRight.setPosition((float)x + 100.0f, (float)y);
@@ -157,7 +162,7 @@ void Bomb::DrawExplosion(sf::RenderTarget& target, sf::Texture explosionTexture,
 
 	if (grid[y / 50][(x - 50) / 50] != 1) {
 		sf::RectangleShape portionUseLeftTip;
-		portionUseLeftTip.setPosition((float)indexEX * (float)explosionWidth, (float)indexEY + 1.0f * (float)explosionHeight); //indiceY = 1
+		portionUseLeftTip.setPosition((float)indexEX * (float)explosionWidth, (float)indexEY + 1.0f * (float)explosionHeight); //indexY = 1
 		portionUseLeftTip.setSize(sf::Vector2f((float)explosionWidth, (float)explosionHeight));
 		sf::RectangleShape tipLeft;
 		tipLeft.setPosition((float)x - 100.0f, (float)y);
