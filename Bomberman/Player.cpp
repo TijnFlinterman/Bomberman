@@ -56,15 +56,19 @@ void Player::PlayerCollision(int** grid)
 {
 	rectangleLeftRight.setPosition(playerSprite.getPosition().x + 5 + movementValue.x, playerSprite.getPosition().y + 10);
 	rectangleLeftRight.setSize(sf::Vector2f(40, 40));
+
+	rectangleUpDown.setPosition(playerSprite.getPosition().x + 5, playerSprite.getPosition().y + 10 + movementValue.y);
+	rectangleUpDown.setSize(sf::Vector2f(40, 40));
+
+#ifdef _DEBUG
 	rectangleLeftRight.setOutlineColor(sf::Color::Green);
 	rectangleLeftRight.setOutlineThickness(1);
 	rectangleLeftRight.setFillColor(sf::Color::Transparent);
 
-	rectangleUpDown.setPosition(playerSprite.getPosition().x + 5, playerSprite.getPosition().y + 10 + movementValue.y);
-	rectangleUpDown.setSize(sf::Vector2f(40, 40));
 	rectangleUpDown.setOutlineColor(sf::Color::Red);
 	rectangleUpDown.setOutlineThickness(1);
 	rectangleUpDown.setFillColor(sf::Color::Transparent);
+#endif
 
 	float x, y = 0;
 	for (int a = 0; a < 15; a++)
@@ -257,9 +261,12 @@ void Player::Render(sf::RenderTarget& target)
 {
 	SetDirectionVisual(direction);
 
-	bombArray->DrawOneBomb(target, bombArray->GetBombTexture1(), bombArray->GetBombTexture2(), bombArray->GetBombTexture3(), bombArray->GetExplosionTexture(), position.x, position.y, Game::game->GetTerrain()->GetGrid());
+	bombArray->DrawOneBomb(target, position.x, position.y, Game::game->GetTerrain()->GetGrid());
 
 	target.draw(playerSprite);
+
+#ifdef _DEBUG
 	target.draw(rectangleLeftRight);
 	target.draw(rectangleUpDown);
+#endif
 }

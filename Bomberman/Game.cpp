@@ -64,12 +64,15 @@ void Game::PlayerTextures()
 // Constructors/ Destructors
 Game::Game()
 {
+	TextureLibrary::InitTextures();
+
 	terrain = new Terrain();
 	game = this;
 	sfmlTimer = sf::Clock();
 	elapsedTime = 0;
 	deltaTime = 0;
 	timeScale = 1;
+
 
 	InitWindow();
 	InitPlayers();

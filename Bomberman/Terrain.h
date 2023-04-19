@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <ctime>
 #include <stdlib.h>
+#include "TextureLibrary.h"
 #include <iostream>
 
 #define rows 15
@@ -25,9 +26,6 @@ private:
 private:
 	//private variables
 	int** grid;
-	sf::Texture	solidTexture;
-	sf::Texture	breakableTexture;
-	sf::Texture	grassTexture;
 
 	sf::Sprite solidSprite;
 	sf::Sprite breakableSprite;

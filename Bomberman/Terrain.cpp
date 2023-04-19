@@ -48,17 +48,9 @@ void Terrain::GenerateGrid()
 
 void Terrain::Render(sf::RenderTarget& target)
 {
-	sf::Texture solidTexture;
-	solidTexture.loadFromFile("Assets\\Textures\\Terrain\\brick.png");
-	solidSprite.setTexture(solidTexture);
-
-	sf::Texture breakableTexture;
-	breakableTexture.loadFromFile("Assets\\Textures\\Terrain\\crate.png");
-	breakableSprite.setTexture(breakableTexture);
-
-	sf::Texture grassTexture;
-	grassTexture.loadFromFile("Assets\\Textures\\Terrain\\grass.png");
-	grassSprite.setTexture(grassTexture);
+	solidSprite.setTexture(TextureLibrary::terrainTextures[0]);
+	breakableSprite.setTexture(TextureLibrary::terrainTextures[1]);
+	grassSprite.setTexture(TextureLibrary::terrainTextures[2]);
 
 	int x, y = 0;
 

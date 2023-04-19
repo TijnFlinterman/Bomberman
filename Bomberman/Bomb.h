@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "TextureLibrary.h"
 #include <iostream>
 #include <array>
 
@@ -14,6 +15,20 @@ public:
 private:
 	bool ValidateLocation(int x, int y, int** grid);
 
+	struct ExplosionTextures
+	{
+		sf::Texture explosionTexture0;
+		sf::Texture explosionTexture1;
+		sf::Texture explosionTexture2;
+		sf::Texture explosionTexture3;
+		sf::Texture explosionTexture4;
+		sf::Texture explosionTexture5;
+		sf::Texture explosionTexture6;
+		sf::Texture explosionTexture7;
+		sf::Texture explosionTexture8;
+	};
+
+
 public:
 	// Constructors/ Destructors
 	Bomb(int x, int y);
@@ -21,8 +36,8 @@ public:
 
 	State GetState();
 
-	void DrawBomb(sf::RenderTarget& target, sf::Texture bombTexture1, sf::Texture bombTexture2, sf::Texture bombTexture3, int xPlayer, int yPlayer, int** grid);
-	void DrawExplosion(sf::RenderTarget& target, sf::Texture explosionTexture, int** grid);
+	void DrawBomb(sf::RenderTarget& target, int xPlayer, int yPlayer, int** grid);
+	void DrawExplosion(sf::RenderTarget& target, int** grid, std::array<sf::Texture, 9>& explosionTextures);
 	void AnimateExplosion();
 
 private:
@@ -37,8 +52,6 @@ private:
 	int movementY;
 
 	int timeToExplode;
-
-	int indexX;
 
 	State state;
 
