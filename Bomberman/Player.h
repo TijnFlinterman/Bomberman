@@ -27,7 +27,7 @@ public:
 	void SetSpriteTextures(std::array<sf::Texture, 4> textures);
 
 	// Private functions
-	void SpawnPlayer(sf::Vector2f position);
+	void SpawnPlayer(sf::Vector2f spawnPosition);
 	void BombThrowing();
 
 	void SetDirectionVisual(Direction direction);

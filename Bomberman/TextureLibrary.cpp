@@ -29,9 +29,9 @@ void TextureLibrary::InitTextures()
 	explosionTextures->at(3).loadFromFile("Assets\\Textures\\Bomb\\Explosion-3.png");
 	explosionTextures->at(4).loadFromFile("Assets\\Textures\\Bomb\\Explosion-4.png");
 	explosionTextures->at(5).loadFromFile("Assets\\Textures\\Bomb\\Explosion-5.png");
-	explosionTextures->at(5).loadFromFile("Assets\\Textures\\Bomb\\Explosion-6.png");
-	explosionTextures->at(6).loadFromFile("Assets\\Textures\\Bomb\\Explosion-7.png");
-	explosionTextures->at(7).loadFromFile("Assets\\Textures\\Bomb\\Explosion-8.png");
+	explosionTextures->at(6).loadFromFile("Assets\\Textures\\Bomb\\Explosion-6.png");
+	explosionTextures->at(7).loadFromFile("Assets\\Textures\\Bomb\\Explosion-7.png");
+	explosionTextures->at(8).loadFromFile("Assets\\Textures\\Bomb\\Explosion-8.png");
 
 	player1Textures->at(0).loadFromFile("Assets\\Textures\\Player1\\P1_up.png");
 	player1Textures->at(1).loadFromFile("Assets\\Textures\\Player1\\P1_down.png");

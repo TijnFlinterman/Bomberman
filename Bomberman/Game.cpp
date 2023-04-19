@@ -78,8 +78,8 @@ Game::Game()
 	InitPlayers();
 	PlayerTextures();
 
-	players[0]->SpawnPlayer(sf::Vector2f(50.0f, 49.0f));
-	players[1]->SpawnPlayer(sf::Vector2f(650.0f, 649.0f));
+	players[0]->SpawnPlayer(sf::Vector2f(75.0f, 74.0f));
+	players[1]->SpawnPlayer(sf::Vector2f(675.0f, 674.0f));
 }
 
 Game::~Game()

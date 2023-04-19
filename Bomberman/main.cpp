@@ -9,8 +9,6 @@ int main()
 	// Init classes
 	Game game;
 
-	// Game start method
-
 	// Game loop
 	while (game.Running())
 	{

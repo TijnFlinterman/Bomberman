@@ -54,10 +54,10 @@ void Player::UpdateDirection()
 
 void Player::PlayerCollision(int** grid)
 {
-	rectangleLeftRight.setPosition(playerSprite.getPosition().x + 5 + movementValue.x, playerSprite.getPosition().y + 10);
+	rectangleLeftRight.setPosition(position.x - 20 + movementValue.x, position.y - 15);
 	rectangleLeftRight.setSize(sf::Vector2f(40, 40));
 
-	rectangleUpDown.setPosition(playerSprite.getPosition().x + 5, playerSprite.getPosition().y + 10 + movementValue.y);
+	rectangleUpDown.setPosition(position.x - 20, position.y - 15 + movementValue.y);
 	rectangleUpDown.setSize(sf::Vector2f(40, 40));
 
 #ifdef _DEBUG
@@ -179,13 +179,13 @@ void Player::SetSpriteTextures(std::array<sf::Texture, 4> textures)
 	rightTexture = textures[3];
 }
 
-void Player::SpawnPlayer(sf::Vector2f position)
+void Player::SpawnPlayer(sf::Vector2f spawnPosition)
 {
 	playerSprite.setScale(3.2f, 3.2f);
 	if (hasSpawned == false)
 	{
-		this->position = position;
-		playerSprite.setPosition(position);
+		this->position = spawnPosition;
+
 		hasSpawned = true;
 	}
 }
@@ -254,11 +254,18 @@ void Player::Update()
 
 void Player::AddBomb()
 {
-	bombArray->InitBomb(position.x + 2 * 3, position.y + 15 * 3 + movementValue.y);
+	bombArray->InitBomb(position.x, position.y);
+	//std::cout << "position X  =";
+	//std::cout << position.x;
+	//std::cout << "position Y  =";
+	//std::cout << position.y;
+
 }
 
 void Player::Render(sf::RenderTarget& target)
 {
+	playerSprite.setPosition(position.x - 25.0f, position.y - 25.0f);
+
 	SetDirectionVisual(direction);
 
 	bombArray->DrawOneBomb(target, position.x, position.y, Game::game->GetTerrain()->GetGrid());

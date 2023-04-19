@@ -16,9 +16,9 @@ Bomb::Bomb(int x, int y)
 }
 Bomb::~Bomb() {}
 
-bool Bomb::ValidateLocation(int x, int y, int** grid)
+bool Bomb::ValidateLocation(int xPlayer, int yPlayer, int** grid)
 {
-	if (grid[y / 50][x / 50] == 0 || grid[y / 50][x / 50] == 2)
+	if (grid[yPlayer / 50][xPlayer / 50] == 0 || grid[yPlayer / 50][xPlayer / 50] == 2)
 	{
 		return true;
 	}
@@ -30,7 +30,7 @@ bool Bomb::ValidateLocation(int x, int y, int** grid)
 
 void Bomb::DrawBomb(sf::RenderTarget& target, int xPlayer, int yPlayer, int** grid)
 {
-	if (ValidateLocation(x, y, grid) == true)
+	if (ValidateLocation(xPlayer, yPlayer, grid) == true)
 	{
 		timeToExplode = 0;
 
@@ -51,7 +51,7 @@ void Bomb::DrawBomb(sf::RenderTarget& target, int xPlayer, int yPlayer, int** gr
 			timeToExplode++;
 		}
 
-		bombSprite.setPosition((float)x, (float)y);
+		bombSprite.setPosition((float)x - 25, (float)y - 25);
 		bombSprite.setScale(3.2f, 3.2f);
 		target.draw(bombSprite);
 	}
@@ -78,19 +78,20 @@ void Bomb::AnimateExplosion()
 
 void Bomb::DrawExplosion(sf::RenderTarget& target, int** grid, std::array<sf::Texture, 9>* explosionTextures)
 {
-	////////////////////////
+	// CENTER
 	sf::Sprite sprite;
 	sprite.setTexture(TextureLibrary::explosionTextures->at(0));
+	sprite.setPosition((float)x - 25.0f, (float)y - 25.0f);
+	sprite.setScale(2.5f, 2.5f);
 	target.draw(sprite);
-	////////////////////////
-	if (grid[y / 50][(x - 50) / 50] != 1) {
-		////////////////////////
+	if (grid[y / 50][(x - 50) / 50] != 1)
+	{
+		// LEFT SHAFT
 		sf::Sprite sprite;
 		sprite.setTexture(TextureLibrary::explosionTextures->at(4));
-		sprite.setPosition((float)x - 50.0f, (float)y);
+		sprite.setPosition((float)x - 75.0f, (float)y - 25.0f);
 		sprite.setScale(2.5f, 2.5f);
 		target.draw(sprite);
-		////////////////////////
 
 		if (grid[y / 50][(x - 50) / 50] == 3)
 		{
@@ -98,10 +99,12 @@ void Bomb::DrawExplosion(sf::RenderTarget& target, int** grid, std::array<sf::Te
 		}
 	}
 
-	if (grid[y / 50][(x + 50) / 50] != 1) {
+	if (grid[y / 50][(x + 50) / 50] != 1)
+	{
+		// RIGHT SHAFT
 		sf::Sprite sprite;
 		sprite.setTexture(TextureLibrary::explosionTextures->at(2));
-		sprite.setPosition((float)x + 50.0f, (float)y);
+		sprite.setPosition((float)x + 25.0f, (float)y - 25.0f);
 		sprite.setScale(2.5f, 2.5f);
 		target.draw(sprite);
 
@@ -111,16 +114,14 @@ void Bomb::DrawExplosion(sf::RenderTarget& target, int** grid, std::array<sf::Te
 		}
 	}
 
-	if (grid[y / 50][(x + 50) / 50] != 1) {
-		sf::RectangleShape tipRight;
-		tipRight.setPosition((float)x + 100.0f, (float)y);
-		tipRight.setSize(sf::Vector2f(50.0f, 50.0f));
-
+	if (grid[y / 50][(x + 50) / 50] != 1)
+	{
+		// RIGHT TIP
 		sf::Sprite sprite;
-		sprite.setTexture(TextureLibrary::explosionTextures->at(4));
+		sprite.setTexture(TextureLibrary::explosionTextures->at(3));
+		sprite.setPosition((float)x + 75.0f, (float)y - 25.0f);
+		sprite.setScale(2.5f, 2.5f);
 		target.draw(sprite);
-		target.draw(tipRight);
-
 
 		if (grid[y / 50][(x + 100) / 50] == 3 && grid[y / 50][(x + 50) / 50] != 1)
 		{
@@ -130,14 +131,12 @@ void Bomb::DrawExplosion(sf::RenderTarget& target, int** grid, std::array<sf::Te
 	}
 
 	if (grid[y / 50][(x - 50) / 50] != 1) {
-		sf::RectangleShape tipLeft;
-		tipLeft.setPosition((float)x - 100.0f, (float)y);
-		tipLeft.setSize(sf::Vector2f(50.0f, 50.0f));
-
+		// LEFT TIP
 		sf::Sprite sprite;
 		sprite.setTexture(TextureLibrary::explosionTextures->at(1));
+		sprite.setPosition((float)x - 125.0f, (float)y - 25.0f);
+		sprite.setScale(2.5f, 2.5f);
 		target.draw(sprite);
-		target.draw(tipLeft);
 
 		if (grid[y / 50][(y - 100) / 50] == 3 && grid[y / 50][(x - 50) / 50] != 1)
 		{
@@ -145,40 +144,41 @@ void Bomb::DrawExplosion(sf::RenderTarget& target, int** grid, std::array<sf::Te
 		}
 	}
 
-	sf::RectangleShape verticalTop;
-	verticalTop.setPosition((float)x, (float)y - 50.0f);
-	verticalTop.setSize(sf::Vector2f(50.0f, 50.0f));
-
-	sf::RectangleShape Verticalbottom;
-	Verticalbottom.setPosition((float)x, (float)y + 50.0f);
-	Verticalbottom.setSize(sf::Vector2f(50.0f, 50.0f));
-
 	if (grid[(y - 50) / 50][x / 50] != 1)
 	{
-		//g->DrawImage(explosionCenter, verticalTop, portionUseVertical);
+		// BOTTOM SHAFT
+		sf::Sprite sprite;
+		sprite.setTexture(TextureLibrary::explosionTextures->at(7));
+		sprite.setPosition((float)x - 25.0f, (float)y - 75.0f);
+		sprite.setScale(2.5f, 2.5f);
+		target.draw(sprite);
 	}
 	if (grid[(y - 50) / 50][x / 50] == 3)
 	{
 		grid[(y - 50) / 50][x / 50] = 2;
 	}
+
 	if (grid[(y + 50) / 50][x / 50] != 1)
 	{
-		//g->DrawImage(explosionCenter, Verticalbottom, portionUseVertical);
+		// TOP SHAFT
+		sf::Sprite sprite;
+		sprite.setTexture(TextureLibrary::explosionTextures->at(6));
+		sprite.setPosition((float)x - 25.0f, (float)y + 25.0f);
+		sprite.setScale(2.5f, 2.5f);
+		target.draw(sprite);
 	}
 	if (grid[(+50) / 50][x / 50] == 3)
 	{
 		grid[(+50) / 50][x / 50] = 2;
 	}
 
-
 	if (grid[(y - 50) / 50][x / 50] != 1) {
-		sf::RectangleShape portionUseTopTip;
-		portionUseTopTip.setPosition((float)indexEX * (float)explosionWidth, (float)indexEY + 5.0f * (float)explosionHeight); //indiceY = 5
-		portionUseTopTip.setSize(sf::Vector2f((float)explosionWidth, (float)explosionHeight));
-		sf::RectangleShape topTip;
-		topTip.setPosition((float)x, (float)y - 100.0f);
-		topTip.setSize(sf::Vector2f(50.0f, 50.0f));
-		//g->DrawImage(explosionCenter, topTip, portionUseTopTip);
+		// TOP TIP
+		sf::Sprite sprite;
+		sprite.setTexture(TextureLibrary::explosionTextures->at(5));
+		sprite.setPosition((float)x - 25.0f, (float)y - 125.0f);
+		sprite.setScale(2.5f, 2.5f);
+		target.draw(sprite);
 
 		if (grid[(y - 100) / 50][x / 50] == 3 && grid[(y - 50) / 50][x / 50] != 1)
 		{
@@ -188,17 +188,19 @@ void Bomb::DrawExplosion(sf::RenderTarget& target, int** grid, std::array<sf::Te
 
 
 	if (grid[(y + 50) / 50][x / 50] != 1) {
-		sf::RectangleShape PuntaInferior;
-		PuntaInferior.setPosition((float)x, (float)y + 100.0f);
-		PuntaInferior.setSize(sf::Vector2f(50.0f, 50.0f));
-		//g->DrawImage(explosionCenter, PuntaInferior, porcionUsarPuntaInferior);
-		if (grid[(y + 100) / 50][x / 50] == 3 && grid[(y + 50) / 50][x / 50] != 1) {
+		// BOTTOM TIP
+		sf::Sprite sprite;
+		sprite.setTexture(TextureLibrary::explosionTextures->at(8));
+		sprite.setPosition((float)x - 25.0f, (float)y + 75.0f);
+		sprite.setScale(2.5f, 2.5f);
+		target.draw(sprite);
+
+		if (grid[(y + 100) / 50][x / 50] == 3 && grid[(y + 50) / 50][x / 50] != 1)
+		{
 			grid[(y + 100) / 50][x / 50] = 2;
 		}
 	}
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 Bomb::State Bomb::GetState()
 {
