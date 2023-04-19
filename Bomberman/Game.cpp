@@ -41,21 +41,21 @@ void Game::InitPlayers()
 void Game::PlayerTextures()
 {
 	{
-		std::array<std::string, 4> textures;
-		textures[0] = "Assets/Textures/Player1/P1_up.png";
-		textures[1] = "Assets/Textures/Player1/P1_down.png";
-		textures[2] = "Assets/Textures/Player1/P1_left.png";
-		textures[3] = "Assets/Textures/Player1/P1_right.png";
+		std::array<sf::Texture, 4> textures;
+		textures[0] = TextureLibrary::player1Textures[0];
+		textures[1] = TextureLibrary::player1Textures[1];
+		textures[2] = TextureLibrary::player1Textures[2];
+		textures[3] = TextureLibrary::player1Textures[3];
 
 		players[0]->SetSpriteTextures(textures);
 	}
 
 	{
-		std::array<std::string, 4> textures;
-		textures[0] = "Assets/Textures/Player2/P2_up.png";
-		textures[1] = "Assets/Textures/Player2/P2_down.png";
-		textures[2] = "Assets/Textures/Player2/P2_left.png";
-		textures[3] = "Assets/Textures/Player2/P2_right.png";
+		std::array<sf::Texture, 4> textures;
+		textures[0] = TextureLibrary::player2Textures[0];
+		textures[1] = TextureLibrary::player2Textures[1];
+		textures[2] = TextureLibrary::player2Textures[2];
+		textures[3] = TextureLibrary::player2Textures[3];
 
 		players[1]->SetSpriteTextures(textures);
 	}

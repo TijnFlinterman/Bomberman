@@ -24,7 +24,7 @@ public:
 	void Render(sf::RenderTarget& target);
 
 	void SetPlayerInput(PlayerInput input) { playerInput = input; }
-	void SetSpriteTextures(std::array<std::string, 4> sprites);
+	void SetSpriteTextures(std::array<sf::Texture, 4> textures);
 
 	// Private functions
 	void SpawnPlayer(sf::Vector2f position);

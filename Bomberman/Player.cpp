@@ -171,12 +171,12 @@ void Player::PlayerMovement(sf::Sprite& player)
 	}
 }
 
-void Player::SetSpriteTextures(std::array<std::string, 4> sprites)
+void Player::SetSpriteTextures(std::array<sf::Texture, 4> textures)
 {
-	upTexture.loadFromFile(sprites[0]);
-	downTexture.loadFromFile(sprites[1]);
-	leftTexture.loadFromFile(sprites[2]);
-	rightTexture.loadFromFile(sprites[3]);
+	upTexture = textures[0];
+	downTexture = textures[1];
+	leftTexture = textures[2];
+	rightTexture = textures[3];
 }
 
 void Player::SpawnPlayer(sf::Vector2f position)
