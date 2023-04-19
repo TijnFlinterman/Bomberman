@@ -37,7 +37,7 @@ public:
 	State GetState();
 
 	void DrawBomb(sf::RenderTarget& target, int xPlayer, int yPlayer, int** grid);
-	void DrawExplosion(sf::RenderTarget& target, int** grid, std::array<sf::Texture, 9>& explosionTextures);
+	void DrawExplosion(sf::RenderTarget& target, int** grid, std::array<sf::Texture, 9>* explosionTextures);
 	void AnimateExplosion();
 
 private:

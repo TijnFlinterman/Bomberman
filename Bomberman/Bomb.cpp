@@ -37,17 +37,17 @@ void Bomb::DrawBomb(sf::RenderTarget& target, int xPlayer, int yPlayer, int** gr
 		sf::Sprite bombSprite;
 		if (timeToExplode == 0)
 		{
-			bombSprite.setTexture(TextureLibrary::bombTextures[0]);
+			bombSprite.setTexture(TextureLibrary::bombTextures->at(0));
 			timeToExplode++;
 		}
 		if (timeToExplode == 1)
 		{
-			bombSprite.setTexture(TextureLibrary::bombTextures[1]);
+			bombSprite.setTexture(TextureLibrary::bombTextures->at(1));
 			timeToExplode++;
 		}
 		if (timeToExplode == 2)
 		{
-			bombSprite.setTexture(TextureLibrary::bombTextures[2]);
+			bombSprite.setTexture(TextureLibrary::bombTextures->at(2));
 			timeToExplode++;
 		}
 
@@ -76,17 +76,17 @@ void Bomb::AnimateExplosion()
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Bomb::DrawExplosion(sf::RenderTarget& target, int** grid, std::array<sf::Texture, 9>& explosionTextures)
+void Bomb::DrawExplosion(sf::RenderTarget& target, int** grid, std::array<sf::Texture, 9>* explosionTextures)
 {
 	////////////////////////
 	sf::Sprite sprite;
-	sprite.setTexture(TextureLibrary::explosionTextures[0]);
+	sprite.setTexture(TextureLibrary::explosionTextures->at(0));
 	target.draw(sprite);
 	////////////////////////
 	if (grid[y / 50][(x - 50) / 50] != 1) {
 		////////////////////////
 		sf::Sprite sprite;
-		sprite.setTexture(TextureLibrary::explosionTextures[4]);
+		sprite.setTexture(TextureLibrary::explosionTextures->at(4));
 		sprite.setPosition((float)x - 50.0f, (float)y);
 		sprite.setScale(2.5f, 2.5f);
 		target.draw(sprite);
@@ -100,7 +100,7 @@ void Bomb::DrawExplosion(sf::RenderTarget& target, int** grid, std::array<sf::Te
 
 	if (grid[y / 50][(x + 50) / 50] != 1) {
 		sf::Sprite sprite;
-		sprite.setTexture(TextureLibrary::explosionTextures[2]);
+		sprite.setTexture(TextureLibrary::explosionTextures->at(2));
 		sprite.setPosition((float)x + 50.0f, (float)y);
 		sprite.setScale(2.5f, 2.5f);
 		target.draw(sprite);
@@ -117,7 +117,7 @@ void Bomb::DrawExplosion(sf::RenderTarget& target, int** grid, std::array<sf::Te
 		tipRight.setSize(sf::Vector2f(50.0f, 50.0f));
 
 		sf::Sprite sprite;
-		sprite.setTexture(TextureLibrary::explosionTextures[4]);
+		sprite.setTexture(TextureLibrary::explosionTextures->at(4));
 		target.draw(sprite);
 		target.draw(tipRight);
 
@@ -135,7 +135,7 @@ void Bomb::DrawExplosion(sf::RenderTarget& target, int** grid, std::array<sf::Te
 		tipLeft.setSize(sf::Vector2f(50.0f, 50.0f));
 
 		sf::Sprite sprite;
-		sprite.setTexture(TextureLibrary::explosionTextures[1]);
+		sprite.setTexture(TextureLibrary::explosionTextures->at(1));
 		target.draw(sprite);
 		target.draw(tipLeft);
 
