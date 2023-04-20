@@ -6,13 +6,7 @@ Bomb::Bomb(int x, int y)
 	this->y = y;
 
 	state = normal;
-	width = 66 / 3;
-	height = 24;
-
 	timeToExplode = 0;
-
-	explosionHeight = 160 / 8;
-	explosionWidth = 80 / 4;
 }
 Bomb::~Bomb() {}
 
@@ -64,17 +58,15 @@ void Bomb::DrawBomb(sf::RenderTarget& target, int xPlayer, int yPlayer, int** gr
 
 void Bomb::AnimateExplosion()
 {
-	if (indexEX >= 0 && indexEX < 2)
+	if (explosionLinger >= 0 && explosionLinger < 3)
 	{
-		indexEX++;
+		explosionLinger++;
 	}
 	else
 	{
 		state = State::disappear;
 	}
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Bomb::DrawExplosion(sf::RenderTarget& target, int** grid, std::array<sf::Texture, 9>* explosionTextures)
 {
@@ -84,8 +76,8 @@ void Bomb::DrawExplosion(sf::RenderTarget& target, int** grid, std::array<sf::Te
 	sprite.setPosition((float)x - 25.0f, (float)y - 25.0f);
 	sprite.setScale(2.5f, 2.5f);
 	target.draw(sprite);
-	if (grid[y / 50][(x - 50) / 50] != 1)
-	{
+
+	if (grid[y / 50][(x - 50) / 50] != 1) {
 		// LEFT SHAFT
 		sf::Sprite sprite;
 		sprite.setTexture(TextureLibrary::explosionTextures->at(4));
@@ -93,14 +85,14 @@ void Bomb::DrawExplosion(sf::RenderTarget& target, int** grid, std::array<sf::Te
 		sprite.setScale(2.5f, 2.5f);
 		target.draw(sprite);
 
-		if (grid[y / 50][(x - 50) / 50] == 3)
+		if (grid[y / 50][(x - 50) / 50] == 2) 
 		{
-			grid[y / 50][(x - 50) / 50] = 2;
+			grid[y / 50][(x - 50) / 50] = 0; 
 		}
 	}
 
-	if (grid[y / 50][(x + 50) / 50] != 1)
-	{
+
+	if (grid[y / 50][(x + 50) / 50] != 1) {
 		// RIGHT SHAFT
 		sf::Sprite sprite;
 		sprite.setTexture(TextureLibrary::explosionTextures->at(2));
@@ -108,25 +100,19 @@ void Bomb::DrawExplosion(sf::RenderTarget& target, int** grid, std::array<sf::Te
 		sprite.setScale(2.5f, 2.5f);
 		target.draw(sprite);
 
-		if (grid[y / 50][(x + 50) / 50] == 3)
-		{
-			grid[y / 50][(x + 50) / 50] = 2;
-		}
-	}
+		if (grid[y / 50][(x + 50) / 50] == 2) { grid[y / 50][(x + 50) / 50] = 0; }
 
-	if (grid[y / 50][(x + 50) / 50] != 1)
-	{
-		// RIGHT TIP
+	}
+	if (grid[y / 50][(x + 50) / 50] != 1) {
 		sf::Sprite sprite;
 		sprite.setTexture(TextureLibrary::explosionTextures->at(3));
 		sprite.setPosition((float)x + 75.0f, (float)y - 25.0f);
 		sprite.setScale(2.5f, 2.5f);
 		target.draw(sprite);
 
-		if (grid[y / 50][(x + 100) / 50] == 3 && grid[y / 50][(x + 50) / 50] != 1)
+		if (grid[y / 50][(x + 100) / 50] == 2 && grid[y / 50][(x + 50) / 50] != 1)
 		{
-
-			grid[y / 50][(x + 100) / 50] = 2;
+			grid[y / 50][(x + 100) / 50] = 0;
 		}
 	}
 
@@ -138,9 +124,9 @@ void Bomb::DrawExplosion(sf::RenderTarget& target, int** grid, std::array<sf::Te
 		sprite.setScale(2.5f, 2.5f);
 		target.draw(sprite);
 
-		if (grid[y / 50][(y - 100) / 50] == 3 && grid[y / 50][(x - 50) / 50] != 1)
+		if (grid[y / 50][(x - 100) / 50] == 2 && grid[y / 50][(x - 50) / 50] != 1)
 		{
-			grid[y / 50][(x - 100) / 50] = 2;
+			grid[y / 50][(x - 100) / 50] = 0;
 		}
 	}
 
@@ -153,9 +139,9 @@ void Bomb::DrawExplosion(sf::RenderTarget& target, int** grid, std::array<sf::Te
 		sprite.setScale(2.5f, 2.5f);
 		target.draw(sprite);
 	}
-	if (grid[(y - 50) / 50][x / 50] == 3)
+	if (grid[(y - 50) / 50][x / 50] == 2)
 	{
-		grid[(y - 50) / 50][x / 50] = 2;
+		grid[(y - 50) / 50][x / 50] = 0;
 	}
 
 	if (grid[(y + 50) / 50][x / 50] != 1)
@@ -167,12 +153,14 @@ void Bomb::DrawExplosion(sf::RenderTarget& target, int** grid, std::array<sf::Te
 		sprite.setScale(2.5f, 2.5f);
 		target.draw(sprite);
 	}
-	if (grid[(+50) / 50][x / 50] == 3)
+
+	if (grid[(y + 50) / 50][x / 50] == 2)
 	{
-		grid[(+50) / 50][x / 50] = 2;
+		grid[(y + 50) / 50][x / 50] = 0;
 	}
 
-	if (grid[(y - 50) / 50][x / 50] != 1) {
+	if (grid[(y - 50) / 50][x / 50] != 1)
+	{
 		// TOP TIP
 		sf::Sprite sprite;
 		sprite.setTexture(TextureLibrary::explosionTextures->at(5));
@@ -180,14 +168,15 @@ void Bomb::DrawExplosion(sf::RenderTarget& target, int** grid, std::array<sf::Te
 		sprite.setScale(2.5f, 2.5f);
 		target.draw(sprite);
 
-		if (grid[(y - 100) / 50][x / 50] == 3 && grid[(y - 50) / 50][x / 50] != 1)
+		if (grid[(y - 100) / 50][x / 50] == 2 && grid[(y - 50) / 50][x / 50] != 1)
 		{
-			grid[(y - 100) / 50][x / 50] = 2;
+			grid[(y - 100) / 50][x / 50] = 0;
 		}
 	}
 
 
-	if (grid[(y + 50) / 50][x / 50] != 1) {
+	if (grid[(y + 50) / 50][x / 50] != 1)
+	{
 		// BOTTOM TIP
 		sf::Sprite sprite;
 		sprite.setTexture(TextureLibrary::explosionTextures->at(8));
@@ -195,9 +184,9 @@ void Bomb::DrawExplosion(sf::RenderTarget& target, int** grid, std::array<sf::Te
 		sprite.setScale(2.5f, 2.5f);
 		target.draw(sprite);
 
-		if (grid[(y + 100) / 50][x / 50] == 3 && grid[(y + 50) / 50][x / 50] != 1)
+		if (grid[(y + 100) / 50][x / 50] == 2 && grid[(y + 50) / 50][x / 50] != 1)
 		{
-			grid[(y + 100) / 50][x / 50] = 2;
+			grid[(y + 100) / 50][x / 50] = 0;
 		}
 	}
 }

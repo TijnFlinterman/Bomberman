@@ -29,7 +29,6 @@ public:
 	// Private functions
 	void SpawnPlayer(sf::Vector2f spawnPosition);
 	void BombThrowing();
-
 	void SetDirectionVisual(Direction direction);
 	void UpdateDirection();
 	void PlayerMovement(sf::Sprite& player);
@@ -45,6 +44,7 @@ private:
 	// Private variables
 	bool hasSpawned;
 	bool playerIsTrowing;
+	bool canRangeThrow;
 
 	PlayerInput playerInput;
 
@@ -54,6 +54,9 @@ private:
 	Direction lastDirection;
 
 	sf::Sprite playerSprite;
+
+	sf::Sprite indicatorYes;
+	sf::Sprite indicatorNo;
 
 	sf::Texture	upTexture;
 	sf::Texture	downTexture;
@@ -65,6 +68,8 @@ private:
 
 	sf::RectangleShape	rectangleLeftRight;
 	sf::RectangleShape	rectangleUpDown;
+
+	sf::RectangleShape	rectangleIndicator;
 
 	sf::RectangleShape collisionBox;
 };

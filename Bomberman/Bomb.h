@@ -15,20 +15,6 @@ public:
 private:
 	bool ValidateLocation(int x, int y, int** grid);
 
-	struct ExplosionTextures
-	{
-		sf::Texture explosionTexture0;
-		sf::Texture explosionTexture1;
-		sf::Texture explosionTexture2;
-		sf::Texture explosionTexture3;
-		sf::Texture explosionTexture4;
-		sf::Texture explosionTexture5;
-		sf::Texture explosionTexture6;
-		sf::Texture explosionTexture7;
-		sf::Texture explosionTexture8;
-	};
-
-
 public:
 	// Constructors/ Destructors
 	Bomb(int x, int y);
@@ -45,20 +31,8 @@ private:
 	int x;
 	int y;
 
-	int height;
-	int width;
-
-	int movementX;
-	int movementY;
-
 	int timeToExplode;
+	int explosionLinger;
 
 	State state;
-
-	// Explosion variables
-	int indexEX;
-	int indexEY;
-
-	int explosionHeight;
-	int explosionWidth;
 };

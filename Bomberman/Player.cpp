@@ -54,11 +54,46 @@ void Player::UpdateDirection()
 
 void Player::PlayerCollision(int** grid)
 {
+
+	indicatorYes.setTexture(TextureLibrary::indicatorTextures->at(0));
+	indicatorNo.setTexture(TextureLibrary::indicatorTextures->at(1));
+
+	indicatorYes.setScale(3.2f, 3.2f);
+	indicatorNo.setScale(3.2f, 3.2f);
+
+	rectangleIndicator.setSize(sf::Vector2f(49, 49));
+
+	switch (lastDirection)
+	{
+	case Up:
+
+		rectangleIndicator.setPosition(position.x - 25.0f, position.y - 75.0f);
+		indicatorYes.setPosition(position.x - 25.0f, position.y - 75.0f);
+		indicatorNo.setPosition(position.x - 25.0f, position.y - 75.0f);
+		break;
+	case Down:
+		rectangleIndicator.setPosition(position.x - 25.0f, position.y + 25.0f);
+		indicatorYes.setPosition(position.x - 25.0f, position.y + 25.0f);
+		indicatorNo.setPosition(position.x - 25.0f, position.y + 25.0f);
+		break;
+	case Left:
+		rectangleIndicator.setPosition(position.x - 75.0f, position.y - 25.0f);
+		indicatorYes.setPosition(position.x - 75.0f, position.y - 25.0f);
+		indicatorNo.setPosition(position.x - 75.0f, position.y - 25.0f);
+		break;
+	case Right:
+		rectangleIndicator.setPosition(position.x + 25.0f, position.y - 25.0f);
+		indicatorYes.setPosition(position.x + 25.0f, position.y - 25.0f);
+		indicatorNo.setPosition(position.x + 25.0f, position.y - 25.0f);
+		break;
+	}
+
 	rectangleLeftRight.setPosition(position.x - 20 + movementValue.x, position.y - 15);
 	rectangleLeftRight.setSize(sf::Vector2f(40, 40));
 
 	rectangleUpDown.setPosition(position.x - 20, position.y - 15 + movementValue.y);
 	rectangleUpDown.setSize(sf::Vector2f(40, 40));
+
 
 #ifdef _DEBUG
 	rectangleLeftRight.setOutlineColor(sf::Color::Green);
@@ -68,6 +103,10 @@ void Player::PlayerCollision(int** grid)
 	rectangleUpDown.setOutlineColor(sf::Color::Red);
 	rectangleUpDown.setOutlineThickness(1);
 	rectangleUpDown.setFillColor(sf::Color::Transparent);
+
+	rectangleIndicator.setOutlineColor(sf::Color::Red);
+	rectangleIndicator.setOutlineThickness(1);
+	rectangleIndicator.setFillColor(sf::Color::Transparent);
 #endif
 
 	float x, y = 0;
@@ -77,7 +116,7 @@ void Player::PlayerCollision(int** grid)
 		for (int b = 0; b < 15; b++)
 		{
 			collisionBox.setPosition(x, y);
-			collisionBox.setSize(sf::Vector2f(50, 50));
+			collisionBox.setSize(sf::Vector2f(40, 40));
 			if (grid[a][b] == 1 || grid[a][b] == 2)
 			{
 				if (rectangleLeftRight.getGlobalBounds().intersects(collisionBox.getGlobalBounds()))
@@ -88,6 +127,15 @@ void Player::PlayerCollision(int** grid)
 				if (rectangleUpDown.getGlobalBounds().intersects(collisionBox.getGlobalBounds()))
 				{
 					movementValue.y = 0;
+				}
+
+				if (rectangleIndicator.getGlobalBounds().intersects(collisionBox.getGlobalBounds()))
+				{
+					canRangeThrow = false;
+				}
+				else
+				{
+					canRangeThrow = true;
 				}
 			}
 			x += 50;
@@ -255,25 +303,30 @@ void Player::Update()
 void Player::AddBomb()
 {
 	bombArray->InitBomb(position.x, position.y);
-	//std::cout << "position X  =";
-	//std::cout << position.x;
-	//std::cout << "position Y  =";
-	//std::cout << position.y;
-
 }
 
 void Player::Render(sf::RenderTarget& target)
 {
 	playerSprite.setPosition(position.x - 25.0f, position.y - 25.0f);
 
+	SetIndicatorVisual(direction);
 	SetDirectionVisual(direction);
 
 	bombArray->DrawOneBomb(target, position.x, position.y, Game::game->GetTerrain()->GetGrid());
 
 	target.draw(playerSprite);
+	if (canRangeThrow == true)
+	{
+		target.draw(indicatorYes);
+	}
+	if (canRangeThrow == false)
+	{
+		target.draw(indicatorNo);
+	}
 
 #ifdef _DEBUG
 	target.draw(rectangleLeftRight);
 	target.draw(rectangleUpDown);
+	target.draw(rectangleIndicator);
 #endif
 }

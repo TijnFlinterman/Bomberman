@@ -13,4 +13,5 @@ public:
 	static std::array<sf::Texture, 3>* terrainTextures;
 	static std::array<sf::Texture, 4>* player1Textures;
 	static std::array<sf::Texture, 4>* player2Textures;
+	static std::array<sf::Texture, 2>* indicatorTextures;
 };

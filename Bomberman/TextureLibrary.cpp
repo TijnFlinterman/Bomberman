@@ -6,6 +6,7 @@ std::array<sf::Texture, 3>* TextureLibrary::bombTextures = nullptr;
 std::array<sf::Texture, 3>* TextureLibrary::terrainTextures = nullptr;
 std::array<sf::Texture, 4>* TextureLibrary::player1Textures = nullptr;
 std::array<sf::Texture, 4>* TextureLibrary::player2Textures = nullptr;
+std::array<sf::Texture, 2>* TextureLibrary::indicatorTextures = nullptr;
 
 void TextureLibrary::InitTextures()
 {
@@ -14,6 +15,7 @@ void TextureLibrary::InitTextures()
 	terrainTextures = new std::array<sf::Texture, 3>();
 	player1Textures = new std::array<sf::Texture, 4>();
 	player2Textures = new std::array<sf::Texture, 4>();
+	indicatorTextures = new std::array<sf::Texture, 2>();
 
 	terrainTextures->at(0).loadFromFile("Assets\\Textures\\Terrain\\brick.png");
 	terrainTextures->at(1).loadFromFile("Assets\\Textures\\Terrain\\crate.png");
@@ -42,4 +44,7 @@ void TextureLibrary::InitTextures()
 	player2Textures->at(1).loadFromFile("Assets\\Textures\\Player2\\P2_down.png");
 	player2Textures->at(2).loadFromFile("Assets\\Textures\\Player2\\P2_left.png");
 	player2Textures->at(3).loadFromFile("Assets\\Textures\\Player2\\P2_right.png");
+
+	indicatorTextures->at(0).loadFromFile("Assets\\Textures\\bomb\\Bomb-indicator-yes.png");
+	indicatorTextures->at(1).loadFromFile("Assets\\Textures\\bomb\\Bomb-indicator-no.png");
 }
