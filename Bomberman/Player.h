@@ -34,7 +34,7 @@ public:
 	void PlayerMovement(sf::Sprite& player);
 	void PlayerInputBomb(sf::Keyboard::Key bombInput);
 
-	void PlayerCollision(int** grid);
+	void PlayerCollision(int** grid , sf::RenderTarget& target);
 	void AddBomb();
 
 	// Public variables
@@ -55,8 +55,7 @@ private:
 
 	sf::Sprite playerSprite;
 
-	sf::Sprite indicatorYes;
-	sf::Sprite indicatorNo;
+	sf::Sprite indicator;
 
 	sf::Texture	upTexture;
 	sf::Texture	downTexture;

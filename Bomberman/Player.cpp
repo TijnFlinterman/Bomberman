@@ -52,39 +52,29 @@ void Player::UpdateDirection()
 	}
 }
 
-void Player::PlayerCollision(int** grid)
+void Player::PlayerCollision(int** grid , sf::RenderTarget& target)
 {
+	indicator.setScale(3.2f, 3.2f);
 
-	indicatorYes.setTexture(TextureLibrary::indicatorTextures->at(0));
-	indicatorNo.setTexture(TextureLibrary::indicatorTextures->at(1));
-
-	indicatorYes.setScale(3.2f, 3.2f);
-	indicatorNo.setScale(3.2f, 3.2f);
-
-	rectangleIndicator.setSize(sf::Vector2f(49, 49));
+	rectangleIndicator.setSize(sf::Vector2f(39.9, 39.9));
 
 	switch (lastDirection)
 	{
 	case Up:
-
-		rectangleIndicator.setPosition(position.x - 25.0f, position.y - 75.0f);
-		indicatorYes.setPosition(position.x - 25.0f, position.y - 75.0f);
-		indicatorNo.setPosition(position.x - 25.0f, position.y - 75.0f);
+		rectangleIndicator.setPosition(position.x - 20.0f, position.y - 70.0f);
+		indicator.setPosition(position.x - 25.0f, position.y - 75.0f);
 		break;
 	case Down:
-		rectangleIndicator.setPosition(position.x - 25.0f, position.y + 25.0f);
-		indicatorYes.setPosition(position.x - 25.0f, position.y + 25.0f);
-		indicatorNo.setPosition(position.x - 25.0f, position.y + 25.0f);
+		rectangleIndicator.setPosition(position.x - 20.0f, position.y + 30.0f);
+		indicator.setPosition(position.x - 25.0f, position.y + 25.0f);
 		break;
 	case Left:
-		rectangleIndicator.setPosition(position.x - 75.0f, position.y - 25.0f);
-		indicatorYes.setPosition(position.x - 75.0f, position.y - 25.0f);
-		indicatorNo.setPosition(position.x - 75.0f, position.y - 25.0f);
+		rectangleIndicator.setPosition(position.x - 70.0f, position.y - 15.0f);
+		indicator.setPosition(position.x - 75.0f, position.y - 25.0f);
 		break;
 	case Right:
-		rectangleIndicator.setPosition(position.x + 25.0f, position.y - 25.0f);
-		indicatorYes.setPosition(position.x + 25.0f, position.y - 25.0f);
-		indicatorNo.setPosition(position.x + 25.0f, position.y - 25.0f);
+		rectangleIndicator.setPosition(position.x + 30.0f, position.y - 15.0f);
+		indicator.setPosition(position.x + 25.0f, position.y - 25.0f);
 		break;
 	}
 
@@ -110,13 +100,13 @@ void Player::PlayerCollision(int** grid)
 #endif
 
 	float x, y = 0;
-	for (int a = 0; a < 15; a++)
+	for (int a = 0; a < rows; a++)
 	{
 		x = 0;
-		for (int b = 0; b < 15; b++)
+		for (int b = 0; b < columns; b++)
 		{
 			collisionBox.setPosition(x, y);
-			collisionBox.setSize(sf::Vector2f(40, 40));
+			collisionBox.setSize(sf::Vector2f(50, 50));
 			if (grid[a][b] == 1 || grid[a][b] == 2)
 			{
 				if (rectangleLeftRight.getGlobalBounds().intersects(collisionBox.getGlobalBounds()))
@@ -128,14 +118,15 @@ void Player::PlayerCollision(int** grid)
 				{
 					movementValue.y = 0;
 				}
-
-				if (rectangleIndicator.getGlobalBounds().intersects(collisionBox.getGlobalBounds()))
+				if (!rectangleIndicator.getGlobalBounds().intersects(collisionBox.getGlobalBounds()))
 				{
-					canRangeThrow = false;
+					indicator.setTexture(TextureLibrary::indicatorTextures->at(0));
+					target.draw(indicator);
 				}
 				else
 				{
-					canRangeThrow = true;
+					indicator.setTexture(TextureLibrary::indicatorTextures->at(1));
+					target.draw(indicator);	
 				}
 			}
 			x += 50;
@@ -291,13 +282,11 @@ void Player::SetDirectionVisual(Direction direction)
 	}
 }
 
-
 void Player::Update()
 {
 	UpdateDirection();
 	PlayerMovement(playerSprite);
 	BombThrowing();
-	PlayerCollision(Game::game->GetTerrain()->GetGrid());
 }
 
 void Player::AddBomb()
@@ -308,21 +297,10 @@ void Player::AddBomb()
 void Player::Render(sf::RenderTarget& target)
 {
 	playerSprite.setPosition(position.x - 25.0f, position.y - 25.0f);
-
-	SetIndicatorVisual(direction);
+	PlayerCollision(Game::game->GetTerrain()->GetGrid() , target);
 	SetDirectionVisual(direction);
-
 	bombArray->DrawOneBomb(target, position.x, position.y, Game::game->GetTerrain()->GetGrid());
-
 	target.draw(playerSprite);
-	if (canRangeThrow == true)
-	{
-		target.draw(indicatorYes);
-	}
-	if (canRangeThrow == false)
-	{
-		target.draw(indicatorNo);
-	}
 
 #ifdef _DEBUG
 	target.draw(rectangleLeftRight);
