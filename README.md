@@ -32,6 +32,7 @@ ChatGPT https://openai.com/blog/chatgpt (for asking coding related questions)
 Bomberman example https://github.com/PiGames/Bomberman
 
 Bomberman example https://youtu.be/TNpsjU6viLI (code used in video https://github.com/meirkl/Bomberman)
+occasional tech help from Tygo Boons (https://tygoboons.nl)
 
 I DID NOT use the pre-assigned code provided by BUAS to set the foundation.
 
