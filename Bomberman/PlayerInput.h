@@ -4,5 +4,5 @@
 struct PlayerInput
 {
 public:
-	sf::Keyboard::Key up, down, right, left;
+	sf::Keyboard::Key up, down, right, left , bombThrow;
 };

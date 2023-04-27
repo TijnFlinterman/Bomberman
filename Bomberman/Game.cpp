@@ -20,6 +20,7 @@ void Game::InitPlayers()
 		input.left = sf::Keyboard::Key::A;
 		input.down = sf::Keyboard::Key::S;
 		input.right = sf::Keyboard::Key::D;
+		input.bombThrow = sf::Keyboard::Key::Space;
 
 		players[0] = new Player();
 		players[0]->SetPlayerInput(input);
@@ -32,6 +33,7 @@ void Game::InitPlayers()
 		input.left = sf::Keyboard::Key::Left;
 		input.down = sf::Keyboard::Key::Down;
 		input.right = sf::Keyboard::Key::Right;
+		input.bombThrow = sf::Keyboard::Key::Enter;
 
 		players[1] = new Player();
 		players[1]->SetPlayerInput(input);
@@ -80,6 +82,12 @@ Game::Game()
 
 	players[0]->SpawnPlayer(sf::Vector2f(75.0f, 74.0f));
 	players[1]->SpawnPlayer(sf::Vector2f(675.0f, 674.0f));
+
+	players[0]->SetDirectionVisual();
+	players[1]->SetDirectionVisual();
+
+	players[0]->LateStart();
+	players[1]->LateStart();
 }
 
 Game::~Game()
@@ -116,9 +124,6 @@ void Game::PollEvents()
 void Game::Update()
 {
 	PollEvents();
-
-	players[0]->PlayerInputBomb(sf::Keyboard::Key::Space);
-	players[1]->PlayerInputBomb(sf::Keyboard::Key::Enter);
 
 	players[0]->Update();
 	players[1]->Update();

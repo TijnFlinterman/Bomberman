@@ -24,34 +24,27 @@ bool Bomb::ValidateLocation(int xPlayer, int yPlayer, int** grid)
 
 void Bomb::DrawBomb(sf::RenderTarget& target, int xPlayer, int yPlayer, int** grid)
 {
+	state = normal;
+
+	sf::Sprite bombSprite;
+
+		std::cout << "hamgur";
 	if (ValidateLocation(xPlayer, yPlayer, grid) == true)
 	{
-		timeToExplode = 0;
-
-		sf::Sprite bombSprite;
-		if (timeToExplode == 0)
-		{
-			bombSprite.setTexture(TextureLibrary::bombTextures->at(0));
-			timeToExplode++;
-		}
-		if (timeToExplode == 1)
-		{
-			bombSprite.setTexture(TextureLibrary::bombTextures->at(1));
-			timeToExplode++;
-		}
-		if (timeToExplode == 2)
-		{
-			bombSprite.setTexture(TextureLibrary::bombTextures->at(2));
-			timeToExplode++;
-		}
-
 		bombSprite.setPosition((float)x - 25, (float)y - 25);
-		bombSprite.setScale(3.2f, 3.2f);
+		//bombSprite.setScale(3.2f, 3.2f);
+
+		bombSprite.setTexture(TextureLibrary::bombTextures->at(0));
 		target.draw(bombSprite);
-	}
-	state = normal;
-	if (timeToExplode == 3)
-	{
+		//sf::sleep(sf::seconds(1));
+
+		bombSprite.setTexture(TextureLibrary::bombTextures->at(1));
+		target.draw(bombSprite);
+		//sf::sleep(sf::seconds(1));
+
+		bombSprite.setTexture(TextureLibrary::bombTextures->at(2));
+		target.draw(bombSprite);
+		//sf::sleep(sf::seconds(1));
 		state = explode;
 	}
 }
@@ -60,6 +53,7 @@ void Bomb::AnimateExplosion()
 {
 	if (explosionLinger >= 0 && explosionLinger < 3)
 	{
+		sf::sleep(sf::seconds(3));
 		explosionLinger++;
 	}
 	else
@@ -85,9 +79,9 @@ void Bomb::DrawExplosion(sf::RenderTarget& target, int** grid, std::array<sf::Te
 		sprite.setScale(2.5f, 2.5f);
 		target.draw(sprite);
 
-		if (grid[y / 50][(x - 50) / 50] == 2) 
+		if (grid[y / 50][(x - 50) / 50] == 2)
 		{
-			grid[y / 50][(x - 50) / 50] = 0; 
+			grid[y / 50][(x - 50) / 50] = 0;
 		}
 	}
 

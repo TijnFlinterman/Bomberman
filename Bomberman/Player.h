@@ -20,6 +20,7 @@ public:
 	virtual ~Player();
 
 	// Public functions
+	void LateStart();
 	void Update();
 	void Render(sf::RenderTarget& target);
 
@@ -28,22 +29,25 @@ public:
 
 	// Private functions
 	void SpawnPlayer(sf::Vector2f spawnPosition);
-	void BombThrowing();
-	void SetDirectionVisual(Direction direction);
-	void UpdateDirection();
-	void PlayerMovement(sf::Sprite& player);
-	void PlayerInputBomb(sf::Keyboard::Key bombInput);
+	void SetDirectionVisual();
 
 	void PlayerCollision(int** grid , sf::RenderTarget& target);
-	void AddBomb();
+	void AddBomb(int x, int y);
 
+private:
+	void BombThrowing();
+	void UpdateDirection();
+	void PlayerMovement(sf::Sprite& player);
+
+public:
 	// Public variables
 	int playerPoints;
 
 private:
 	// Private variables
+	bool keyPressed = false;
 	bool hasSpawned;
-	bool playerIsTrowing;
+	bool SpaceDown;
 	bool canRangeThrow;
 
 	PlayerInput playerInput;
@@ -51,7 +55,7 @@ private:
 	BombArray* bombArray;
 
 	Direction direction = Down;
-	Direction lastDirection;
+	Direction lastDirection = Down;
 
 	sf::Sprite playerSprite;
 

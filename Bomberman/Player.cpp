@@ -3,29 +3,10 @@
 Player::Player()
 {
 	bombArray = new BombArray();
-	direction = None;
-	lastDirection = Down;
+	LateStart();
 }
 
 Player::~Player() {}
-
-void Player::PlayerInputBomb(sf::Keyboard::Key bombInput)
-{
-
-	// Reads throw key(s) is pressed or not
-#pragma region BombThrowKey
-
-// Reads if Space/Enter is being held or not
-	if (sf::Keyboard::isKeyPressed(bombInput) && !playerIsTrowing)
-	{
-		playerIsTrowing = true;
-	}
-	else if (!sf::Keyboard::isKeyPressed(bombInput) && playerIsTrowing)
-	{
-		playerIsTrowing = false;
-	}
-#pragma endregion
-}
 
 void Player::UpdateDirection()
 {
@@ -52,13 +33,14 @@ void Player::UpdateDirection()
 	}
 }
 
-void Player::PlayerCollision(int** grid , sf::RenderTarget& target)
+void Player::PlayerCollision(int** grid, sf::RenderTarget& target)
 {
 	indicator.setScale(3.2f, 3.2f);
 
+
 	rectangleIndicator.setSize(sf::Vector2f(39.9, 39.9));
 
-	switch (lastDirection)
+	switch (direction)
 	{
 	case Up:
 		rectangleIndicator.setPosition(position.x - 20.0f, position.y - 70.0f);
@@ -126,7 +108,8 @@ void Player::PlayerCollision(int** grid , sf::RenderTarget& target)
 				else
 				{
 					indicator.setTexture(TextureLibrary::indicatorTextures->at(1));
-					target.draw(indicator);	
+					target.draw(indicator);
+					lastDirection = None;
 				}
 			}
 			x += 50;
@@ -146,31 +129,31 @@ void Player::PlayerMovement(sf::Sprite& player)
 	*/
 
 	// Move player
-	if (!playerIsTrowing)
+	if (!keyPressed)
 	{
 		switch (direction)
 		{
 		case Up:
 			movementValue.x = 0;
 			movementValue.y = -3;
-			lastDirection = Up;
+			lastDirection = direction;
 			break;
 
 		case Down:
 			movementValue.x = 0;
 			movementValue.y = 3;
-			lastDirection = Down;
+			lastDirection = direction;
 			break;
 		case Left:
 			movementValue.x = -3;
 			movementValue.y = 0;
-			lastDirection = Left;
+			lastDirection = direction;
 			break;
 
 		case Right:
 			movementValue.x = 3;
 			movementValue.y = 0;
-			lastDirection = Right;
+			lastDirection = direction;
 			break;
 
 		case None:
@@ -186,20 +169,24 @@ void Player::PlayerMovement(sf::Sprite& player)
 		case Up:
 			movementValue.x = 0;
 			movementValue.y = 0;
+			lastDirection = direction;
 			break;
 
 		case Down:
 			movementValue.x = 0;
 			movementValue.y = 0;
+			lastDirection = direction;
 			break;
 		case Left:
 			movementValue.x = 0;
 			movementValue.y = 0;
+			lastDirection = direction;
 			break;
 
 		case Right:
 			movementValue.x = 0;
 			movementValue.y = 0;
+			lastDirection = direction;
 			break;
 
 		case None:
@@ -238,34 +225,51 @@ void Player::BombThrowing()
 
 	// Throw player
 
-	if (playerIsTrowing)
+	if (sf::Keyboard::isKeyPressed(playerInput.bombThrow))
 	{
-		AddBomb();
-		switch (direction)
+		if (!keyPressed)
 		{
-		case Up:
-			// throw direction =  up
-			std::cout << direction;
-			break;
-		case Left:
-			// throw direction =  left
-			std::cout << direction;
-			break;
-		case Down:
-			// throw direction =  down
-			std::cout << direction;
-			break;
-		case Right:
-			// throw direction =  right
-			std::cout << direction;
-			break;
+			std::cout << "key pressed" << std::endl;
+			keyPressed = true;
+		}
+	}
+	else
+	{
+		if (keyPressed)
+		{
+
+			switch (lastDirection)
+			{
+			case Up:
+				// throw direction =  up
+				AddBomb(0, -50);
+				break;
+			case Left:
+				// throw direction =  left
+				AddBomb(-50, 0);
+				break;
+			case Down:
+				// throw direction =  down
+				AddBomb(0, 50);
+				break;
+			case Right:
+				// throw direction =  right
+				AddBomb(50, 0);
+				break;
+			case None:
+				// throw direction =  right
+				AddBomb(0, 0);
+				break;
+			}
+			std::cout << "key released" << std::endl;
+			keyPressed = false;
 		}
 	}
 }
 
-void Player::SetDirectionVisual(Direction direction)
+void Player::SetDirectionVisual()
 {
-	switch (lastDirection)
+	switch (direction)
 	{
 	case Up:
 		playerSprite.setTexture(upTexture);
@@ -284,21 +288,21 @@ void Player::SetDirectionVisual(Direction direction)
 
 void Player::Update()
 {
+	BombThrowing();
 	UpdateDirection();
 	PlayerMovement(playerSprite);
-	BombThrowing();
 }
 
-void Player::AddBomb()
+void Player::AddBomb(int x, int y)
 {
-	bombArray->InitBomb(position.x, position.y);
+	bombArray->InitBomb(position.x + x, position.y + y);
 }
 
 void Player::Render(sf::RenderTarget& target)
 {
+	SetDirectionVisual();
 	playerSprite.setPosition(position.x - 25.0f, position.y - 25.0f);
-	PlayerCollision(Game::game->GetTerrain()->GetGrid() , target);
-	SetDirectionVisual(direction);
+	PlayerCollision(Game::game->GetTerrain()->GetGrid(), target);
 	bombArray->DrawOneBomb(target, position.x, position.y, Game::game->GetTerrain()->GetGrid());
 	target.draw(playerSprite);
 
@@ -307,4 +311,11 @@ void Player::Render(sf::RenderTarget& target)
 	target.draw(rectangleUpDown);
 	target.draw(rectangleIndicator);
 #endif
+}
+
+void Player::LateStart()
+{
+	rectangleIndicator.setPosition(position.x - 20.0f, position.y + 30.0f);
+	indicator.setPosition(position.x - 25.0f, position.y + 25.0f);
+	direction = Down;
 }
