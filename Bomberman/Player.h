@@ -28,11 +28,13 @@ public:
 	void SetSpriteTextures(std::array<sf::Texture, 4> textures);
 
 	// Private functions
-	void SpawnPlayer(sf::Vector2f spawnPosition);
+	void SpawnPlayer(sf::Vector2i spawnPosition);
 	void SetDirectionVisual();
 
 	void PlayerCollision(int** grid , sf::RenderTarget& target);
 	void AddBomb(int x, int y);
+	void HitByExplosion(int leftTip, int RightTip, int bottomTip, int topTip, int centerStartX, int centerEndX, int centerStartY, int centerEndY);
+	void PlayerTakeDamage();
 
 private:
 	void BombThrowing();
@@ -66,12 +68,11 @@ private:
 	sf::Texture	leftTexture;
 	sf::Texture	rightTexture;
 
-	sf::Vector2f position;
-	sf::Vector2f movementValue;
+	sf::Vector2i position;
+	sf::Vector2i movementValue;
 
 	sf::RectangleShape	rectangleLeftRight;
 	sf::RectangleShape	rectangleUpDown;
-
 	sf::RectangleShape	rectangleIndicator;
 
 	sf::RectangleShape collisionBox;

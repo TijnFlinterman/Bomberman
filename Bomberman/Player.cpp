@@ -8,6 +8,36 @@ Player::Player()
 
 Player::~Player() {}
 
+void Player::LateStart()
+{
+	rectangleIndicator.setPosition(position.x - 20.0f, position.y + 30.0f);
+	indicator.setPosition(position.x - 25.0f, position.y + 25.0f);
+	direction = Down;
+}
+
+void Player::Update()
+{
+	BombThrowing();
+	UpdateDirection();
+	PlayerMovement(playerSprite);
+	PlayerTakeDamage();
+}
+
+void Player::Render(sf::RenderTarget& target)
+{
+	SetDirectionVisual();
+	playerSprite.setPosition(position.x - 25.0f, position.y - 25.0f);
+	PlayerCollision(Game::game->GetTerrain()->GetGrid(), target);
+	bombArray->DrawOneBomb(target, position.x, position.y, Game::game->GetTerrain()->GetGrid());
+	target.draw(playerSprite);
+
+#ifdef _DEBUG
+	target.draw(rectangleLeftRight);
+	target.draw(rectangleUpDown);
+	target.draw(rectangleIndicator);
+#endif
+}
+
 void Player::UpdateDirection()
 {
 
@@ -121,6 +151,43 @@ void Player::PlayerCollision(int** grid, sf::RenderTarget& target)
 	playerSprite.move(movementValue.x, movementValue.y);
 }
 
+void Player::HitByExplosion(int leftTip, int RightTip, int bottomTip, int topTip, int centerStartX, int centerEndX, int centerStartY, int centerEndY)
+{
+	if (position.x >= leftTip && position.y <= RightTip && position.y <= centerStartY && position.y <= centerEndY)
+	{
+		// Die
+		std::cout << "die";
+	}
+	if (position.y >= topTip && position.y <= bottomTip && position.x <= centerStartX && position.x <= centerEndX)
+	{
+		// Die
+		std::cout << "die";
+	}
+}
+
+void Player::PlayerTakeDamage()
+{
+	int leftTip, RightTip, bottomTip, topTip, centerStartX, centerEndX, centerStartY, centerEndY;
+
+	int arraySize = bombArray->GetBombArray().size();
+	for (int i = 0; i < arraySize; i++)
+	{
+		leftTip = bombArray->GetBombArray().at(i)->GetX() - 150;
+		RightTip = bombArray->GetBombArray().at(i)->GetX() + 150;
+		bottomTip = bombArray->GetBombArray().at(i)->GetY() - 100;
+		topTip = bombArray->GetBombArray().at(i)->GetY() + 150;
+		centerStartX = bombArray->GetBombArray().at(i)->GetX();
+		centerEndX = bombArray->GetBombArray().at(i)->GetX() + 50;
+		centerStartY = bombArray->GetBombArray().at(i)->GetX();
+		centerEndY = bombArray->GetBombArray().at(i)->GetX() + 50;
+
+		if (bombArray->GetBombArray().at(i)->GetState() == Bomb::explode)
+		{
+			HitByExplosion(leftTip, RightTip, bottomTip, topTip, centerStartX, centerEndX, centerStartY, centerEndY);
+		}
+	}
+}
+
 void Player::PlayerMovement(sf::Sprite& player)
 {
 	/*
@@ -205,7 +272,7 @@ void Player::SetSpriteTextures(std::array<sf::Texture, 4> textures)
 	rightTexture = textures[3];
 }
 
-void Player::SpawnPlayer(sf::Vector2f spawnPosition)
+void Player::SpawnPlayer(sf::Vector2i spawnPosition)
 {
 	playerSprite.setScale(3.2f, 3.2f);
 	if (hasSpawned == false)
@@ -229,7 +296,6 @@ void Player::BombThrowing()
 	{
 		if (!keyPressed)
 		{
-			std::cout << "key pressed" << std::endl;
 			keyPressed = true;
 		}
 	}
@@ -237,31 +303,25 @@ void Player::BombThrowing()
 	{
 		if (keyPressed)
 		{
-
 			switch (lastDirection)
 			{
 			case Up:
-				// throw direction =  up
 				AddBomb(0, -50);
 				break;
 			case Left:
-				// throw direction =  left
 				AddBomb(-50, 0);
 				break;
 			case Down:
-				// throw direction =  down
 				AddBomb(0, 50);
 				break;
 			case Right:
-				// throw direction =  right
 				AddBomb(50, 0);
 				break;
 			case None:
-				// throw direction =  right
 				AddBomb(0, 0);
 				break;
 			}
-			std::cout << "key released" << std::endl;
+
 			keyPressed = false;
 		}
 	}
@@ -286,36 +346,7 @@ void Player::SetDirectionVisual()
 	}
 }
 
-void Player::Update()
-{
-	BombThrowing();
-	UpdateDirection();
-	PlayerMovement(playerSprite);
-}
-
 void Player::AddBomb(int x, int y)
 {
 	bombArray->InitBomb(position.x + x, position.y + y);
-}
-
-void Player::Render(sf::RenderTarget& target)
-{
-	SetDirectionVisual();
-	playerSprite.setPosition(position.x - 25.0f, position.y - 25.0f);
-	PlayerCollision(Game::game->GetTerrain()->GetGrid(), target);
-	bombArray->DrawOneBomb(target, position.x, position.y, Game::game->GetTerrain()->GetGrid());
-	target.draw(playerSprite);
-
-#ifdef _DEBUG
-	target.draw(rectangleLeftRight);
-	target.draw(rectangleUpDown);
-	target.draw(rectangleIndicator);
-#endif
-}
-
-void Player::LateStart()
-{
-	rectangleIndicator.setPosition(position.x - 20.0f, position.y + 30.0f);
-	indicator.setPosition(position.x - 25.0f, position.y + 25.0f);
-	direction = Down;
 }

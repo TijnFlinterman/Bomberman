@@ -2,7 +2,7 @@
 
 BombArray::BombArray()
 {
-	totalBombs = 1;
+	totalBombs = 2;
 }
 BombArray::~BombArray() {}
 
