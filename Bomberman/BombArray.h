@@ -13,6 +13,7 @@ public:
 	// Public functions
 	void DrawOneBomb(sf::RenderTarget& target, int xPlayer, int yPlayer, int** grid);
 	void InitBomb(int x, int y);
+	std::vector<Bomb*>GetBombArray();
 
 private:
 	// Private variables

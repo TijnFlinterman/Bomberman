@@ -21,16 +21,26 @@ void BombArray::DrawOneBomb(sf::RenderTarget& target, int xPlayer, int yPlayer, 
 	{
 		switch (bombArray.at(i)->GetState())
 		{
-		case Bomb::State::normal:
-			bombArray.at(i)->DrawBomb(target, xPlayer, yPlayer, grid);
+		case Bomb::State::bomb1:
+			bombArray.at(i)->DrawBomb1(target, xPlayer, yPlayer, grid);
+			break;
+		case Bomb::State::bomb2:
+			bombArray.at(i)->DrawBomb2(target, xPlayer, yPlayer, grid);
+			break;
+		case Bomb::State::bomb3:
+			bombArray.at(i)->DrawBomb3(target, xPlayer, yPlayer, grid);
 			break;
 		case Bomb::State::explode:
-			bombArray.at(i)->DrawExplosion(target, grid, TextureLibrary::explosionTextures);
 			bombArray.at(i)->AnimateExplosion();
+			bombArray.at(i)->DrawExplosion(target, grid, TextureLibrary::explosionTextures);
 			break;
 		case Bomb::State::disappear:
 			bombArray.erase(bombArray.begin() + i);
 			break;
 		}
 	}
+}
+std::vector<Bomb*> BombArray::GetBombArray()
+{
+	return bombArray;
 }

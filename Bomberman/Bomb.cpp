@@ -4,9 +4,6 @@ Bomb::Bomb(int x, int y)
 {
 	this->x = x;
 	this->y = y;
-
-	state = normal;
-	timeToExplode = 0;
 }
 Bomb::~Bomb() {}
 
@@ -22,44 +19,50 @@ bool Bomb::ValidateLocation(int xPlayer, int yPlayer, int** grid)
 	}
 }
 
-void Bomb::DrawBomb(sf::RenderTarget& target, int xPlayer, int yPlayer, int** grid)
+void Bomb::DrawBomb1(sf::RenderTarget& target, int xPlayer, int yPlayer, int** grid)
 {
-	state = normal;
-
-	sf::Sprite bombSprite;
-
-		std::cout << "hamgur";
+	state = bomb1;
 	if (ValidateLocation(xPlayer, yPlayer, grid) == true)
 	{
 		bombSprite.setPosition((float)x - 25, (float)y - 25);
-		//bombSprite.setScale(3.2f, 3.2f);
-
+		bombSprite.setScale(3.2f, 3.2f);
 		bombSprite.setTexture(TextureLibrary::bombTextures->at(0));
 		target.draw(bombSprite);
-		//sf::sleep(sf::seconds(1));
+		myThread = std::thread(&Bomb::AnimateBombAfter1Second1, this);
+		myThread.detach();
+	}
+}
 
+void Bomb::DrawBomb2(sf::RenderTarget& target, int xPlayer, int yPlayer, int** grid)
+{
+	if (ValidateLocation(xPlayer, yPlayer, grid) == true)
+	{
+		bombSprite.setPosition((float)x - 25, (float)y - 25);
+		bombSprite.setScale(3.2f, 3.2f);
 		bombSprite.setTexture(TextureLibrary::bombTextures->at(1));
 		target.draw(bombSprite);
-		//sf::sleep(sf::seconds(1));
+		myThread = std::thread(&Bomb::AnimateBombAfter1Second2, this);
+		myThread.detach();
+	}
+}
 
+void Bomb::DrawBomb3(sf::RenderTarget& target, int xPlayer, int yPlayer, int** grid)
+{
+	if (ValidateLocation(xPlayer, yPlayer, grid) == true)
+	{
+		bombSprite.setPosition((float)x - 25, (float)y - 25);
+		bombSprite.setScale(3.2f, 3.2f);
 		bombSprite.setTexture(TextureLibrary::bombTextures->at(2));
 		target.draw(bombSprite);
-		//sf::sleep(sf::seconds(1));
-		state = explode;
+		myThread = std::thread(&Bomb::AnimateBombAfter1Second3, this);
+		myThread.detach();
 	}
 }
 
 void Bomb::AnimateExplosion()
 {
-	if (explosionLinger >= 0 && explosionLinger < 3)
-	{
-		sf::sleep(sf::seconds(3));
-		explosionLinger++;
-	}
-	else
-	{
-		state = State::disappear;
-	}
+	myThread = std::thread(&Bomb::AnimateExplosionAfter1Second, this);
+	myThread.detach();
 }
 
 void Bomb::DrawExplosion(sf::RenderTarget& target, int** grid, std::array<sf::Texture, 9>* explosionTextures)
@@ -84,7 +87,6 @@ void Bomb::DrawExplosion(sf::RenderTarget& target, int** grid, std::array<sf::Te
 			grid[y / 50][(x - 50) / 50] = 0;
 		}
 	}
-
 
 	if (grid[y / 50][(x + 50) / 50] != 1) {
 		// RIGHT SHAFT
@@ -188,4 +190,98 @@ void Bomb::DrawExplosion(sf::RenderTarget& target, int** grid, std::array<sf::Te
 Bomb::State Bomb::GetState()
 {
 	return state;
+}
+
+void Bomb::Render(sf::RenderTarget& target)
+{
+	//BombCollision(Game::game->GetTerrain()->GetGrid(), target);
+}
+
+//void Bomb::BombCollision(int** grid, sf::RenderTarget& target)
+//{
+//	rectangleLeftRight.setPosition(x - 20 + x, y - 15);
+//	rectangleLeftRight.setSize(sf::Vector2f(39, 39));
+//
+//	rectangleUpDown.setPosition(x - 20, y - 15 + y);
+//	rectangleUpDown.setSize(sf::Vector2f(39, 39));
+//
+//
+//#ifdef _DEBUG
+//	rectangleLeftRight.setOutlineColor(sf::Color::Green);
+//	rectangleLeftRight.setOutlineThickness(1);
+//	rectangleLeftRight.setFillColor(sf::Color::Transparent);
+//
+//	rectangleUpDown.setOutlineColor(sf::Color::Red);
+//	rectangleUpDown.setOutlineThickness(1);
+//	rectangleUpDown.setFillColor(sf::Color::Transparent);
+//#endif
+//
+//	float x, y = 0;
+//	for (int a = 0; a < rows; a++)
+//	{
+//		x = 0;
+//		for (int b = 0; b < columns; b++)
+//		{
+//			collisionBox.setPosition(x, y);
+//			collisionBox.setSize(sf::Vector2f(50, 50));
+//			if (grid[a][b] == 1 || grid[a][b] == 2)
+//			{
+//				if (rectangleLeftRight.getGlobalBounds().intersects(collisionBox.getGlobalBounds()) && movementValue.x > 0)
+//				{
+//					movementValue.x = -2;
+//				}
+//				if (rectangleLeftRight.getGlobalBounds().intersects(collisionBox.getGlobalBounds()) && movementValue.x < 0)
+//				{
+//					movementValue.x = 2;
+//				}
+//
+//				if (rectangleUpDown.getGlobalBounds().intersects(collisionBox.getGlobalBounds()) && movementValue.y > 0)
+//				{
+//					movementValue.y = -2;
+//				}
+//				if (rectangleUpDown.getGlobalBounds().intersects(collisionBox.getGlobalBounds()) && movementValue.y < 0)
+//				{
+//					movementValue.y = 2;
+//				}
+//			}
+//			x += 50;
+//		}
+//		y += 50;
+//	}
+//	x += movementValue.x;
+//	y += movementValue.y;
+//	//bombSprite.move(movementValue.x, movementValue.y);
+//}
+
+int Bomb::GetX()
+{
+	return x;
+}
+int Bomb::GetY()
+{
+	return y;
+}
+
+void Bomb::AnimateExplosionAfter1Second()
+{
+	sf::sleep(sf::seconds(1));
+	state = State::disappear;
+}
+
+void Bomb::AnimateBombAfter1Second1()
+{
+	sf::sleep(sf::seconds(1));
+	state = bomb2;
+}
+
+void Bomb::AnimateBombAfter1Second2()
+{
+	sf::sleep(sf::seconds(1));
+	state = bomb3;
+}
+
+void Bomb::AnimateBombAfter1Second3()
+{
+	sf::sleep(sf::seconds(1));
+	state = explode;
 }
