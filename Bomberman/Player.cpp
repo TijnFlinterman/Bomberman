@@ -153,12 +153,12 @@ void Player::PlayerCollision(int** grid, sf::RenderTarget& target)
 
 void Player::HitByExplosion(int leftTip, int RightTip, int bottomTip, int topTip, int centerStartX, int centerEndX, int centerStartY, int centerEndY)
 {
-	if (position.x >= leftTip && position.y <= RightTip && position.y <= centerStartY && position.y <= centerEndY)
+	if (position.x >= leftTip && position.x <= RightTip && position.y >= centerStartY && position.y <= centerEndY)
 	{
 		// Die
 		std::cout << "die";
 	}
-	if (position.y >= topTip && position.y <= bottomTip && position.x <= centerStartX && position.x <= centerEndX)
+	if (position.y >= topTip && position.y <= bottomTip && position.x >= centerStartX && position.x <= centerEndX)
 	{
 		// Die
 		std::cout << "die";
@@ -172,14 +172,14 @@ void Player::PlayerTakeDamage()
 	int arraySize = bombArray->GetBombArray().size();
 	for (int i = 0; i < arraySize; i++)
 	{
-		leftTip = bombArray->GetBombArray().at(i)->GetX() - 150;
-		RightTip = bombArray->GetBombArray().at(i)->GetX() + 150;
-		bottomTip = bombArray->GetBombArray().at(i)->GetY() - 100;
-		topTip = bombArray->GetBombArray().at(i)->GetY() + 150;
-		centerStartX = bombArray->GetBombArray().at(i)->GetX();
-		centerEndX = bombArray->GetBombArray().at(i)->GetX() + 50;
-		centerStartY = bombArray->GetBombArray().at(i)->GetX();
-		centerEndY = bombArray->GetBombArray().at(i)->GetX() + 50;
+		leftTip = bombArray->GetBombArray().at(i)->GetX() - 135;
+		RightTip = bombArray->GetBombArray().at(i)->GetX() + 135;
+		topTip = bombArray->GetBombArray().at(i)->GetY() -135;
+		bottomTip = bombArray->GetBombArray().at(i)->GetY() + 135;
+		centerStartX = bombArray->GetBombArray().at(i)->GetX() - 45;
+		centerEndX = bombArray->GetBombArray().at(i)->GetX() + 45;
+		centerStartY = bombArray->GetBombArray().at(i)->GetY() - 45;
+		centerEndY = bombArray->GetBombArray().at(i)->GetY() + 45;
 
 		if (bombArray->GetBombArray().at(i)->GetState() == Bomb::explode)
 		{
