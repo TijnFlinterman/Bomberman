@@ -41,6 +41,8 @@ Bomb sprite https://mega.nz/folder/10N1BRRT#mLlzd7l1-lX6bu5z8QtdQw
 
 explosion sprite https://mega.nz/folder/10N1BRRT#mLlzd7l1-lX6bu5z8QtdQw
 
+font https://www.fontspace.com/quinque-five-font-f65138
+
 Player monkey (made my me) using Photoshop V24.4.1
 
 Bomb indicator (made my me) using Photoshop V24.4.1

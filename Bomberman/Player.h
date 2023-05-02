@@ -23,6 +23,7 @@ public:
 	void LateStart();
 	void Update();
 	void Render(sf::RenderTarget& target);
+	void RenderPlayer(sf::RenderTarget& target);
 
 	void SetPlayerInput(PlayerInput input) { playerInput = input; }
 	void SetSpriteTextures(std::array<sf::Texture, 4> textures);
@@ -43,7 +44,11 @@ private:
 
 public:
 	// Public variables
-	int playerPoints;
+	bool PlayerDead = false;
+
+	sf::Sprite playerSprite;
+
+	sf::Sprite indicator;
 
 private:
 	// Private variables
@@ -52,6 +57,7 @@ private:
 	bool SpaceDown;
 	bool canRangeThrow;
 
+
 	PlayerInput playerInput;
 
 	BombArray* bombArray;
@@ -59,9 +65,6 @@ private:
 	Direction direction = Down;
 	Direction lastDirection = Down;
 
-	sf::Sprite playerSprite;
-
-	sf::Sprite indicator;
 
 	sf::Texture	upTexture;
 	sf::Texture	downTexture;

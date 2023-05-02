@@ -63,6 +63,23 @@ void Game::PlayerTextures()
 	}
 }
 
+sf::Text Game::DrawResultText(std::string string)
+{
+	if (!font.loadFromFile("Assets\\Fonts\\Quinquefive-ALoRM.ttf"))
+	{
+		std::cout << "Error loading font" << std::endl;
+	}
+
+
+	sf::Text text(string, font, 50);
+	text.setPosition(rows*50/2, columns * 50 / 2);
+	text.setFillColor(sf::Color::White);
+
+	sf::FloatRect textRect = text.getLocalBounds();
+	text.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
+	return text;
+}
+
 // Constructors/ Destructors
 Game::Game()
 {
@@ -70,11 +87,6 @@ Game::Game()
 
 	terrain = new Terrain();
 	game = this;
-	sfmlTimer = sf::Clock();
-	elapsedTime = 0;
-	deltaTime = 0;
-	timeScale = 1;
-
 
 	InitWindow();
 	InitPlayers();
@@ -124,9 +136,11 @@ void Game::PollEvents()
 void Game::Update()
 {
 	PollEvents();
-
-	players[0]->Update();
-	players[1]->Update();
+	if (!players[0]->PlayerDead && !players[1]->PlayerDead)
+	{
+		players[0]->Update();
+		players[1]->Update();
+	}
 }
 
 void Game::Render()
@@ -147,8 +161,25 @@ void Game::Render()
 	terrain->Render(window);
 
 	// Draw players
-	players[0]->Render(window);
-	players[1]->Render(window);
+		players[0]->Render(window);
+		players[1]->Render(window);
+
+	if (!players[0]->PlayerDead)
+	{
+		players[0]->RenderPlayer(window);
+	}
+	else
+	{
+		window.draw(DrawResultText("RED WINS"));
+	}
+	if (!players[1]->PlayerDead)
+	{
+		players[1]->RenderPlayer(window);
+	}
+	else
+	{
+		window.draw(DrawResultText("BLUE WINS"));
+	}
 
 	window.display();
 }

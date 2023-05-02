@@ -24,16 +24,10 @@ private:
 	void InitWindow();
 	void InitPlayers();
 	void PlayerTextures();
+	sf::Text DrawResultText(std::string text);
 
 	Terrain* terrain;
-
 	std::array<Player*, 2> players;
-
-	sf::Clock sfmlTimer;
-	float deltaTime;
-	float elapsedTime;
-	float timeScale;
-	float realDeltaTime;
 
 public:
 	// Constructors/ Destructors
@@ -53,6 +47,9 @@ private:
 	sf::RenderWindow window;
 	sf::VideoMode videoMode;
 	sf::Event event;
+
+	sf::Font font;
+	sf::Text text;
 
 public:
 	// Public Variables

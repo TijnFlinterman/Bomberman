@@ -27,9 +27,7 @@ void Player::Render(sf::RenderTarget& target)
 {
 	SetDirectionVisual();
 	playerSprite.setPosition(position.x - 25.0f, position.y - 25.0f);
-	PlayerCollision(Game::game->GetTerrain()->GetGrid(), target);
 	bombArray->DrawOneBomb(target, position.x, position.y, Game::game->GetTerrain()->GetGrid());
-	target.draw(playerSprite);
 
 #ifdef _DEBUG
 	target.draw(rectangleLeftRight);
@@ -37,6 +35,12 @@ void Player::Render(sf::RenderTarget& target)
 	target.draw(rectangleIndicator);
 #endif
 }
+void Player::RenderPlayer(sf::RenderTarget& target)
+{
+	PlayerCollision(Game::game->GetTerrain()->GetGrid(), target);
+	target.draw(playerSprite);
+}
+
 
 void Player::UpdateDirection()
 {
@@ -156,12 +160,12 @@ void Player::HitByExplosion(int leftTip, int RightTip, int bottomTip, int topTip
 	if (position.x >= leftTip && position.x <= RightTip && position.y >= centerStartY && position.y <= centerEndY)
 	{
 		// Die
-		std::cout << "die";
+		PlayerDead = true;
 	}
 	if (position.y >= topTip && position.y <= bottomTip && position.x >= centerStartX && position.x <= centerEndX)
 	{
 		// Die
-		std::cout << "die";
+		PlayerDead = true;
 	}
 }
 
@@ -174,7 +178,7 @@ void Player::PlayerTakeDamage()
 	{
 		leftTip = bombArray->GetBombArray().at(i)->GetX() - 135;
 		RightTip = bombArray->GetBombArray().at(i)->GetX() + 135;
-		topTip = bombArray->GetBombArray().at(i)->GetY() -135;
+		topTip = bombArray->GetBombArray().at(i)->GetY() - 135;
 		bottomTip = bombArray->GetBombArray().at(i)->GetY() + 135;
 		centerStartX = bombArray->GetBombArray().at(i)->GetX() - 45;
 		centerEndX = bombArray->GetBombArray().at(i)->GetX() + 45;
