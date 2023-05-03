@@ -24,7 +24,7 @@ void Bomb::DrawBomb1(sf::RenderTarget& target, int xPlayer, int yPlayer, int** g
 	state = bomb1;
 	if (ValidateLocation(xPlayer, yPlayer, grid) == true)
 	{
-		bombSprite.setPosition((float)x - 25, (float)y - 25);
+		bombSprite.setPosition((float)x - 25 + movementValue.x, (float)y - 25 + movementValue.y);
 		bombSprite.setScale(3.2f, 3.2f);
 		bombSprite.setTexture(TextureLibrary::bombTextures->at(0));
 		target.draw(bombSprite);
@@ -37,7 +37,7 @@ void Bomb::DrawBomb2(sf::RenderTarget& target, int xPlayer, int yPlayer, int** g
 {
 	if (ValidateLocation(xPlayer, yPlayer, grid) == true)
 	{
-		bombSprite.setPosition((float)x - 25, (float)y - 25);
+		bombSprite.setPosition((float)x - 25 + movementValue.x, (float)y - 25 + movementValue.y);
 		bombSprite.setScale(3.2f, 3.2f);
 		bombSprite.setTexture(TextureLibrary::bombTextures->at(1));
 		target.draw(bombSprite);
@@ -50,7 +50,7 @@ void Bomb::DrawBomb3(sf::RenderTarget& target, int xPlayer, int yPlayer, int** g
 {
 	if (ValidateLocation(xPlayer, yPlayer, grid) == true)
 	{
-		bombSprite.setPosition((float)x - 25, (float)y - 25);
+		bombSprite.setPosition((float)x - 25 + movementValue.x, (float)y - 25 + movementValue.y);
 		bombSprite.setScale(3.2f, 3.2f);
 		bombSprite.setTexture(TextureLibrary::bombTextures->at(2));
 		target.draw(bombSprite);
@@ -194,64 +194,69 @@ Bomb::State Bomb::GetState()
 
 void Bomb::Render(sf::RenderTarget& target)
 {
-	//BombCollision(Game::game->GetTerrain()->GetGrid(), target);
+	BombCollision(Game::game->GetTerrain()->GetGrid(), target);
 }
 
-//void Bomb::BombCollision(int** grid, sf::RenderTarget& target)
-//{
-//	rectangleLeftRight.setPosition(x - 20 + x, y - 15);
-//	rectangleLeftRight.setSize(sf::Vector2f(39, 39));
-//
-//	rectangleUpDown.setPosition(x - 20, y - 15 + y);
-//	rectangleUpDown.setSize(sf::Vector2f(39, 39));
-//
-//
-//#ifdef _DEBUG
-//	rectangleLeftRight.setOutlineColor(sf::Color::Green);
-//	rectangleLeftRight.setOutlineThickness(1);
-//	rectangleLeftRight.setFillColor(sf::Color::Transparent);
-//
-//	rectangleUpDown.setOutlineColor(sf::Color::Red);
-//	rectangleUpDown.setOutlineThickness(1);
-//	rectangleUpDown.setFillColor(sf::Color::Transparent);
-//#endif
-//
-//	float x, y = 0;
-//	for (int a = 0; a < rows; a++)
-//	{
-//		x = 0;
-//		for (int b = 0; b < columns; b++)
-//		{
-//			collisionBox.setPosition(x, y);
-//			collisionBox.setSize(sf::Vector2f(50, 50));
-//			if (grid[a][b] == 1 || grid[a][b] == 2)
-//			{
-//				if (rectangleLeftRight.getGlobalBounds().intersects(collisionBox.getGlobalBounds()) && movementValue.x > 0)
-//				{
-//					movementValue.x = -2;
-//				}
-//				if (rectangleLeftRight.getGlobalBounds().intersects(collisionBox.getGlobalBounds()) && movementValue.x < 0)
-//				{
-//					movementValue.x = 2;
-//				}
-//
-//				if (rectangleUpDown.getGlobalBounds().intersects(collisionBox.getGlobalBounds()) && movementValue.y > 0)
-//				{
-//					movementValue.y = -2;
-//				}
-//				if (rectangleUpDown.getGlobalBounds().intersects(collisionBox.getGlobalBounds()) && movementValue.y < 0)
-//				{
-//					movementValue.y = 2;
-//				}
-//			}
-//			x += 50;
-//		}
-//		y += 50;
-//	}
-//	x += movementValue.x;
-//	y += movementValue.y;
-//	//bombSprite.move(movementValue.x, movementValue.y);
-//}
+void Bomb::BombCollision(int** grid, sf::RenderTarget& target)
+{
+	movementValue.y = -3;
+	bombCollisionBox.setPosition(x - 19.5, y - 19.5);
+	bombCollisionBox.setSize(sf::Vector2f(39, 39));
+
+
+#ifdef _DEBUG
+	target.draw(bombCollisionBox);
+#endif
+
+	float x, y = 0;
+	for (int a = 0; a < rows; a++)
+	{
+		x = 0;
+		for (int b = 0; b < columns; b++)
+		{
+			collisionBox.setPosition(x, y);
+			collisionBox.setSize(sf::Vector2f(50, 50));
+			if (grid[a][b] == 1 || grid[a][b] == 2)
+			{
+				if (bombCollisionBox.getGlobalBounds().intersects(collisionBox.getGlobalBounds()))
+				{
+					switch (direction)
+					{
+					case Bomb::Up:
+						movementValue.y = 3;
+						Bomb::Down;
+						break;
+
+					case Bomb::Down:
+						movementValue.y = -3;
+						Bomb::Up;
+						break;
+
+					case Bomb::Left:
+						movementValue.x = 3;
+						Bomb::Right;
+						break;
+
+					case Bomb::Right:
+						movementValue.y = -3;
+						Bomb::Left;
+						break;
+
+					case Bomb::None:
+						movementValue.x = 0;
+						movementValue.y = 0;
+						break;
+					}
+				}
+			}
+			x += 50;
+		}
+		y += 50;
+	}
+	x += movementValue.x;
+	y += movementValue.y;
+	bombSprite.move(movementValue.x, movementValue.y);
+}
 
 int Bomb::GetX()
 {

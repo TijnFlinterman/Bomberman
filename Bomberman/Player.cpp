@@ -28,6 +28,7 @@ void Player::Render(sf::RenderTarget& target)
 	SetDirectionVisual();
 	playerSprite.setPosition(position.x - 25.0f, position.y - 25.0f);
 	bombArray->DrawOneBomb(target, position.x, position.y, Game::game->GetTerrain()->GetGrid());
+	bombArray->RenderBombs(target);
 
 #ifdef _DEBUG
 	target.draw(rectangleLeftRight);

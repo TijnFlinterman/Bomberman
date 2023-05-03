@@ -14,7 +14,7 @@
 	Class that acts as the game engine.
 	Wrapper class.
 */
-
+class Bomb;
 class Player;
 
 class Game

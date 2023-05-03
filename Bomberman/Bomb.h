@@ -5,9 +5,8 @@
 #include <array>
 #include <thread>
 #include <windows.h>
-#include "terrain.h"
-//#include "game.h"
-
+#include "Game.h"
+#include "Terrain.h"
 
 class Bomb
 {
@@ -59,8 +58,7 @@ private:
 
 	Direction direction;
 
-	sf::RectangleShape	rectangleLeftRight;
-	sf::RectangleShape	rectangleUpDown;
+	sf::RectangleShape	bombCollisionBox;
 
 	State state;
 	std::thread myThread;

@@ -40,6 +40,14 @@ void BombArray::DrawOneBomb(sf::RenderTarget& target, int xPlayer, int yPlayer, 
 		}
 	}
 }
+void BombArray::RenderBombs(sf::RenderTarget& target)
+{
+	for (int i = 0; i < bombArray.size(); i++)
+	{
+		bombArray.at(i)->Render(target);
+	}
+}
+
 std::vector<Bomb*> BombArray::GetBombArray()
 {
 	return bombArray;

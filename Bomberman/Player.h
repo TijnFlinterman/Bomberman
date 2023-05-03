@@ -2,9 +2,11 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "PlayerInput.h"
-#include "game.h"
+#include "Game.h"
 #include "BombArray.h"
 #include <array>
+
+class BombArray;
 
 class Player
 {
