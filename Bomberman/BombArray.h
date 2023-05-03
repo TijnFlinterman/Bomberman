@@ -13,7 +13,7 @@ public:
 	virtual ~BombArray();
 
 	// Public functions
-	void DrawOneBomb(sf::RenderTarget& target, int xPlayer, int yPlayer, int** grid);
+	void DrawOneBomb(sf::RenderTarget& target, float xPlayer, float yPlayer, int** grid);
 	void InitBomb(int x, int y);
 	std::vector<Bomb*>GetBombArray();
 	void RenderBombs(sf::RenderTarget& target, int direction);

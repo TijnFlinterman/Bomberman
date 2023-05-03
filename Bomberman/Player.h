@@ -33,7 +33,7 @@ public:
 	void SetSpriteTextures(std::array<sf::Texture, 4> textures);
 
 	// Private functions
-	void SpawnPlayer(sf::Vector2i spawnPosition);
+	void SpawnPlayer(sf::Vector2f spawnPosition);
 	void SetDirectionVisual();
 
 	void PlayerCollision(int** grid , sf::RenderTarget& target);
@@ -63,6 +63,7 @@ private:
 	bool SpaceDown;
 	bool canRangeThrow;
 	int directionToInt;
+	int dir;
 
 	PlayerInput playerInput;
 
@@ -73,8 +74,8 @@ private:
 	sf::Texture	leftTexture;
 	sf::Texture	rightTexture;
 
-	sf::Vector2i position;
-	sf::Vector2i movementValue;
+	sf::Vector2f position;
+	sf::Vector2f movementValue;
 
 	sf::RectangleShape	rectangleLeftRight;
 	sf::RectangleShape	rectangleUpDown;

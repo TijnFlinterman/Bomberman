@@ -15,7 +15,7 @@ void BombArray::InitBomb(int x, int y)
 	}
 }
 
-void BombArray::DrawOneBomb(sf::RenderTarget& target, int xPlayer, int yPlayer, int** grid)
+void BombArray::DrawOneBomb(sf::RenderTarget& target, float xPlayer, float yPlayer, int** grid)
 {
 	for (int i = 0; i < bombArray.size(); i++)
 	{

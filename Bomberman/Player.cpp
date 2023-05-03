@@ -4,6 +4,22 @@ Player::Player()
 {
 	bombArray = new BombArray();
 	LateStart();
+
+#ifdef _DEBUG
+	rectangleLeftRight.setSize(sf::Vector2f(40, 40));
+	rectangleUpDown.setSize(sf::Vector2f(40, 40));
+	rectangleLeftRight.setOutlineColor(sf::Color::Green);
+	rectangleLeftRight.setOutlineThickness(1);
+	rectangleLeftRight.setFillColor(sf::Color::Transparent);
+
+	rectangleUpDown.setOutlineColor(sf::Color::Red);
+	rectangleUpDown.setOutlineThickness(1);
+	rectangleUpDown.setFillColor(sf::Color::Transparent);
+
+	rectangleIndicator.setOutlineColor(sf::Color::Red);
+	rectangleIndicator.setOutlineThickness(1);
+	rectangleIndicator.setFillColor(sf::Color::Transparent);
+#endif
 }
 
 Player::~Player() {}
@@ -13,6 +29,7 @@ void Player::LateStart()
 	rectangleIndicator.setPosition(position.x - 20.0f, position.y + 30.0f);
 	indicator.setPosition(position.x - 25.0f, position.y + 25.0f);
 	direction = Down;
+	dir = 4;
 }
 
 void Player::Update()
@@ -27,8 +44,8 @@ void Player::Render(sf::RenderTarget& target)
 {
 	SetDirectionVisual();
 	playerSprite.setPosition(position.x - 25.0f, position.y - 25.0f);
-	bombArray->DrawOneBomb(target, position.x, position.y, Game::game->GetTerrain()->GetGrid());
 	bombArray->RenderBombs(target, SetDirectionToInt());
+	bombArray->DrawOneBomb(target, position.x, position.y, Game::game->GetTerrain()->GetGrid());
 
 #ifdef _DEBUG
 	target.draw(rectangleLeftRight);
@@ -72,7 +89,7 @@ void Player::PlayerCollision(int** grid, sf::RenderTarget& target)
 	indicator.setScale(3.2f, 3.2f);
 
 
-	rectangleIndicator.setSize(sf::Vector2f(39.9, 39.9));
+	rectangleIndicator.setSize(sf::Vector2f(39.9f, 39.9f));
 
 	switch (direction)
 	{
@@ -94,25 +111,10 @@ void Player::PlayerCollision(int** grid, sf::RenderTarget& target)
 		break;
 	}
 
-	rectangleLeftRight.setPosition(position.x - 20 + movementValue.x, position.y - 15);
-	rectangleLeftRight.setSize(sf::Vector2f(40, 40));
-
-	rectangleUpDown.setPosition(position.x - 20, position.y - 15 + movementValue.y);
-	rectangleUpDown.setSize(sf::Vector2f(40, 40));
-
 
 #ifdef _DEBUG
-	rectangleLeftRight.setOutlineColor(sf::Color::Green);
-	rectangleLeftRight.setOutlineThickness(1);
-	rectangleLeftRight.setFillColor(sf::Color::Transparent);
-
-	rectangleUpDown.setOutlineColor(sf::Color::Red);
-	rectangleUpDown.setOutlineThickness(1);
-	rectangleUpDown.setFillColor(sf::Color::Transparent);
-
-	rectangleIndicator.setOutlineColor(sf::Color::Red);
-	rectangleIndicator.setOutlineThickness(1);
-	rectangleIndicator.setFillColor(sf::Color::Transparent);
+	rectangleLeftRight.setPosition(position.x - 20.0f + movementValue.x, position.y - 15.0f);
+	rectangleUpDown.setPosition(position.x - 20.0f, position.y - 15.0f + movementValue.y);
 #endif
 
 	float x, y = 0;
@@ -205,31 +207,31 @@ void Player::PlayerMovement(sf::Sprite& player)
 		switch (direction)
 		{
 		case Up:
-			movementValue.x = 0;
-			movementValue.y = -3;
+			movementValue.x = 0.0f;
+			movementValue.y = -3.0f;
 			lastDirection = direction;
 			break;
 
 		case Down:
-			movementValue.x = 0;
-			movementValue.y = 3;
+			movementValue.x = 0.0f;
+			movementValue.y = 3.0f;
 			lastDirection = direction;
 			break;
 		case Left:
-			movementValue.x = -3;
-			movementValue.y = 0;
+			movementValue.x = -3.0f;
+			movementValue.y = 0.0f;
 			lastDirection = direction;
 			break;
 
 		case Right:
-			movementValue.x = 3;
-			movementValue.y = 0;
+			movementValue.x = 3.0f;
+			movementValue.y = 0.0f;
 			lastDirection = direction;
 			break;
 
 		case None:
-			movementValue.x = 0;
-			movementValue.y = 0;
+			movementValue.x = 0.0f;
+			movementValue.y = 0.0f;
 			break;
 		}
 	}
@@ -238,31 +240,31 @@ void Player::PlayerMovement(sf::Sprite& player)
 		switch (direction)
 		{
 		case Up:
-			movementValue.x = 0;
-			movementValue.y = 0;
+			movementValue.x = 0.0f;
+			movementValue.y = 0.0f;
 			lastDirection = direction;
 			break;
 
 		case Down:
-			movementValue.x = 0;
-			movementValue.y = 0;
+			movementValue.x = 0.0f;
+			movementValue.y = 0.0f;
 			lastDirection = direction;
 			break;
 		case Left:
-			movementValue.x = 0;
-			movementValue.y = 0;
+			movementValue.x = 0.0f;
+			movementValue.y = 0.0f;
 			lastDirection = direction;
 			break;
 
 		case Right:
-			movementValue.x = 0;
-			movementValue.y = 0;
+			movementValue.x = 0.0f;
+			movementValue.y = 0.0f;
 			lastDirection = direction;
 			break;
 
 		case None:
-			movementValue.x = 0;
-			movementValue.y = 0;
+			movementValue.x = 0.0f;
+			movementValue.y = 0.0f;
 			break;
 		}
 	}
@@ -276,7 +278,6 @@ Player::Direction Player::GetPlayerDirection()
 int Player::SetDirectionToInt()
 {
 	GetPlayerDirection();
-	int dir;
 	if (lastDirection == Up)
 	{
 		dir = 0;
@@ -297,7 +298,6 @@ int Player::SetDirectionToInt()
 	{
 		dir = 4;
 	}
-	std::cout << dir;
 	return dir;
 }
 
@@ -309,7 +309,7 @@ void Player::SetSpriteTextures(std::array<sf::Texture, 4> textures)
 	rightTexture = textures[3];
 }
 
-void Player::SpawnPlayer(sf::Vector2i spawnPosition)
+void Player::SpawnPlayer(sf::Vector2f spawnPosition)
 {
 	playerSprite.setScale(3.2f, 3.2f);
 	if (hasSpawned == false)
@@ -390,5 +390,5 @@ void Player::SetDirectionVisual()
 
 void Player::AddBomb(int x, int y)
 {
-	bombArray->InitBomb(position.x + x, position.y + y);
+	bombArray->InitBomb((int)position.x + x, (int)position.y + y);
 }

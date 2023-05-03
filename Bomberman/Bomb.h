@@ -17,7 +17,7 @@ public:
 	};
 
 private:
-	bool ValidateLocation(int x, int y, int** grid);
+	bool ValidateLocation(float xPlayer, float yPlayer, int** grid);
 	void AnimateExplosionAfter1Second();
 	void AnimateBombAfter1Second1();
 	void AnimateBombAfter1Second2();
@@ -33,9 +33,9 @@ public:
 
 	void Render(sf::RenderTarget& target, int direction);
 
-	void DrawBomb1(sf::RenderTarget& target, int xPlayer, int yPlayer, int** grid);
-	void DrawBomb2(sf::RenderTarget& target, int xPlayer, int yPlayer, int** grid);
-	void DrawBomb3(sf::RenderTarget& target, int xPlayer, int yPlayer, int** grid);
+	void DrawBomb1(sf::RenderTarget& target, float xPlayer, float yPlayer, int** grid);
+	void DrawBomb2(sf::RenderTarget& target, float xPlayer, float yPlayer, int** grid);
+	void DrawBomb3(sf::RenderTarget& target, float xPlayer, float yPlayer, int** grid);
 	void DrawExplosion(sf::RenderTarget& target, int** grid, std::array<sf::Texture, 9>* explosionTextures);
 	void AnimateExplosion();
 
@@ -50,7 +50,7 @@ private:
 	int y;
 
 	int dir;
-	sf::Vector2i movementValue;
+	sf::Vector2f movementValue;
 	bool hasChangedDir = false;
 	bool canBeThrown = true;
 

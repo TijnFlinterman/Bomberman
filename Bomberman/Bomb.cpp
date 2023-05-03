@@ -2,16 +2,23 @@
 
 Bomb::Bomb(int x, int y)
 {
+	state = bomb1;
+	dir = 4;
 	this->x = x;
 	this->y = y;
 
-	bombSprite.setPosition(x - 20, y - 15);
+	bombSprite.setPosition((float)x, (float)y);
+	bombSprite.setScale(3.2f, 3.2f);
+#ifdef _DEBUG
+	bombCollisionBox.setSize(sf::Vector2f(39.0f, 39.0f));
+	bombCollisionBox.setFillColor(sf::Color::Green);
+#endif
 }
 Bomb::~Bomb() {}
 
-bool Bomb::ValidateLocation(int xPlayer, int yPlayer, int** grid)
+bool Bomb::ValidateLocation(float xPlayer, float yPlayer, int** grid)
 {
-	if (grid[yPlayer / 50][xPlayer / 50] == 0 || grid[yPlayer / 50][xPlayer / 50] == 2)
+	if (grid[(int)yPlayer / 50][(int)xPlayer / 50] == 0 || grid[(int)yPlayer / 50][(int)xPlayer / 50] == 2)
 	{
 		return true;
 	}
@@ -21,12 +28,11 @@ bool Bomb::ValidateLocation(int xPlayer, int yPlayer, int** grid)
 	}
 }
 
-void Bomb::DrawBomb1(sf::RenderTarget& target, int xPlayer, int yPlayer, int** grid)
+void Bomb::DrawBomb1(sf::RenderTarget& target, float xPlayer, float yPlayer, int** grid)
 {
 	state = bomb1;
 	if (ValidateLocation(xPlayer, yPlayer, grid) == true)
 	{
-		bombSprite.setScale(3.2f, 3.2f);
 		bombSprite.setTexture(TextureLibrary::bombTextures->at(0));
 		target.draw(bombSprite);
 		myThread = std::thread(&Bomb::AnimateBombAfter1Second1, this);
@@ -34,7 +40,7 @@ void Bomb::DrawBomb1(sf::RenderTarget& target, int xPlayer, int yPlayer, int** g
 	}
 }
 
-void Bomb::DrawBomb2(sf::RenderTarget& target, int xPlayer, int yPlayer, int** grid)
+void Bomb::DrawBomb2(sf::RenderTarget& target, float xPlayer, float yPlayer, int** grid)
 {
 	if (ValidateLocation(xPlayer, yPlayer, grid) == true)
 	{
@@ -45,7 +51,7 @@ void Bomb::DrawBomb2(sf::RenderTarget& target, int xPlayer, int yPlayer, int** g
 	}
 }
 
-void Bomb::DrawBomb3(sf::RenderTarget& target, int xPlayer, int yPlayer, int** grid)
+void Bomb::DrawBomb3(sf::RenderTarget& target, float xPlayer, float yPlayer, int** grid)
 {
 	if (ValidateLocation(xPlayer, yPlayer, grid) == true)
 	{
@@ -207,11 +213,79 @@ void Bomb::Render(sf::RenderTarget& target, int direction)
 	}
 }
 
+void Bomb::MoveBomb()
+{
+	switch (dir)
+	{
+	case 0:
+		movementValue.x = 0.0f;
+		movementValue.y = -2.0f;
+		break;
+
+	case 1:
+		movementValue.x = -2.0f;
+		movementValue.y = 0.0f;
+		break;
+	case 2:
+		movementValue.x = 0.0f;
+		movementValue.y = 2.0f;
+		break;
+	case 3:
+		movementValue.x = 2.0f;
+		movementValue.y = 0.0f;
+		break;
+
+	case 4:
+		movementValue.x = 0.0f;
+		movementValue.y = 0.0f;
+		break;
+	}
+	x += (int)movementValue.x;
+	y += (int)movementValue.y;
+	bombCollisionBox.move(movementValue.x, movementValue.y);
+	bombSprite.setPosition(bombCollisionBox.getPosition());
+}
+
+int Bomb::GetX()
+{
+	return x;
+}
+
+int Bomb::GetY()
+{
+	return y;
+}
+
+void Bomb::AnimateExplosionAfter1Second()
+{
+	sf::sleep(sf::seconds(1));
+	state = State::disappear;
+}
+
+void Bomb::AnimateBombAfter1Second1()
+{
+	sf::sleep(sf::seconds(1));
+	state = bomb2;
+}
+
+void Bomb::AnimateBombAfter1Second2()
+{
+	sf::sleep(sf::seconds(1));
+	state = bomb3;
+}
+
+void Bomb::AnimateBombAfter1Second3()
+{
+	sf::sleep(sf::seconds(1));
+	canBeThrown = false;
+	state = explode;
+}
+
 void Bomb::BombCollision(int** grid, sf::RenderTarget& target, int direction)
 {
-	bombCollisionBox.setPosition(x - 20, y -15);
-	bombSprite.setPosition(x - 20, y - 15);
-	bombCollisionBox.setSize(sf::Vector2f(39, 39));
+	bombCollisionBox.setPosition((float)x - 20.0f, (float)y -15.0f);
+	bombSprite.setPosition((float)x, (float)y);
+
 
 	if (hasChangedDir == false)
 	{
@@ -263,72 +337,3 @@ void Bomb::BombCollision(int** grid, sf::RenderTarget& target, int direction)
 	}
 
 }
-
-void Bomb::MoveBomb()
-{
-	switch (dir)
-	{
-	case 0:
-		movementValue.x = 0;
-		movementValue.y = -2;
-		break;
-
-	case 1:
-		movementValue.x = -2;
-		movementValue.y = 0;
-		break;
-	case 2:
-		movementValue.x = 0;
-		movementValue.y = 2;
-		break;
-	case 3:
-		movementValue.x = 2;
-		movementValue.y = 0;
-		break;
-
-	case 4:
-		movementValue.x = 0;
-		movementValue.y = 0;
-		break;
-	}
-	x += movementValue.x;
-	y += movementValue.y;
-	bombCollisionBox.move(movementValue.x, movementValue.y);
-	bombSprite.setPosition(bombCollisionBox.getPosition());
-}
-
-int Bomb::GetX()
-{
-	return x;
-}
-
-int Bomb::GetY()
-{
-	return y;
-}
-
-void Bomb::AnimateExplosionAfter1Second()
-{
-	sf::sleep(sf::seconds(1));
-	state = State::disappear;
-}
-
-void Bomb::AnimateBombAfter1Second1()
-{
-	sf::sleep(sf::seconds(1));
-	state = bomb2;
-}
-
-void Bomb::AnimateBombAfter1Second2()
-{
-	sf::sleep(sf::seconds(1));
-	state = bomb3;
-}
-
-void Bomb::AnimateBombAfter1Second3()
-{
-	sf::sleep(sf::seconds(1));
-	canBeThrown = false;
-	state = explode;
-}
-

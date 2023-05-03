@@ -62,19 +62,19 @@ void Terrain::Render(sf::RenderTarget& target)
 			if (grid[a][b] == 0 || grid[a][b] == 2)
 			{
 				grassSprite.setScale(3.2f, 3.2f);
-				grassSprite.setPosition(x, y);
+				grassSprite.setPosition((float)x, (float)y);
 				target.draw(grassSprite);
 			}
 			if (grid[a][b] == 1)
 			{
 				solidSprite.setScale(3.2f, 3.2f);
-				solidSprite.setPosition(x, y);
+				solidSprite.setPosition((float)x, (float)y);
 				target.draw(solidSprite);
 			}
 			if (grid[a][b] == 2)
 			{
 				breakableSprite.setScale(3.2f, 3.2f);
-				breakableSprite.setPosition(x, y);
+				breakableSprite.setPosition((float)x, (float)y);
 				target.draw(breakableSprite);
 			}
 			x += 50;
