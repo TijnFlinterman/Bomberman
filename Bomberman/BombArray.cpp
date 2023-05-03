@@ -40,11 +40,11 @@ void BombArray::DrawOneBomb(sf::RenderTarget& target, int xPlayer, int yPlayer, 
 		}
 	}
 }
-void BombArray::RenderBombs(sf::RenderTarget& target)
+void BombArray::RenderBombs(sf::RenderTarget& target, int direction)
 {
 	for (int i = 0; i < bombArray.size(); i++)
 	{
-		bombArray.at(i)->Render(target);
+		bombArray.at(i)->Render(target, direction);
 	}
 }
 

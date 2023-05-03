@@ -28,7 +28,7 @@ void Player::Render(sf::RenderTarget& target)
 	SetDirectionVisual();
 	playerSprite.setPosition(position.x - 25.0f, position.y - 25.0f);
 	bombArray->DrawOneBomb(target, position.x, position.y, Game::game->GetTerrain()->GetGrid());
-	bombArray->RenderBombs(target);
+	bombArray->RenderBombs(target, SetDirectionToInt());
 
 #ifdef _DEBUG
 	target.draw(rectangleLeftRight);
@@ -41,7 +41,6 @@ void Player::RenderPlayer(sf::RenderTarget& target)
 	PlayerCollision(Game::game->GetTerrain()->GetGrid(), target);
 	target.draw(playerSprite);
 }
-
 
 void Player::UpdateDirection()
 {
@@ -177,14 +176,14 @@ void Player::PlayerTakeDamage()
 	int arraySize = bombArray->GetBombArray().size();
 	for (int i = 0; i < arraySize; i++)
 	{
-		leftTip = bombArray->GetBombArray().at(i)->GetX() - 135;
-		RightTip = bombArray->GetBombArray().at(i)->GetX() + 135;
-		topTip = bombArray->GetBombArray().at(i)->GetY() - 135;
-		bottomTip = bombArray->GetBombArray().at(i)->GetY() + 135;
-		centerStartX = bombArray->GetBombArray().at(i)->GetX() - 45;
-		centerEndX = bombArray->GetBombArray().at(i)->GetX() + 45;
-		centerStartY = bombArray->GetBombArray().at(i)->GetY() - 45;
-		centerEndY = bombArray->GetBombArray().at(i)->GetY() + 45;
+		leftTip = bombArray->GetBombArray().at(i)->GetX() - 130;
+		RightTip = bombArray->GetBombArray().at(i)->GetX() + 130;
+		topTip = bombArray->GetBombArray().at(i)->GetY() - 130;
+		bottomTip = bombArray->GetBombArray().at(i)->GetY() + 130;
+		centerStartX = bombArray->GetBombArray().at(i)->GetX() - 27;
+		centerEndX = bombArray->GetBombArray().at(i)->GetX() + 27;
+		centerStartY = bombArray->GetBombArray().at(i)->GetY() - 27;
+		centerEndY = bombArray->GetBombArray().at(i)->GetY() + 27;
 
 		if (bombArray->GetBombArray().at(i)->GetState() == Bomb::explode)
 		{
@@ -269,6 +268,39 @@ void Player::PlayerMovement(sf::Sprite& player)
 	}
 }
 
+Player::Direction Player::GetPlayerDirection()
+{
+	return lastDirection;
+}
+
+int Player::SetDirectionToInt()
+{
+	GetPlayerDirection();
+	int dir;
+	if (lastDirection == Up)
+	{
+		dir = 0;
+	}
+	if (lastDirection == Left)
+	{
+		dir = 1;
+	}
+	if (lastDirection == Down)
+	{
+		dir = 2;
+	}
+	if (lastDirection == Right)
+	{
+		dir = 3;
+	}
+	if (lastDirection == None)
+	{
+		dir = 4;
+	}
+	std::cout << dir;
+	return dir;
+}
+
 void Player::SetSpriteTextures(std::array<sf::Texture, 4> textures)
 {
 	upTexture = textures[0];
@@ -312,18 +344,23 @@ void Player::BombThrowing()
 			{
 			case Up:
 				AddBomb(0, -50);
+				SetDirectionToInt();
 				break;
 			case Left:
 				AddBomb(-50, 0);
+				SetDirectionToInt();
 				break;
 			case Down:
 				AddBomb(0, 50);
+				SetDirectionToInt();
 				break;
 			case Right:
 				AddBomb(50, 0);
+				SetDirectionToInt();
 				break;
 			case None:
 				AddBomb(0, 0);
+				SetDirectionToInt();
 				break;
 			}
 

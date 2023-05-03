@@ -16,7 +16,7 @@ public:
 	void DrawOneBomb(sf::RenderTarget& target, int xPlayer, int yPlayer, int** grid);
 	void InitBomb(int x, int y);
 	std::vector<Bomb*>GetBombArray();
-	void RenderBombs(sf::RenderTarget& target);
+	void RenderBombs(sf::RenderTarget& target, int direction);
 
 private:
 	// Private variables

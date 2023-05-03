@@ -10,11 +10,13 @@ class BombArray;
 
 class Player
 {
-public:
+private:
 	enum Direction
 	{
 		Up, Down, Left, Right, None
 	};
+	Direction direction = Down;
+	Direction lastDirection = Down;
 
 public:
 	// Constructors/ Destructors
@@ -43,13 +45,15 @@ private:
 	void BombThrowing();
 	void UpdateDirection();
 	void PlayerMovement(sf::Sprite& player);
+	int SetDirectionToInt();
+
+	Direction GetPlayerDirection();
 
 public:
 	// Public variables
 	bool PlayerDead = false;
 
 	sf::Sprite playerSprite;
-
 	sf::Sprite indicator;
 
 private:
@@ -58,15 +62,11 @@ private:
 	bool hasSpawned;
 	bool SpaceDown;
 	bool canRangeThrow;
-
+	int directionToInt;
 
 	PlayerInput playerInput;
 
 	BombArray* bombArray;
-
-	Direction direction = Down;
-	Direction lastDirection = Down;
-
 
 	sf::Texture	upTexture;
 	sf::Texture	downTexture;
