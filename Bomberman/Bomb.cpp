@@ -1,20 +1,34 @@
-#include "Bomb.h"
+#include "Bomb.h"  // Include the header file for the Bomb class
 
+// Constructors/ Destructors
 Bomb::Bomb(int x, int y)
 {
 	state = bomb1;
-	dir = 4;
+	bombDirection = 4;
 	this->x = x;
 	this->y = y;
 
 	bombSprite.setPosition((float)x, (float)y);
 	bombSprite.setScale(3.2f, 3.2f);
-#ifdef _DEBUG
 	bombCollisionBox.setSize(sf::Vector2f(39.0f, 39.0f));
 	bombCollisionBox.setFillColor(sf::Color::Green);
-#endif
 }
 Bomb::~Bomb() {}
+
+// Public functions
+void Bomb::Render(sf::RenderTarget& target, int direction)
+{
+	BombCollision(Game::game->GetTerrain()->GetGrid(), target, direction);
+	if (canBeThrown)
+	{
+		MoveBomb();
+	}
+}
+
+Bomb::State Bomb::GetState()
+{
+	return state;
+}
 
 bool Bomb::ValidateLocation(float xPlayer, float yPlayer, int** grid)
 {
@@ -27,7 +41,6 @@ bool Bomb::ValidateLocation(float xPlayer, float yPlayer, int** grid)
 		return false;
 	}
 }
-
 void Bomb::DrawBomb1(sf::RenderTarget& target, float xPlayer, float yPlayer, int** grid)
 {
 	state = bomb1;
@@ -39,7 +52,6 @@ void Bomb::DrawBomb1(sf::RenderTarget& target, float xPlayer, float yPlayer, int
 		myThread.detach();
 	}
 }
-
 void Bomb::DrawBomb2(sf::RenderTarget& target, float xPlayer, float yPlayer, int** grid)
 {
 	if (ValidateLocation(xPlayer, yPlayer, grid) == true)
@@ -50,7 +62,6 @@ void Bomb::DrawBomb2(sf::RenderTarget& target, float xPlayer, float yPlayer, int
 		myThread.detach();
 	}
 }
-
 void Bomb::DrawBomb3(sf::RenderTarget& target, float xPlayer, float yPlayer, int** grid)
 {
 	if (ValidateLocation(xPlayer, yPlayer, grid) == true)
@@ -61,13 +72,6 @@ void Bomb::DrawBomb3(sf::RenderTarget& target, float xPlayer, float yPlayer, int
 		myThread.detach();
 	}
 }
-
-void Bomb::AnimateExplosion()
-{
-	myThread = std::thread(&Bomb::AnimateExplosionAfter1Second, this);
-	myThread.detach();
-}
-
 void Bomb::DrawExplosion(sf::RenderTarget& target, int** grid, std::array<sf::Texture, 9>* explosionTextures)
 {
 	// CENTER
@@ -198,98 +202,20 @@ void Bomb::DrawExplosion(sf::RenderTarget& target, int** grid, std::array<sf::Te
 		}
 	}
 }
-
-Bomb::State Bomb::GetState()
+void Bomb::AnimateExplosion()
 {
-	return state;
+	myThread = std::thread(&Bomb::AnimateExplosionAfter1Second, this);
+	myThread.detach();
 }
-
-void Bomb::Render(sf::RenderTarget& target, int direction)
-{
-	BombCollision(Game::game->GetTerrain()->GetGrid(), target, direction);
-	if (canBeThrown)
-	{
-		MoveBomb();
-	}
-}
-
-void Bomb::MoveBomb()
-{
-	switch (dir)
-	{
-	case 0:
-		movementValue.x = 0.0f;
-		movementValue.y = -2.0f;
-		break;
-
-	case 1:
-		movementValue.x = -2.0f;
-		movementValue.y = 0.0f;
-		break;
-	case 2:
-		movementValue.x = 0.0f;
-		movementValue.y = 2.0f;
-		break;
-	case 3:
-		movementValue.x = 2.0f;
-		movementValue.y = 0.0f;
-		break;
-
-	case 4:
-		movementValue.x = 0.0f;
-		movementValue.y = 0.0f;
-		break;
-	}
-	x += (int)movementValue.x;
-	y += (int)movementValue.y;
-	bombCollisionBox.move(movementValue.x, movementValue.y);
-	bombSprite.setPosition(bombCollisionBox.getPosition());
-}
-
-int Bomb::GetX()
-{
-	return x;
-}
-
-int Bomb::GetY()
-{
-	return y;
-}
-
-void Bomb::AnimateExplosionAfter1Second()
-{
-	sf::sleep(sf::seconds(1));
-	state = State::disappear;
-}
-
-void Bomb::AnimateBombAfter1Second1()
-{
-	sf::sleep(sf::seconds(1));
-	state = bomb2;
-}
-
-void Bomb::AnimateBombAfter1Second2()
-{
-	sf::sleep(sf::seconds(1));
-	state = bomb3;
-}
-
-void Bomb::AnimateBombAfter1Second3()
-{
-	sf::sleep(sf::seconds(1));
-	canBeThrown = false;
-	state = explode;
-}
-
 void Bomb::BombCollision(int** grid, sf::RenderTarget& target, int direction)
 {
-	bombCollisionBox.setPosition((float)x - 20.0f, (float)y -15.0f);
+	bombCollisionBox.setPosition((float)x - 20.0f, (float)y - 15.0f);
 	bombSprite.setPosition((float)x, (float)y);
 
 
 	if (hasChangedDir == false)
 	{
-		dir = direction;
+		bombDirection = direction;
 		hasChangedDir = true;
 	}
 
@@ -310,22 +236,22 @@ void Bomb::BombCollision(int** grid, sf::RenderTarget& target, int direction)
 			{
 				if (bombCollisionBox.getGlobalBounds().intersects(collisionBox.getGlobalBounds()))
 				{
-					switch (dir)
+					switch (bombDirection)
 					{
 					case 0:
-						dir = 2;
+						bombDirection = 2;
 						break;
 					case 1:
-						dir = 3;
+						bombDirection = 3;
 						break;
 					case 2:
-						dir = 0;
+						bombDirection = 0;
 						break;
 					case 3:
-						dir = 1;
+						bombDirection = 1;
 						break;
 					case 4:
-						dir = 4;
+						bombDirection = 4;
 						canBeThrown = false;
 						break;
 					}
@@ -336,4 +262,67 @@ void Bomb::BombCollision(int** grid, sf::RenderTarget& target, int direction)
 		y += 50;
 	}
 
+}
+int Bomb::GetX()
+{
+	return x;
+}
+int Bomb::GetY()
+{
+	return y;
+}
+
+// Private functions
+void Bomb::AnimateExplosionAfter1Second()
+{
+	sf::sleep(sf::seconds(1));
+	state = State::disappear;
+}
+void Bomb::AnimateBombAfter1Second1()
+{
+	sf::sleep(sf::seconds(0.5f));
+	state = bomb2;
+}
+void Bomb::AnimateBombAfter1Second2()
+{
+	sf::sleep(sf::seconds(0.5f));
+	state = bomb3;
+}
+void Bomb::AnimateBombAfter1Second3()
+{
+	sf::sleep(sf::seconds(0.5f));
+	canBeThrown = false;
+	state = explode;
+}
+void Bomb::MoveBomb()
+{
+	switch (bombDirection)
+	{
+	case 0:
+		movementValue.x = 0;
+		movementValue.y = -4;
+		break;
+
+	case 1:
+		movementValue.x = -4;
+		movementValue.y = 0;
+		break;
+	case 2:
+		movementValue.x = 0;
+		movementValue.y = 4;
+		break;
+	case 3:
+		movementValue.x = 4;
+		movementValue.y = 0;
+		break;
+
+	case 4:
+		movementValue.x = 0;
+		movementValue.y = 0;
+		break;
+	}
+	x += movementValue.x;
+	y += movementValue.y;
+	bombCollisionBox.move((float)movementValue.x, (float)movementValue.y);
+	bombSprite.setPosition(bombCollisionBox.getPosition());
 }

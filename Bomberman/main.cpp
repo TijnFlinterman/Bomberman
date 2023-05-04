@@ -1,22 +1,16 @@
-#include <iostream>
-#include "Game.h"
+#include <iostream> // Include the input/output stream library
+#include "Game.h" // Include the header file for the Game class
 
-int main()
+int main() // Main function
 {
-	// Init srand
-	std::srand(static_cast<unsigned>(time(NULL)));
-
 	// Init classes
-	Game game;
+	Game game; // Create an instance of the Game class
 
 	// Game loop
 	while (game.Running())
 	{
-		// Update
-		game.Update();
-		// Renderer
-		game.Render();
+		game.Update(); // Update the game state
+		game.Render(); // Render the game graphics
 	}
-	// End of application
-	return 0;
+	return 0; // Exit the program with a status code of 0
 }

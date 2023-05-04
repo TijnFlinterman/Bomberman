@@ -1,17 +1,17 @@
 #pragma once
-#include <SFML/Graphics.hpp>
-#include <iostream>
-#include "PlayerInput.h"
-#include "Game.h"
-#include "BombArray.h"
-#include <array>
+#include <iostream> // Include the input/output stream library
+#include <array> // Include the array header from the standard library
+#include <SFML/Graphics.hpp> // Include the SFML Graphics library
+#include "Game.h" // Include the header file for the Game class
+#include "BombArray.h" // Include the header file for the BombArray class
+#include "PlayerInput.h" // Include the header file for the PlayerInput class
 
-class BombArray;
+class BombArray; // Forward Declaration of the BombArray
 
 class Player
 {
 private:
-	enum Direction
+	enum Direction // Enumeration that represent the four cardinal directions with additional constant "None"
 	{
 		Up, Down, Left, Right, None
 	};
@@ -29,25 +29,25 @@ public:
 	void Render(sf::RenderTarget& target);
 	void RenderPlayer(sf::RenderTarget& target);
 
+	void SpawnPlayer(sf::Vector2f spawnPosition);
 	void SetPlayerInput(PlayerInput input) { playerInput = input; }
 	void SetSpriteTextures(std::array<sf::Texture, 4> textures);
-
-	// Private functions
-	void SpawnPlayer(sf::Vector2f spawnPosition);
 	void SetDirectionVisual();
 
-	void PlayerCollision(int** grid , sf::RenderTarget& target);
-	void AddBomb(int x, int y);
-	void HitByExplosion(int leftTip, int RightTip, int bottomTip, int topTip, int centerStartX, int centerEndX, int centerStartY, int centerEndY);
-	void PlayerTakeDamage();
-
 private:
-	void BombThrowing();
+	// Private functions
 	void UpdateDirection();
 	void PlayerMovement(sf::Sprite& player);
-	int SetDirectionToInt();
+
+	void PlayerCollision(int** grid , sf::RenderTarget& target);
+
+	void BombThrowing();
+	void AddBomb(int x, int y);
+	void PlayerTakeDamage();
+	void HitByExplosion(int leftTip, int RightTip, int bottomTip, int topTip, int centerStartX, int centerEndX, int centerStartY, int centerEndY);
 
 	Direction GetPlayerDirection();
+	int SetDirectionToInt();
 
 public:
 	// Public variables
@@ -60,13 +60,11 @@ private:
 	// Private variables
 	bool keyPressed = false;
 	bool hasSpawned;
-	bool SpaceDown;
 	bool canRangeThrow;
-	int directionToInt;
-	int dir;
+	int bombDirection;
 
+	// Pointer objects
 	PlayerInput playerInput;
-
 	BombArray* bombArray;
 
 	sf::Texture	upTexture;

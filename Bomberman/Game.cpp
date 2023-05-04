@@ -1,84 +1,4 @@
-#include "Game.h"
-
-Game* Game::game = nullptr;
-
-// Private functions
-void Game::InitWindow()
-{
-	videoMode.height = 1080;
-	videoMode.width = 1920;
-	window.create(sf::VideoMode(videoMode), "BouncyBombs", sf::Style::Close | sf::Style::Titlebar);
-	window.setFramerateLimit(60);
-}
-
-void Game::InitPlayers()
-{
-	{
-		// Player 1.
-		PlayerInput input;
-		input.up = sf::Keyboard::Key::W;
-		input.left = sf::Keyboard::Key::A;
-		input.down = sf::Keyboard::Key::S;
-		input.right = sf::Keyboard::Key::D;
-		input.bombThrow = sf::Keyboard::Key::Space;
-
-		players[0] = new Player();
-		players[0]->SetPlayerInput(input);
-	}
-
-	{
-		// Player 2.
-		PlayerInput input;
-		input.up = sf::Keyboard::Key::Up;
-		input.left = sf::Keyboard::Key::Left;
-		input.down = sf::Keyboard::Key::Down;
-		input.right = sf::Keyboard::Key::Right;
-		input.bombThrow = sf::Keyboard::Key::Enter;
-
-		players[1] = new Player();
-		players[1]->SetPlayerInput(input);
-	}
-}
-
-void Game::PlayerTextures()
-{
-	{
-		std::array<sf::Texture, 4> textures;
-		textures[0] = TextureLibrary::player1Textures->at(0);
-		textures[1] = TextureLibrary::player1Textures->at(1);
-		textures[2] = TextureLibrary::player1Textures->at(2);
-		textures[3] = TextureLibrary::player1Textures->at(3);
-
-		players[0]->SetSpriteTextures(textures);
-	}
-
-	{
-		std::array<sf::Texture, 4> textures;
-		textures[0] = TextureLibrary::player2Textures->at(0);
-		textures[1] = TextureLibrary::player2Textures->at(1);
-		textures[2] = TextureLibrary::player2Textures->at(2);
-		textures[3] = TextureLibrary::player2Textures->at(3);
-
-		players[1]->SetSpriteTextures(textures);
-	}
-}
-
-sf::Text Game::DrawResultText(std::string string)
-{
-	if (!font.loadFromFile("Assets\\Fonts\\Quinquefive-ALoRM.ttf"))
-	{
-		std::cout << "Error loading font" << std::endl;
-	}
-
-
-	sf::Text text(string, font, 50);
-	text.setPosition(rows*50/2, columns * 50 / 2);
-	text.setFillColor(sf::Color::White);
-
-	sf::FloatRect textRect = text.getLocalBounds();
-	text.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
-	return text;
-}
+#include "Game.h"  // Include the header file for the Game class
 
 // Constructors/ Destructors
 Game::Game()
@@ -101,10 +21,7 @@ Game::Game()
 	players[0]->LateStart();
 	players[1]->LateStart();
 }
-
-Game::~Game()
-{
-}
+Game::~Game() {}
 
 //Accessors
 bool Game::Running() const
@@ -112,7 +29,9 @@ bool Game::Running() const
 	return window.isOpen();
 }
 
-// Fuctions
+Game* Game::game = nullptr;
+
+// Public fuctions
 void Game::PollEvents()
 {
 	// Event polling
@@ -132,7 +51,6 @@ void Game::PollEvents()
 		}
 	}
 }
-
 void Game::Update()
 {
 	PollEvents();
@@ -142,7 +60,6 @@ void Game::Update()
 		players[1]->Update();
 	}
 }
-
 void Game::Render()
 {
 	/*
@@ -182,4 +99,79 @@ void Game::Render()
 	}
 
 	window.display();
+}
+
+// Private functions
+void Game::InitWindow()
+{
+	videoMode.height = 1080;
+	videoMode.width = 1920;
+	window.create(sf::VideoMode(videoMode), "BouncyBombs", sf::Style::Close | sf::Style::Titlebar);
+	window.setFramerateLimit(60);
+}
+void Game::InitPlayers()
+{
+	{
+		// Player 1.
+		PlayerInput input;
+		input.up = sf::Keyboard::Key::W;
+		input.left = sf::Keyboard::Key::A;
+		input.down = sf::Keyboard::Key::S;
+		input.right = sf::Keyboard::Key::D;
+		input.bombThrow = sf::Keyboard::Key::Space;
+
+		players[0] = new Player();
+		players[0]->SetPlayerInput(input);
+	}
+
+	{
+		// Player 2.
+		PlayerInput input;
+		input.up = sf::Keyboard::Key::Up;
+		input.left = sf::Keyboard::Key::Left;
+		input.down = sf::Keyboard::Key::Down;
+		input.right = sf::Keyboard::Key::Right;
+		input.bombThrow = sf::Keyboard::Key::Enter;
+
+		players[1] = new Player();
+		players[1]->SetPlayerInput(input);
+	}
+}
+void Game::PlayerTextures()
+{
+	{
+		std::array<sf::Texture, 4> textures;
+		textures[0] = TextureLibrary::player1Textures->at(0);
+		textures[1] = TextureLibrary::player1Textures->at(1);
+		textures[2] = TextureLibrary::player1Textures->at(2);
+		textures[3] = TextureLibrary::player1Textures->at(3);
+
+		players[0]->SetSpriteTextures(textures);
+	}
+
+	{
+		std::array<sf::Texture, 4> textures;
+		textures[0] = TextureLibrary::player2Textures->at(0);
+		textures[1] = TextureLibrary::player2Textures->at(1);
+		textures[2] = TextureLibrary::player2Textures->at(2);
+		textures[3] = TextureLibrary::player2Textures->at(3);
+
+		players[1]->SetSpriteTextures(textures);
+	}
+}
+sf::Text Game::DrawResultText(std::string string)
+{
+	if (!font.loadFromFile("Assets\\Fonts\\Quinquefive-ALoRM.ttf"))
+	{
+		std::cout << "Error loading font" << std::endl;
+	}
+
+
+	sf::Text text(string, font, 50);
+	text.setPosition(rows*50/2, columns * 50 / 2);
+	text.setFillColor(sf::Color::White);
+
+	sf::FloatRect textRect = text.getLocalBounds();
+	text.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
+	return text;
 }

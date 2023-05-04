@@ -1,15 +1,16 @@
-#pragma once
-#include "TextureLibrary.h"
+#include "TextureLibrary.h" // Include the header file for the TextureLibrary class
 
-std::array<sf::Texture, 9>* TextureLibrary::explosionTextures = nullptr;
-std::array<sf::Texture, 3>* TextureLibrary::bombTextures = nullptr;
-std::array<sf::Texture, 3>* TextureLibrary::terrainTextures = nullptr;
-std::array<sf::Texture, 4>* TextureLibrary::player1Textures = nullptr;
-std::array<sf::Texture, 4>* TextureLibrary::player2Textures = nullptr;
-std::array<sf::Texture, 2>* TextureLibrary::indicatorTextures = nullptr;
+std::array<sf::Texture, 9>* TextureLibrary::explosionTextures = nullptr; // Define the static texture pointer to null
+std::array<sf::Texture, 3>* TextureLibrary::bombTextures = nullptr; // Define the static texture pointer to null
+std::array<sf::Texture, 3>* TextureLibrary::terrainTextures = nullptr; // Define the static texture pointer to null
+std::array<sf::Texture, 4>* TextureLibrary::player1Textures = nullptr; // Define the static texture pointer to null
+std::array<sf::Texture, 4>* TextureLibrary::player2Textures = nullptr; // Define the static texture pointer to null
+std::array<sf::Texture, 2>* TextureLibrary::indicatorTextures = nullptr; // Define the static texture pointer to null
 
+// Public functions
 void TextureLibrary::InitTextures()
 {
+	// Sets array length
 	explosionTextures = new std::array<sf::Texture, 9>();
 	bombTextures = new std::array<sf::Texture, 3>();
 	terrainTextures = new std::array<sf::Texture, 3>();
@@ -17,6 +18,7 @@ void TextureLibrary::InitTextures()
 	player2Textures = new std::array<sf::Texture, 4>();
 	indicatorTextures = new std::array<sf::Texture, 2>();
 
+	// Assign textures to object in array
 	terrainTextures->at(0).loadFromFile("Assets\\Textures\\Terrain\\brick.png");
 	terrainTextures->at(1).loadFromFile("Assets\\Textures\\Terrain\\crate.png");
 	terrainTextures->at(2).loadFromFile("Assets\\Textures\\Terrain\\grass.png");

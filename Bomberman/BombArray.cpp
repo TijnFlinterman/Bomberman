@@ -1,20 +1,13 @@
-#include "BombArray.h"
+#include "BombArray.h"  // Include the header file for the BombArray class
 
+// Constructors/ Destructors
 BombArray::BombArray()
 {
 	totalBombs = 1;
 }
 BombArray::~BombArray() {}
 
-void BombArray::InitBomb(int x, int y)
-{
-	if (bombArray.size() < totalBombs)
-	{
-		Bomb* newBomb = new Bomb(x, y);
-		bombArray.push_back(newBomb);
-	}
-}
-
+// Public functions
 void BombArray::DrawOneBomb(sf::RenderTarget& target, float xPlayer, float yPlayer, int** grid)
 {
 	for (int i = 0; i < bombArray.size(); i++)
@@ -40,15 +33,22 @@ void BombArray::DrawOneBomb(sf::RenderTarget& target, float xPlayer, float yPlay
 		}
 	}
 }
+void BombArray::InitBomb(int x, int y)
+{
+	if (bombArray.size() < totalBombs)
+	{
+		Bomb* newBomb = new Bomb(x, y);
+		bombArray.push_back(newBomb);
+	}
+}
+std::vector<Bomb*> BombArray::GetBombArray()
+{
+	return bombArray;
+}
 void BombArray::RenderBombs(sf::RenderTarget& target, int direction)
 {
 	for (int i = 0; i < bombArray.size(); i++)
 	{
 		bombArray.at(i)->Render(target, direction);
 	}
-}
-
-std::vector<Bomb*> BombArray::GetBombArray()
-{
-	return bombArray;
 }
