@@ -5,6 +5,7 @@
 #include "Game.h" // Include the header file for the Game class
 #include "BombArray.h" // Include the header file for the BombArray class
 #include "PlayerInput.h" // Include the header file for the PlayerInput class
+#include "BombCollisionStruct.h" // Include the header file for the BombCollisionStruct class
 
 class BombArray; // Forward Declaration of the BombArray
 
@@ -34,17 +35,21 @@ public:
 	void SetSpriteTextures(std::array<sf::Texture, 4> textures);
 	void SetDirectionVisual();
 
+	int PlayerTakeDamage();
+	void HitByExplosion(int leftTip, int RightTip, int bottomTip, int topTip, int centerStartX, int centerEndX, int centerStartY, int centerEndY);
+
+	BombCollisionStruct GetBombCollisionStruct();
+
 private:
 	// Private functions
 	void UpdateDirection();
 	void PlayerMovement(sf::Sprite& player);
 
-	void PlayerCollision(int** grid , sf::RenderTarget& target);
+	struct BombCollider;
 
+	void PlayerCollision(int** grid , sf::RenderTarget& target);
 	void BombThrowing();
 	void AddBomb(int x, int y);
-	void PlayerTakeDamage();
-	void HitByExplosion(int leftTip, int RightTip, int bottomTip, int topTip, int centerStartX, int centerEndX, int centerStartY, int centerEndY);
 
 	Direction GetPlayerDirection();
 	int SetDirectionToInt();

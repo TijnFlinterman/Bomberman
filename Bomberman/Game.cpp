@@ -18,6 +18,21 @@ Game::Game()
 	players[0]->SetDirectionVisual();
 	players[1]->SetDirectionVisual();
 
+	//players[0]->PlayerTakeDamage();
+	{
+		ints = players[0]->GetBombCollisionStruct();
+		players[0]->HitByExplosion(ints.leftTip, ints.RightTip, ints.bottomTip, ints.topTip, ints.centerStartX, ints.centerEndX, ints.centerStartY, ints.centerEndY);
+		ints = players[1]->GetBombCollisionStruct();
+		players[0]->HitByExplosion(ints.leftTip, ints.RightTip, ints.bottomTip, ints.topTip, ints.centerStartX, ints.centerEndX, ints.centerStartY, ints.centerEndY);
+	}
+	//players[1]->PlayerTakeDamage();
+	{
+		ints = players[0]->GetBombCollisionStruct();
+		players[1]->HitByExplosion(ints.leftTip, ints.RightTip, ints.bottomTip, ints.topTip, ints.centerStartX, ints.centerEndX, ints.centerStartY, ints.centerEndY);
+		ints = players[1]->GetBombCollisionStruct();
+		players[1]->HitByExplosion(ints.leftTip, ints.RightTip, ints.bottomTip, ints.topTip, ints.centerStartX, ints.centerEndX, ints.centerStartY, ints.centerEndY);
+	}
+
 	players[0]->LateStart();
 	players[1]->LateStart();
 }
@@ -78,8 +93,8 @@ void Game::Render()
 	terrain->Render(window);
 
 	// Draw players
-		players[0]->Render(window);
-		players[1]->Render(window);
+	players[0]->Render(window);
+	players[1]->Render(window);
 
 	if (!players[0]->PlayerDead)
 	{
@@ -168,7 +183,7 @@ sf::Text Game::DrawResultText(std::string string)
 
 
 	sf::Text text(string, font, 50);
-	text.setPosition(rows*50/2, columns * 50 / 2);
+	text.setPosition(rows * 50 / 2, columns * 50 / 2);
 	text.setFillColor(sf::Color::White);
 
 	sf::FloatRect textRect = text.getLocalBounds();

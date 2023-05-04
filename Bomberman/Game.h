@@ -1,11 +1,13 @@
 #pragma once
 #include <iostream> // Include the input/output stream library
-#include <SFML/Graphics.hpp>  // Include the SFML Graphics library
-#include <SFML/Window.hpp> // Include the SFML Window library
+#include <array> // Include the array header from the standard library
 #include <SFML/System.hpp> // Include the SFML System library
+#include <SFML/Window.hpp> // Include the SFML Window library
+#include <SFML/Graphics.hpp>  // Include the SFML Graphics library
 #include "Player.h" // Include the header file for the Player class
 #include "Terrain.h" // Include the header file for the Terrain class
-#include <array> // Include the array header from the standard library
+#include "BombCollisionStruct.h" // Include the header file for the BombCollisionStruct class
+
 
 /*
 	Class that acts as the game engine.
@@ -39,6 +41,7 @@ private:
 	void InitPlayers();
 	void PlayerTextures();
 	sf::Text DrawResultText(std::string text);
+	BombCollisionStruct ints;
 
 	// Pointer objects
 	Terrain* terrain;
