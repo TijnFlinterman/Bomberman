@@ -14,7 +14,7 @@ CONTROLLS:
 
 Bomb is dropped on bombkey UP not down because when key is held down the player will be stationairy and can change throw direction with movement keys
 If the player doesnt have a free space infront of him the player will drop the bomb at his feet. not using the "Bounce".
-If the player does have a free space infront of him the player will "throw" the bomb in direction shown. it will bouce for 3 seconds before exploding.
+If the player does have a free space infront of him the player will "throw" the bomb in direction shown. it will bouce for X seconds before exploding.
 
 
 Librairy used:
@@ -34,7 +34,8 @@ Bomberman example https://github.com/PiGames/Bomberman
 Bomberman example https://youtu.be/TNpsjU6viLI (code used in video https://github.com/meirkl/Bomberman)
 occasional tech help from Tygo Boons (https://tygoboons.nl)
 
-I DID NOT use the pre-assigned code provided by BUAS to set the foundation.
+I used the pre-assigned code provided by BUAS to set the foundation but I don't think there is anything of it left.
+(since I would have understood my own version better if I wrote it)
 
 Assets used:
 Bomb sprite https://mega.nz/folder/10N1BRRT#mLlzd7l1-lX6bu5z8QtdQw

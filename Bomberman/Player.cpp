@@ -38,6 +38,7 @@ void Player::Update()
 	BombThrowing();
 	UpdateDirection();
 	PlayerMovement(playerSprite);
+	GetBombCollisionStruct();
 }
 void Player::Render(sf::RenderTarget& target)
 {
@@ -93,11 +94,7 @@ void Player::SetDirectionVisual()
 		break;
 	}
 }
-int Player::PlayerTakeDamage()
-{
 
-
-}
 void Player::HitByExplosion(int leftTip, int RightTip, int bottomTip, int topTip, int centerStartX, int centerEndX, int centerStartY, int centerEndY)
 {
 	if (position.x >= leftTip && position.x <= RightTip && position.y >= centerStartY && position.y <= centerEndY)
@@ -119,14 +116,15 @@ BombCollisionStruct Player::GetBombCollisionStruct()
 	int arraySize = bombArray->GetBombArray().size();
 	for (int i = 0; i < arraySize; i++)
 	{
-		leftTip = bombArray->GetBombArray().at(i)->GetX() - 130;
-		RightTip = bombArray->GetBombArray().at(i)->GetX() + 130;
-		topTip = bombArray->GetBombArray().at(i)->GetY() - 130;
-		bottomTip = bombArray->GetBombArray().at(i)->GetY() + 130;
-		centerStartX = bombArray->GetBombArray().at(i)->GetX() - 27;
-		centerEndX = bombArray->GetBombArray().at(i)->GetX() + 27;
-		centerStartY = bombArray->GetBombArray().at(i)->GetY() - 27;
-		centerEndY = bombArray->GetBombArray().at(i)->GetY() + 27;
+		const auto& Array = bombArray->GetBombArray();
+		leftTip = Array[i]->GetX() - 130;
+		RightTip = Array[i]->GetX() + 130;
+		topTip = Array[i]->GetY() - 130;
+		bottomTip = Array[i]->GetY() + 130;
+		centerStartX = Array[i]->GetX() - 27;
+		centerEndX = Array[i]->GetX() + 27;
+		centerStartY = Array[i]->GetY() - 27;
+		centerEndY = Array[i]->GetY() + 27;
 
 		if (bombArray->GetBombArray().at(i)->GetState() == Bomb::explode)
 		{

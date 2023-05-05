@@ -38,8 +38,6 @@ public:
 	int PlayerTakeDamage();
 	void HitByExplosion(int leftTip, int RightTip, int bottomTip, int topTip, int centerStartX, int centerEndX, int centerStartY, int centerEndY);
 
-	BombCollisionStruct GetBombCollisionStruct();
-
 private:
 	// Private functions
 	void UpdateDirection();
@@ -71,6 +69,7 @@ private:
 	// Pointer objects
 	PlayerInput playerInput;
 	BombArray* bombArray;
+	BombCollisionStruct GetBombCollisionStruct();
 
 	sf::Texture	upTexture;
 	sf::Texture	downTexture;

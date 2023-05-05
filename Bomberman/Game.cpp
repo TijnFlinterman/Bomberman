@@ -18,14 +18,12 @@ Game::Game()
 	players[0]->SetDirectionVisual();
 	players[1]->SetDirectionVisual();
 
-	//players[0]->PlayerTakeDamage();
 	{
 		ints = players[0]->GetBombCollisionStruct();
 		players[0]->HitByExplosion(ints.leftTip, ints.RightTip, ints.bottomTip, ints.topTip, ints.centerStartX, ints.centerEndX, ints.centerStartY, ints.centerEndY);
 		ints = players[1]->GetBombCollisionStruct();
 		players[0]->HitByExplosion(ints.leftTip, ints.RightTip, ints.bottomTip, ints.topTip, ints.centerStartX, ints.centerEndX, ints.centerStartY, ints.centerEndY);
 	}
-	//players[1]->PlayerTakeDamage();
 	{
 		ints = players[0]->GetBombCollisionStruct();
 		players[1]->HitByExplosion(ints.leftTip, ints.RightTip, ints.bottomTip, ints.topTip, ints.centerStartX, ints.centerEndX, ints.centerStartY, ints.centerEndY);
