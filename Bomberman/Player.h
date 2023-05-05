@@ -35,21 +35,21 @@ public:
 	void SetSpriteTextures(std::array<sf::Texture, 4> textures);
 	void SetDirectionVisual();
 
-	int PlayerTakeDamage();
+	BombCollisionStruct GetBombCollisionStruct();
 	void HitByExplosion(int leftTip, int RightTip, int bottomTip, int topTip, int centerStartX, int centerEndX, int centerStartY, int centerEndY);
 
 private:
 	// Private functions
 	void UpdateDirection();
 	void PlayerMovement(sf::Sprite& player);
+	Direction GetPlayerDirection();
 
-	struct BombCollider;
+
 
 	void PlayerCollision(int** grid , sf::RenderTarget& target);
 	void BombThrowing();
 	void AddBomb(int x, int y);
 
-	Direction GetPlayerDirection();
 	int SetDirectionToInt();
 
 public:
@@ -69,7 +69,7 @@ private:
 	// Pointer objects
 	PlayerInput playerInput;
 	BombArray* bombArray;
-	BombCollisionStruct GetBombCollisionStruct();
+	struct BombCollider;
 
 	sf::Texture	upTexture;
 	sf::Texture	downTexture;

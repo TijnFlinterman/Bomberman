@@ -38,7 +38,6 @@ void Player::Update()
 	BombThrowing();
 	UpdateDirection();
 	PlayerMovement(playerSprite);
-	GetBombCollisionStruct();
 }
 void Player::Render(sf::RenderTarget& target)
 {
@@ -114,9 +113,9 @@ BombCollisionStruct Player::GetBombCollisionStruct()
 	int leftTip, RightTip, bottomTip, topTip, centerStartX, centerEndX, centerStartY, centerEndY;
 
 	int arraySize = bombArray->GetBombArray().size();
+	const auto& Array = bombArray->GetBombArray();
 	for (int i = 0; i < arraySize; i++)
 	{
-		const auto& Array = bombArray->GetBombArray();
 		leftTip = Array[i]->GetX() - 130;
 		RightTip = Array[i]->GetX() + 130;
 		topTip = Array[i]->GetY() - 130;
@@ -131,6 +130,7 @@ BombCollisionStruct Player::GetBombCollisionStruct()
 			return BombCollisionStruct(leftTip, RightTip, bottomTip, topTip, centerStartX, centerEndX, centerStartY, centerEndY);
 		}
 	}
+	return {};
 }
 
 // Private functions

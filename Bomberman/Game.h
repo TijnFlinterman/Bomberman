@@ -34,6 +34,7 @@ public:
 
 	//Accessors
 	bool Running() const;
+	BombCollisionStruct ints;
 
 private:
 	// Private functions
@@ -41,7 +42,6 @@ private:
 	void InitPlayers();
 	void PlayerTextures();
 	sf::Text DrawResultText(std::string text);
-	BombCollisionStruct ints;
 
 	// Pointer objects
 	Terrain* terrain;
