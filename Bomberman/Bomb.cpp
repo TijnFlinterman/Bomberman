@@ -300,19 +300,19 @@ void Bomb::MoveBomb()
 	{
 	case 0:
 		movementValue.x = 0;
-		movementValue.y = -4;
+		movementValue.y = -2;
 		break;
 
 	case 1:
-		movementValue.x = -4;
+		movementValue.x = -2;
 		movementValue.y = 0;
 		break;
 	case 2:
 		movementValue.x = 0;
-		movementValue.y = 4;
+		movementValue.y = 2;
 		break;
 	case 3:
-		movementValue.x = 4;
+		movementValue.x = 2;
 		movementValue.y = 0;
 		break;
 
