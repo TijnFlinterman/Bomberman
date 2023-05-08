@@ -36,10 +36,10 @@ public:
 private:
 	// Private functions
 	bool ValidateLocation(float xPlayer, float yPlayer, int** grid);
-	void AnimateExplosionAfter1Second();
 	void AnimateBombAfter1Second1();
 	void AnimateBombAfter1Second2();
 	void AnimateBombAfter1Second3();
+	void AnimateExplosionAfter1Second();
 	void MoveBomb();
 
 

@@ -273,26 +273,26 @@ int Bomb::GetY()
 }
 
 // Private functions
-void Bomb::AnimateExplosionAfter1Second()
-{
-	sf::sleep(sf::seconds(1));
-	state = State::disappear;
-}
 void Bomb::AnimateBombAfter1Second1()
 {
-	sf::sleep(sf::seconds(0.5f));
+	sf::sleep(sf::seconds(0.7f));
 	state = bomb2;
 }
 void Bomb::AnimateBombAfter1Second2()
 {
-	sf::sleep(sf::seconds(0.5f));
+	sf::sleep(sf::seconds(0.7f));
 	state = bomb3;
 }
 void Bomb::AnimateBombAfter1Second3()
 {
-	sf::sleep(sf::seconds(0.5f));
+	sf::sleep(sf::seconds(0.7f));
 	canBeThrown = false;
 	state = explode;
+}
+void Bomb::AnimateExplosionAfter1Second()
+{
+	sf::sleep(sf::seconds(1));
+	state = State::disappear;
 }
 void Bomb::MoveBomb()
 {
@@ -306,6 +306,8 @@ void Bomb::MoveBomb()
 	case 1:
 		movementValue.x = -2;
 		movementValue.y = 0;
+		x += movementValue.x;
+		y += movementValue.y;
 		break;
 	case 2:
 		movementValue.x = 0;
@@ -324,5 +326,5 @@ void Bomb::MoveBomb()
 	x += movementValue.x;
 	y += movementValue.y;
 	bombCollisionBox.move((float)movementValue.x, (float)movementValue.y);
-	bombSprite.setPosition(bombCollisionBox.getPosition());
+	bombSprite.setPosition(bombCollisionBox.getPosition().x -5, bombCollisionBox.getPosition().y-5);
 }

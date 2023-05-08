@@ -130,7 +130,7 @@ BombCollisionStruct Player::GetBombCollisionStruct()
 			return BombCollisionStruct(leftTip, RightTip, bottomTip, topTip, centerStartX, centerEndX, centerStartY, centerEndY);
 		}
 	}
-	return {};
+	return BombCollisionStruct(-10, -10, -10, -10, -10, -10, -10, -10);
 }
 
 // Private functions
