@@ -306,8 +306,6 @@ void Bomb::MoveBomb()
 	case 1:
 		movementValue.x = -2;
 		movementValue.y = 0;
-		x += movementValue.x;
-		y += movementValue.y;
 		break;
 	case 2:
 		movementValue.x = 0;
@@ -326,5 +324,10 @@ void Bomb::MoveBomb()
 	x += movementValue.x;
 	y += movementValue.y;
 	bombCollisionBox.move((float)movementValue.x, (float)movementValue.y);
-	bombSprite.setPosition(bombCollisionBox.getPosition().x -5, bombCollisionBox.getPosition().y-5);
+	bombSprite.setPosition(bombCollisionBox.getPosition().x - 5, bombCollisionBox.getPosition().y - 5);
+}
+
+int Bomb::snapToNearest50(int value) {
+	int rounded = (int)round(value / 50.0);
+	return rounded * 50;
 }

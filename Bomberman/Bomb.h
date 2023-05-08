@@ -42,6 +42,8 @@ private:
 	void AnimateExplosionAfter1Second();
 	void MoveBomb();
 
+	int snapToNearest50(int value);
+
 
 private:
 	// Private variables
