@@ -8,10 +8,11 @@ Bomb::Bomb(int x, int y)
 	this->x = x;
 	this->y = y;
 
-	bombSprite.setPosition((float)x, (float)y);
+	bombSprite.setPosition((float)x - 25, (float)y - 25);
 	bombSprite.setScale(3.2f, 3.2f);
 	bombCollisionBox.setSize(sf::Vector2f(39.0f, 39.0f));
 	bombCollisionBox.setFillColor(sf::Color::Green);
+
 }
 Bomb::~Bomb() {}
 
@@ -77,7 +78,8 @@ void Bomb::DrawExplosion(sf::RenderTarget& target, int** grid, std::array<sf::Te
 	// CENTER
 	sf::Sprite sprite;
 	sprite.setTexture(TextureLibrary::explosionTextures->at(0));
-	sprite.setPosition((float)x - 25.0f, (float)y - 25.0f);
+	sprite.setPosition(Snap(x), (float)y - 25.0f);
+	std::cout << x;	std::cout << y;
 	sprite.setScale(2.5f, 2.5f);
 	target.draw(sprite);
 
@@ -210,7 +212,7 @@ void Bomb::AnimateExplosion()
 void Bomb::BombCollision(int** grid, sf::RenderTarget& target, int direction)
 {
 	bombCollisionBox.setPosition((float)x - 20.0f, (float)y - 15.0f);
-	bombSprite.setPosition((float)x, (float)y);
+	bombSprite.setPosition((float)x - 25, (float)y -25);
 
 
 	if (hasChangedDir == false)
@@ -323,11 +325,16 @@ void Bomb::MoveBomb()
 	}
 	x += movementValue.x;
 	y += movementValue.y;
-	bombCollisionBox.move((float)movementValue.x, (float)movementValue.y);
-	bombSprite.setPosition(bombCollisionBox.getPosition().x - 5, bombCollisionBox.getPosition().y - 5);
+	bombSprite.move((float)movementValue.x, (float)movementValue.y);
+	bombCollisionBox.setPosition(x - 5, y - 5);
 }
 
-int Bomb::snapToNearest50(int value) {
-	int rounded = (int)round(value / 50.0);
-	return rounded * 50;
+int Bomb::Snap(int value) {
+	int mult = 50;
+	if (value < 0)
+	{
+		mult = -50;
+		value = -value;
+	}
+	return mult * ((value + 25) / 50);
 }
