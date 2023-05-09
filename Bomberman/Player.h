@@ -51,6 +51,7 @@ private:
 	void AddBomb(int x, int y);
 
 	int SetDirectionToInt();
+	int Snap(int value);
 
 public:
 	// Public variables

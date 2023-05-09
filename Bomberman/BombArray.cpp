@@ -33,6 +33,7 @@ void BombArray::DrawOneBomb(sf::RenderTarget& target, float xPlayer, float yPlay
 		}
 	}
 }
+
 void BombArray::InitBomb(int x, int y)
 {
 	if (bombArray.size() < totalBombs)
@@ -41,10 +42,12 @@ void BombArray::InitBomb(int x, int y)
 		bombArray.push_back(newBomb);
 	}
 }
+
 std::vector<Bomb*> BombArray::GetBombArray()
 {
 	return bombArray;
 }
+
 void BombArray::RenderBombs(sf::RenderTarget& target, int direction)
 {
 	for (int i = 0; i < bombArray.size(); i++)

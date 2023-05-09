@@ -51,16 +51,17 @@ void Game::PollEvents()
 		}
 	}
 }
+
 void Game::Update()
 {
 	PollEvents();
 
-		ints = players[0]->GetBombCollisionStruct();
-		players[0]->HitByExplosion(ints.leftTip, ints.RightTip, ints.bottomTip, ints.topTip, ints.centerStartX, ints.centerEndX, ints.centerStartY, ints.centerEndY);
-		players[1]->HitByExplosion(ints.leftTip, ints.RightTip, ints.bottomTip, ints.topTip, ints.centerStartX, ints.centerEndX, ints.centerStartY, ints.centerEndY);
-		ints = players[1]->GetBombCollisionStruct();
-		players[1]->HitByExplosion(ints.leftTip, ints.RightTip, ints.bottomTip, ints.topTip, ints.centerStartX, ints.centerEndX, ints.centerStartY, ints.centerEndY);
-		players[0]->HitByExplosion(ints.leftTip, ints.RightTip, ints.bottomTip, ints.topTip, ints.centerStartX, ints.centerEndX, ints.centerStartY, ints.centerEndY);
+	ints = players[0]->GetBombCollisionStruct();
+	players[0]->HitByExplosion(ints.leftTip, ints.RightTip, ints.bottomTip, ints.topTip, ints.centerStartX, ints.centerEndX, ints.centerStartY, ints.centerEndY);
+	players[1]->HitByExplosion(ints.leftTip, ints.RightTip, ints.bottomTip, ints.topTip, ints.centerStartX, ints.centerEndX, ints.centerStartY, ints.centerEndY);
+	ints = players[1]->GetBombCollisionStruct();
+	players[1]->HitByExplosion(ints.leftTip, ints.RightTip, ints.bottomTip, ints.topTip, ints.centerStartX, ints.centerEndX, ints.centerStartY, ints.centerEndY);
+	players[0]->HitByExplosion(ints.leftTip, ints.RightTip, ints.bottomTip, ints.topTip, ints.centerStartX, ints.centerEndX, ints.centerStartY, ints.centerEndY);
 
 	if (!players[0]->PlayerDead && !players[1]->PlayerDead)
 	{
@@ -68,6 +69,7 @@ void Game::Update()
 		players[1]->Update();
 	}
 }
+
 void Game::Render()
 {
 	/*
@@ -109,6 +111,7 @@ void Game::Render()
 	window.display();
 }
 
+
 // Private functions
 void Game::InitWindow()
 {
@@ -117,6 +120,7 @@ void Game::InitWindow()
 	window.create(sf::VideoMode(videoMode), "BouncyBombs", sf::Style::Close | sf::Style::Titlebar);
 	window.setFramerateLimit(60);
 }
+
 void Game::InitPlayers()
 {
 	{
@@ -145,6 +149,7 @@ void Game::InitPlayers()
 		players[1]->SetPlayerInput(input);
 	}
 }
+
 void Game::PlayerTextures()
 {
 	{
@@ -167,6 +172,7 @@ void Game::PlayerTextures()
 		players[1]->SetSpriteTextures(textures);
 	}
 }
+
 sf::Text Game::DrawResultText(std::string string)
 {
 	if (!font.loadFromFile("Assets\\Fonts\\Quinquefive-ALoRM.ttf"))

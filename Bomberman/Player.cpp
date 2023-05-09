@@ -33,12 +33,14 @@ void Player::LateStart()
 	direction = Down;
 	bombDirection = 4;
 }
+
 void Player::Update()
 {
 	BombThrowing();
 	UpdateDirection();
 	PlayerMovement(playerSprite);
 }
+
 void Player::Render(sf::RenderTarget& target)
 {
 	SetDirectionVisual();
@@ -52,6 +54,7 @@ void Player::Render(sf::RenderTarget& target)
 	target.draw(rectangleIndicator);
 #endif
 }
+
 void Player::RenderPlayer(sf::RenderTarget& target)
 {
 	PlayerCollision(Game::game->GetTerrain()->GetGrid(), target);
@@ -68,6 +71,7 @@ void Player::SpawnPlayer(sf::Vector2f spawnPosition)
 		hasSpawned = true;
 	}
 }
+
 void Player::SetSpriteTextures(std::array<sf::Texture, 4> textures)
 {
 	upTexture = textures[0];
@@ -75,6 +79,7 @@ void Player::SetSpriteTextures(std::array<sf::Texture, 4> textures)
 	leftTexture = textures[2];
 	rightTexture = textures[3];
 }
+
 void Player::SetDirectionVisual()
 {
 	switch (direction)
@@ -158,6 +163,7 @@ void Player::UpdateDirection()
 		direction = None;
 	}
 }
+
 void Player::PlayerMovement(sf::Sprite& player)
 {
 	// Move player
@@ -228,6 +234,7 @@ void Player::PlayerMovement(sf::Sprite& player)
 		}
 	}
 }
+
 void Player::PlayerCollision(int** grid, sf::RenderTarget& target)
 {
 	indicator.setScale(3.2f, 3.2f);
@@ -297,6 +304,7 @@ void Player::PlayerCollision(int** grid, sf::RenderTarget& target)
 	position.y += movementValue.y;
 	playerSprite.move(movementValue.x, movementValue.y);
 }
+
 void Player::BombThrowing()
 {
 	/*
@@ -345,6 +353,7 @@ void Player::BombThrowing()
 		}
 	}
 }
+
 void Player::AddBomb(int x, int y)
 {
 	bombArray->InitBomb((int)position.x + x, (int)position.y + y);
@@ -354,6 +363,7 @@ Player::Direction Player::GetPlayerDirection()
 {
 	return lastDirection;
 }
+
 int Player::SetDirectionToInt()
 {
 	GetPlayerDirection();
@@ -378,4 +388,16 @@ int Player::SetDirectionToInt()
 		bombDirection = 4;
 	}
 	return bombDirection;
+}
+
+int Player::Snap(int value)
+{
+	int mult = 50;
+	if (value < 0)
+	{
+		mult = -50;
+		value = -value;
+	}
+
+	return mult * ((value + 25) / 50);
 }

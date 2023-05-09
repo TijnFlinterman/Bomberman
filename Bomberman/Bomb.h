@@ -41,8 +41,7 @@ private:
 	void AnimateBombAfter1Second3();
 	void AnimateExplosionAfter1Second();
 	void MoveBomb();
-
-	int snapToNearest50(int value);
+	int Snap(int value);
 
 
 private:
@@ -63,4 +62,5 @@ private:
 	std::thread myThread; // Thread that can branch off to manage time without interupting the main game tick.
 
 	sf::RectangleShape collisionBox; // Terrain collisionbox
+
 };

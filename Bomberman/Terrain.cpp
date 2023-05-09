@@ -45,6 +45,7 @@ void Terrain::Render(sf::RenderTarget& target)
 		y += 50;
 	}
 }
+
 int** Terrain::GetGrid()
 {
 	return grid;
