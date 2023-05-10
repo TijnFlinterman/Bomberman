@@ -241,20 +241,20 @@ void Player::PlayerCollision(int** grid, sf::RenderTarget& target)
 	switch (direction)
 	{
 	case Up:
-		rectangleIndicator.setPosition((float)Snap((int)position.x - 25.0f) +5, (float)Snap((int)position.y - 75.0f)+5);
-		indicator.setPosition((float)Snap((int)position.x - 25.0f), (float)Snap((int)position.y - 75.0f));
+		rectangleIndicator.setPosition((float)Snap(position.x - 25.0f) +5, (float)Snap(position.y - 75.0f)+5);
+		indicator.setPosition((float)Snap(position.x - 25.0f), (float)Snap(position.y - 75.0f));
 		break;
 	case Down:
-		rectangleIndicator.setPosition((float)Snap((int)position.x - 25.0f) + 5, (float)Snap((int)position.y + 25.0f) + 5);
-		indicator.setPosition((float)Snap((int)position.x - 25.0f), (float)Snap((int)position.y + 25.0f));
+		rectangleIndicator.setPosition((float)Snap(position.x - 25.0f) + 5, (float)Snap(position.y + 25.0f) + 5);
+		indicator.setPosition((float)Snap(position.x - 25.0f), (float)Snap(position.y + 25.0f));
 		break;
 	case Left:
-		rectangleIndicator.setPosition((float)Snap(position.x - 75.0f) + 5, (float)Snap((int)position.y - 25.0f) + 5);
-		indicator.setPosition((float)Snap((int)position.x - 75.0f), (float)Snap((int)position.y - 25.0f));
+		rectangleIndicator.setPosition((float)Snap(position.x - 75.0f) + 5, (float)Snap(position.y - 25.0f) + 5);
+		indicator.setPosition((float)Snap(position.x - 75.0f), (float)Snap(position.y - 25.0f));
 		break;
 	case Right:
-		rectangleIndicator.setPosition((float)Snap((int)position.x + 25.0f) + 5, (float)Snap((int)position.y - 25.0f) + 5);
-		indicator.setPosition((float)Snap((int)position.x + 25.0f), (float)Snap((int)position.y - 25.0f));
+		rectangleIndicator.setPosition((float)Snap(position.x + 25.0f) + 5, (float)Snap(position.y - 25.0f) + 5);
+		indicator.setPosition((float)Snap(position.x + 25.0f), (float)Snap(position.y - 25.0f));
 		break;
 	}
 
@@ -337,10 +337,12 @@ void Player::BombThrowing()
 				break;
 			case Right:
 				AddBomb(49, 0);
+				lastDirection = Right;
 				SetDirectionToInt();
 				break;
 			case None:
 				AddBomb(0, 0);
+				lastDirection = None;
 				SetDirectionToInt();
 				break;
 			}
@@ -362,7 +364,6 @@ Player::Direction Player::GetPlayerDirection()
 
 int Player::SetDirectionToInt()
 {
-	GetPlayerDirection();
 	if (lastDirection == Up)
 	{
 		bombDirection = 0;
