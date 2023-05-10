@@ -171,27 +171,23 @@ void Player::PlayerMovement(sf::Sprite& player)
 		case Up:
 			movementValue.x = 0.0f;
 			movementValue.y = -3.0f;
-			if (canRangeThrow == true)
 				lastDirection = direction;
 			break;
 
 		case Down:
 			movementValue.x = 0.0f;
 			movementValue.y = 3.0f;
-			if (canRangeThrow == true)
 				lastDirection = direction;
 			break;
 		case Left:
 			movementValue.x = -3.0f;
 			movementValue.y = 0.0f;
-			if (canRangeThrow == true)
 				lastDirection = direction;
 			break;
 
 		case Right:
 			movementValue.x = 3.0f;
 			movementValue.y = 0.0f;
-			if (canRangeThrow == true)
 				lastDirection = direction;
 			break;
 
@@ -240,26 +236,25 @@ void Player::PlayerCollision(int** grid, sf::RenderTarget& target)
 {
 	indicator.setScale(3.2f, 3.2f);
 
-
-	rectangleIndicator.setSize(sf::Vector2f(39.9f, 39.9f));
+	rectangleIndicator.setSize(sf::Vector2f(40.0f, 40.0f));
 
 	switch (direction)
 	{
 	case Up:
-		rectangleIndicator.setPosition(position.x - 20.0f, position.y - 70.0f);
-		indicator.setPosition(position.x - 25.0f, position.y - 75.0f);
+		rectangleIndicator.setPosition((float)Snap((int)position.x - 25.0f) +5, (float)Snap((int)position.y - 75.0f)+5);
+		indicator.setPosition((float)Snap((int)position.x - 25.0f), (float)Snap((int)position.y - 75.0f));
 		break;
 	case Down:
-		rectangleIndicator.setPosition(position.x - 20.0f, position.y + 30.0f);
-		indicator.setPosition(position.x - 25.0f, position.y + 25.0f);
+		rectangleIndicator.setPosition((float)Snap((int)position.x - 25.0f) + 5, (float)Snap((int)position.y + 25.0f) + 5);
+		indicator.setPosition((float)Snap((int)position.x - 25.0f), (float)Snap((int)position.y + 25.0f));
 		break;
 	case Left:
-		rectangleIndicator.setPosition(position.x - 70.0f, position.y - 15.0f);
-		indicator.setPosition(position.x - 75.0f, position.y - 25.0f);
+		rectangleIndicator.setPosition((float)Snap(position.x - 75.0f) + 5, (float)Snap((int)position.y - 25.0f) + 5);
+		indicator.setPosition((float)Snap((int)position.x - 75.0f), (float)Snap((int)position.y - 25.0f));
 		break;
 	case Right:
-		rectangleIndicator.setPosition(position.x + 30.0f, position.y - 15.0f);
-		indicator.setPosition(position.x + 25.0f, position.y - 25.0f);
+		rectangleIndicator.setPosition((float)Snap((int)position.x + 25.0f) + 5, (float)Snap((int)position.y - 25.0f) + 5);
+		indicator.setPosition((float)Snap((int)position.x + 25.0f), (float)Snap((int)position.y - 25.0f));
 		break;
 	}
 
@@ -329,19 +324,19 @@ void Player::BombThrowing()
 			switch (lastDirection)
 			{
 			case Up:
-				AddBomb(0, -50);
+				AddBomb(0, -49);
 				SetDirectionToInt();
 				break;
 			case Left:
-				AddBomb(-50, 0);
+				AddBomb(-49, 0);
 				SetDirectionToInt();
 				break;
 			case Down:
-				AddBomb(0, 50);
+				AddBomb(0, 49);
 				SetDirectionToInt();
 				break;
 			case Right:
-				AddBomb(50, 0);
+				AddBomb(49, 0);
 				SetDirectionToInt();
 				break;
 			case None:

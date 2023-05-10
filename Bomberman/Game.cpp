@@ -56,17 +56,18 @@ void Game::Update()
 {
 	PollEvents();
 
-	ints = players[0]->GetBombCollisionStruct();
-	players[0]->HitByExplosion(ints.leftTip, ints.RightTip, ints.bottomTip, ints.topTip, ints.centerStartX, ints.centerEndX, ints.centerStartY, ints.centerEndY);
-	players[1]->HitByExplosion(ints.leftTip, ints.RightTip, ints.bottomTip, ints.topTip, ints.centerStartX, ints.centerEndX, ints.centerStartY, ints.centerEndY);
-	ints = players[1]->GetBombCollisionStruct();
-	players[1]->HitByExplosion(ints.leftTip, ints.RightTip, ints.bottomTip, ints.topTip, ints.centerStartX, ints.centerEndX, ints.centerStartY, ints.centerEndY);
-	players[0]->HitByExplosion(ints.leftTip, ints.RightTip, ints.bottomTip, ints.topTip, ints.centerStartX, ints.centerEndX, ints.centerStartY, ints.centerEndY);
 
 	if (!players[0]->PlayerDead && !players[1]->PlayerDead)
 	{
 		players[0]->Update();
 		players[1]->Update();
+
+		ints = players[0]->GetBombCollisionStruct();
+		players[0]->HitByExplosion(ints.leftTip, ints.RightTip, ints.bottomTip, ints.topTip, ints.centerStartX, ints.centerEndX, ints.centerStartY, ints.centerEndY);
+		players[1]->HitByExplosion(ints.leftTip, ints.RightTip, ints.bottomTip, ints.topTip, ints.centerStartX, ints.centerEndX, ints.centerStartY, ints.centerEndY);
+		ints = players[1]->GetBombCollisionStruct();
+		players[1]->HitByExplosion(ints.leftTip, ints.RightTip, ints.bottomTip, ints.topTip, ints.centerStartX, ints.centerEndX, ints.centerStartY, ints.centerEndY);
+		players[0]->HitByExplosion(ints.leftTip, ints.RightTip, ints.bottomTip, ints.topTip, ints.centerStartX, ints.centerEndX, ints.centerStartY, ints.centerEndY);
 	}
 }
 

@@ -5,8 +5,8 @@ Bomb::Bomb(int x, int y)
 {
 	state = bomb1;
 	bombDirection = 4;
-	this->x = x;
-	this->y = y;
+	this->x = Snap(x-25)+25;
+	this->y = Snap(y-25)+25;
 
 	bombSprite.setPosition((float)Snap(x), (float)Snap(y));
 	bombSprite.setScale(3.2f, 3.2f);
@@ -33,14 +33,7 @@ Bomb::State Bomb::GetState()
 
 bool Bomb::ValidateLocation(float xPlayer, float yPlayer, int** grid)
 {
-	if (grid[(int)yPlayer / 50][(int)xPlayer / 50] == 0 || grid[(int)yPlayer / 50][(int)xPlayer / 50] == 2)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return grid[(int)yPlayer / 50][(int)xPlayer / 50] == 0 || grid[(int)yPlayer / 50][(int)xPlayer / 50] == 2;
 }
 
 void Bomb::DrawBomb1(sf::RenderTarget& target, float xPlayer, float yPlayer, int** grid)
@@ -219,7 +212,7 @@ void Bomb::BombCollision(int** grid, sf::RenderTarget& target, int direction)
 	if (bombDirection == 0 || bombDirection == 2)
 	{
 		bombSprite.setPosition((float)Snap(x - 25.0f), (float)y - 25.0f);
-		bombCollisionBox.setPosition((float)Snap(x - 25.0f) + 0.5f, (float)y - 25.0f + 0.5f);
+		bombCollisionBox.setPosition((float)Snap(x - 25.0f), (float)y - 25.0f);
 	}
 	if (bombDirection == 1 || bombDirection == 3)
 	{
@@ -229,7 +222,7 @@ void Bomb::BombCollision(int** grid, sf::RenderTarget& target, int direction)
 	if (bombDirection == 4)
 	{
 		bombSprite.setPosition((float)Snap(x - 25.0f), (float)Snap(y - 25.0f));
-		bombCollisionBox.setPosition((float)Snap(x - 25.0f) + 0.5f, (float)Snap(y - 25.0f) + 0.5f);
+		bombCollisionBox.setPosition((float)Snap(x - 25.0f), (float)Snap(y - 25.0f));
 	}
 
 	if (hasChangedDir == false)
@@ -285,12 +278,12 @@ void Bomb::BombCollision(int** grid, sf::RenderTarget& target, int direction)
 
 int Bomb::GetX()
 {
-	return x;
+	return Snap(x-25) +25;
 }
 
 int Bomb::GetY()
 {
-	return y;
+	return Snap(y - 25) + 25;
 }
 
 // Private functions
