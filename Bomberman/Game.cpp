@@ -115,8 +115,8 @@ void Game::Render()
 // Private functions
 void Game::InitWindow()
 {
-	videoMode.height = 1080;
-	videoMode.width = 1920;
+	videoMode.height = 750;
+	videoMode.width = 750;
 	window.create(sf::VideoMode(videoMode), "BouncyBombs", sf::Style::Close | sf::Style::Titlebar);
 	window.setFramerateLimit(60);
 }

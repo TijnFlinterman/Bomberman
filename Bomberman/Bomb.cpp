@@ -8,7 +8,7 @@ Bomb::Bomb(int x, int y)
 	this->x = x;
 	this->y = y;
 
-	bombSprite.setPosition((float)Snap(x - 25), (float)Snap(y - 25));
+	bombSprite.setPosition((float)Snap(x), (float)Snap(y));
 	bombSprite.setScale(3.2f, 3.2f);
 	bombCollisionBox.setSize(sf::Vector2f(49.0f, 49.0f));
 	bombCollisionBox.setFillColor(sf::Color::Green);
