@@ -103,12 +103,10 @@ void Player::HitByExplosion(int leftTip, int RightTip, int bottomTip, int topTip
 {
 	if (position.x >= leftTip && position.x <= RightTip && position.y >= centerStartY && position.y <= centerEndY)
 	{
-		// Die
 		PlayerDead = true;
 	}
 	if (position.y >= topTip && position.y <= bottomTip && position.x >= centerStartX && position.x <= centerEndX)
 	{
-		// Die
 		PlayerDead = true;
 	}
 }
@@ -116,7 +114,6 @@ void Player::HitByExplosion(int leftTip, int RightTip, int bottomTip, int topTip
 BombCollisionStruct Player::GetBombCollisionStruct()
 {
 	int leftTip, RightTip, bottomTip, topTip, centerStartX, centerEndX, centerStartY, centerEndY;
-
 	int arraySize = bombArray->GetBombArray().size();
 	const auto& Array = bombArray->GetBombArray();
 	for (int i = 0; i < arraySize; i++)
@@ -174,24 +171,28 @@ void Player::PlayerMovement(sf::Sprite& player)
 		case Up:
 			movementValue.x = 0.0f;
 			movementValue.y = -3.0f;
-			lastDirection = direction;
+			if (canRangeThrow == true)
+				lastDirection = direction;
 			break;
 
 		case Down:
 			movementValue.x = 0.0f;
 			movementValue.y = 3.0f;
-			lastDirection = direction;
+			if (canRangeThrow == true)
+				lastDirection = direction;
 			break;
 		case Left:
 			movementValue.x = -3.0f;
 			movementValue.y = 0.0f;
-			lastDirection = direction;
+			if (canRangeThrow == true)
+				lastDirection = direction;
 			break;
 
 		case Right:
 			movementValue.x = 3.0f;
 			movementValue.y = 0.0f;
-			lastDirection = direction;
+			if (canRangeThrow == true)
+				lastDirection = direction;
 			break;
 
 		case None:
@@ -200,7 +201,7 @@ void Player::PlayerMovement(sf::Sprite& player)
 			break;
 		}
 	}
-	else
+	if (keyPressed)
 	{
 		switch (direction)
 		{

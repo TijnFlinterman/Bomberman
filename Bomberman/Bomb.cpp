@@ -8,9 +8,9 @@ Bomb::Bomb(int x, int y)
 	this->x = x;
 	this->y = y;
 
-	bombSprite.setPosition((float)x - 25, (float)y - 25);
+	bombSprite.setPosition((float)Snap(x - 25), (float)Snap(y - 25));
 	bombSprite.setScale(3.2f, 3.2f);
-	bombCollisionBox.setSize(sf::Vector2f(39.0f, 39.0f));
+	bombCollisionBox.setSize(sf::Vector2f(49.0f, 49.0f));
 	bombCollisionBox.setFillColor(sf::Color::Green);
 
 }
@@ -42,6 +42,7 @@ bool Bomb::ValidateLocation(float xPlayer, float yPlayer, int** grid)
 		return false;
 	}
 }
+
 void Bomb::DrawBomb1(sf::RenderTarget& target, float xPlayer, float yPlayer, int** grid)
 {
 	state = bomb1;
@@ -53,6 +54,7 @@ void Bomb::DrawBomb1(sf::RenderTarget& target, float xPlayer, float yPlayer, int
 		myThread.detach();
 	}
 }
+
 void Bomb::DrawBomb2(sf::RenderTarget& target, float xPlayer, float yPlayer, int** grid)
 {
 	if (ValidateLocation(xPlayer, yPlayer, grid) == true)
@@ -63,6 +65,7 @@ void Bomb::DrawBomb2(sf::RenderTarget& target, float xPlayer, float yPlayer, int
 		myThread.detach();
 	}
 }
+
 void Bomb::DrawBomb3(sf::RenderTarget& target, float xPlayer, float yPlayer, int** grid)
 {
 	if (ValidateLocation(xPlayer, yPlayer, grid) == true)
@@ -73,13 +76,13 @@ void Bomb::DrawBomb3(sf::RenderTarget& target, float xPlayer, float yPlayer, int
 		myThread.detach();
 	}
 }
+
 void Bomb::DrawExplosion(sf::RenderTarget& target, int** grid, std::array<sf::Texture, 9>* explosionTextures)
 {
 	// CENTER
 	sf::Sprite sprite;
 	sprite.setTexture(TextureLibrary::explosionTextures->at(0));
-	sprite.setPosition(Snap(x), (float)y - 25.0f);
-	std::cout << x;	std::cout << y;
+	sprite.setPosition((float)Snap(x - 25), (float)Snap(y - 25));
 	sprite.setScale(2.5f, 2.5f);
 	target.draw(sprite);
 
@@ -88,7 +91,7 @@ void Bomb::DrawExplosion(sf::RenderTarget& target, int** grid, std::array<sf::Te
 		// LEFT SHAFT
 		sf::Sprite sprite;
 		sprite.setTexture(TextureLibrary::explosionTextures->at(4));
-		sprite.setPosition((float)x - 75.0f, (float)y - 25.0f);
+		sprite.setPosition((float)Snap(x - 75), (float)Snap(y - 25));
 		sprite.setScale(2.5f, 2.5f);
 		target.draw(sprite);
 
@@ -103,7 +106,7 @@ void Bomb::DrawExplosion(sf::RenderTarget& target, int** grid, std::array<sf::Te
 		// RIGHT SHAFT
 		sf::Sprite sprite;
 		sprite.setTexture(TextureLibrary::explosionTextures->at(2));
-		sprite.setPosition((float)x + 25.0f, (float)y - 25.0f);
+		sprite.setPosition((float)Snap(x + 25), (float)Snap(y - 25));
 		sprite.setScale(2.5f, 2.5f);
 		target.draw(sprite);
 
@@ -118,7 +121,7 @@ void Bomb::DrawExplosion(sf::RenderTarget& target, int** grid, std::array<sf::Te
 		// RIGHT TIP
 		sf::Sprite sprite;
 		sprite.setTexture(TextureLibrary::explosionTextures->at(3));
-		sprite.setPosition((float)x + 75.0f, (float)y - 25.0f);
+		sprite.setPosition((float)Snap(x + 75), (float)Snap(y - 25));
 		sprite.setScale(2.5f, 2.5f);
 		target.draw(sprite);
 
@@ -133,7 +136,7 @@ void Bomb::DrawExplosion(sf::RenderTarget& target, int** grid, std::array<sf::Te
 		// LEFT TIP
 		sf::Sprite sprite;
 		sprite.setTexture(TextureLibrary::explosionTextures->at(1));
-		sprite.setPosition((float)x - 125.0f, (float)y - 25.0f);
+		sprite.setPosition((float)Snap(x - 125), (float)Snap(y - 25));
 		sprite.setScale(2.5f, 2.5f);
 		target.draw(sprite);
 
@@ -148,7 +151,7 @@ void Bomb::DrawExplosion(sf::RenderTarget& target, int** grid, std::array<sf::Te
 		// BOTTOM SHAFT
 		sf::Sprite sprite;
 		sprite.setTexture(TextureLibrary::explosionTextures->at(7));
-		sprite.setPosition((float)x - 25.0f, (float)y - 75.0f);
+		sprite.setPosition((float)Snap(x - 25), (float)Snap(y - 75));
 		sprite.setScale(2.5f, 2.5f);
 		target.draw(sprite);
 	}
@@ -163,7 +166,7 @@ void Bomb::DrawExplosion(sf::RenderTarget& target, int** grid, std::array<sf::Te
 		// TOP SHAFT
 		sf::Sprite sprite;
 		sprite.setTexture(TextureLibrary::explosionTextures->at(6));
-		sprite.setPosition((float)x - 25.0f, (float)y + 25.0f);
+		sprite.setPosition((float)Snap(x - 25), (float)Snap(y + 25));
 		sprite.setScale(2.5f, 2.5f);
 		target.draw(sprite);
 	}
@@ -178,7 +181,7 @@ void Bomb::DrawExplosion(sf::RenderTarget& target, int** grid, std::array<sf::Te
 		// TOP TIP
 		sf::Sprite sprite;
 		sprite.setTexture(TextureLibrary::explosionTextures->at(5));
-		sprite.setPosition((float)x - 25.0f, (float)y - 125.0f);
+		sprite.setPosition((float)Snap(x - 25), (float)Snap(y - 125));
 		sprite.setScale(2.5f, 2.5f);
 		target.draw(sprite);
 
@@ -194,7 +197,7 @@ void Bomb::DrawExplosion(sf::RenderTarget& target, int** grid, std::array<sf::Te
 		// BOTTOM TIP
 		sf::Sprite sprite;
 		sprite.setTexture(TextureLibrary::explosionTextures->at(8));
-		sprite.setPosition((float)x - 25.0f, (float)y + 75.0f);
+		sprite.setPosition((float)Snap(x - 25), (float)Snap(y + 75));
 		sprite.setScale(2.5f, 2.5f);
 		target.draw(sprite);
 
@@ -204,16 +207,30 @@ void Bomb::DrawExplosion(sf::RenderTarget& target, int** grid, std::array<sf::Te
 		}
 	}
 }
+
 void Bomb::AnimateExplosion()
 {
 	myThread = std::thread(&Bomb::AnimateExplosionAfter1Second, this);
 	myThread.detach();
 }
+
 void Bomb::BombCollision(int** grid, sf::RenderTarget& target, int direction)
 {
-	bombCollisionBox.setPosition((float)x - 20.0f, (float)y - 15.0f);
-	bombSprite.setPosition((float)x - 25, (float)y -25);
-
+	if (bombDirection == 0 || bombDirection == 2)
+	{
+		bombSprite.setPosition((float)Snap(x - 25.0f), (float)y - 25.0f);
+		bombCollisionBox.setPosition((float)Snap(x - 25.0f) + 0.5f, (float)y - 25.0f + 0.5f);
+	}
+	if (bombDirection == 1 || bombDirection == 3)
+	{
+		bombSprite.setPosition((float)x - 25.0f, (float)Snap(y - 25.0f));
+		bombCollisionBox.setPosition((float)x - 25.0f, (float)Snap(y - 25.0f));
+	}
+	if (bombDirection == 4)
+	{
+		bombSprite.setPosition((float)Snap(x - 25.0f), (float)Snap(y - 25.0f));
+		bombCollisionBox.setPosition((float)Snap(x - 25.0f) + 0.5f, (float)Snap(y - 25.0f) + 0.5f);
+	}
 
 	if (hasChangedDir == false)
 	{
@@ -265,10 +282,12 @@ void Bomb::BombCollision(int** grid, sf::RenderTarget& target, int direction)
 	}
 
 }
+
 int Bomb::GetX()
 {
 	return x;
 }
+
 int Bomb::GetY()
 {
 	return y;
@@ -280,22 +299,26 @@ void Bomb::AnimateBombAfter1Second1()
 	sf::sleep(sf::seconds(0.7f));
 	state = bomb2;
 }
+
 void Bomb::AnimateBombAfter1Second2()
 {
 	sf::sleep(sf::seconds(0.7f));
 	state = bomb3;
 }
+
 void Bomb::AnimateBombAfter1Second3()
 {
 	sf::sleep(sf::seconds(0.7f));
 	canBeThrown = false;
 	state = explode;
 }
+
 void Bomb::AnimateExplosionAfter1Second()
 {
 	sf::sleep(sf::seconds(1));
 	state = State::disappear;
 }
+
 void Bomb::MoveBomb()
 {
 	switch (bombDirection)
@@ -326,7 +349,7 @@ void Bomb::MoveBomb()
 	x += movementValue.x;
 	y += movementValue.y;
 	bombSprite.move((float)movementValue.x, (float)movementValue.y);
-	bombCollisionBox.setPosition(x - 5, y - 5);
+	bombCollisionBox.setPosition((float)x - 5.0f, (float)y - 5.0f);
 }
 
 int Bomb::Snap(int value) {
